@@ -15,6 +15,10 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    
+                    <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
+                        {{ __('My Events') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -36,6 +40,9 @@
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('events.create')">
+                            {{ __('Create Events') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
