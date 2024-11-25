@@ -22,9 +22,9 @@ class StoreEventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required','string','max:255'],
-            'description' => ['required','string'],
-            'banner'=> ['required','image','mimes:png,jpg,jpeg,gif, svg','max:2048'],
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'banner' => ['required', 'image', 'mimes:png,jpg,jpeg,gif, svg', 'max:2048'],
         ];
     }
 }

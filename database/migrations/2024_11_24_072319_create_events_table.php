@@ -14,19 +14,25 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organizer_id')->constrained('users');
-            $table->string('name');
-            $table->string('slug');
+            $table->string('title');
             $table->text('description');
-            // $table->string('location');
-            // $table->integer('max_participants');
+            $table->string('location')->nullable();
+            $table->integer('max_volunteers');
             $table->string('banner');
-            // $table->enum('category', ['music', 'sport', 'education', 'technology', 'art', 'fashion', 'food', 'other'])->default('other');
-            // $table->enum('prefered_skills',['it', 'design', 'marketing', 'finance','comunication','leader' ,'other'])->default('other');
-            // $table->dateTime('RegisterStart');
-            // $table->dateTime('RegisterEnd');
-            // $table->dateTime('EventStart');
-            // $table->dateTime('EventEnd');
+            $table->enum('category', ['music', 'sport', 'education', 'technology', 'art', 'fashion', 'food', 'other'])->default('other');
+            $table->enum('prefered_skills', ['it', 'design', 'marketing', 'finance', 'comunication', 'leader', 'other'])->default('other');
+            $table->dateTime('RegisterStart');
+            $table->dateTime('RegisterEnd');
+            $table->dateTime('EventStart');
+            $table->dateTime('EventEnd');
             $table->timestamps();
+        });
+
+        Schema::create('event_user', function (Blueprint $table) {
+            $table->foreignId('event_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+
+            $table->primary(['event_id', 'user_id']);
         });
     }
 

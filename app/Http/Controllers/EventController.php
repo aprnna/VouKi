@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -44,7 +45,9 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        $event = Event::with('volunteers')->findOrFail($event->id);
+        // dd($event);
+        return view('events.show', compact('event'));
     }
 
     /**
@@ -63,6 +66,11 @@ class EventController extends Controller
         //
     }
 
+    public function join(Event $event)
+    {
+        $event->volunteers()->attach(Auth::id());
+        return back();
+    }
     /**
      * Remove the specified resource from storage.
      */
