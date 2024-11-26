@@ -15,9 +15,8 @@ class EventController extends Controller
      */
     public function index()
     {
-        return view('events.index', [
-            'events' => Event::all(),
-        ]);
+        $events = Event::where('is_active', true)->get();
+        return view('events.index', compact('events'));
     }
 
     /**
@@ -46,8 +45,8 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        $event = Event::with('volunteers')->findOrFail($event->id);
-        // dd($event);
+
+        $event = Event::with('volunteers')->where('is_active', true)->findOrFail($event->id);
         return view('events.show', compact('event'));
     }
 
@@ -80,5 +79,9 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Event $event) {}
+    public function destroy(Event $event)
+    {
+        $event->update(['is_active' => false]);
+        return Redirect::route('events.index')->with('success', 'Event deleted successfully');
+    }
 }

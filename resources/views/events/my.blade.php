@@ -44,13 +44,20 @@
                                     <x-table.td>{{ $event->prefered_skills }}</x-table.td>
                                     <x-table.td>{{ $event->category }}</x-table.td>
                                     <x-table.td>
-                                        <a href="#" class="text-indigo-600 hover:text-indigo-900">
-                                            Edit
-                                        </a>
-                                        <button class="text-red-600 hover:text-red-900" x-data=""
-                                            x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">
-                                            {{ __('Delete') }}
-                                        </button>
+                                        @if ($event->is_active)
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900">
+                                                Edit
+                                            </a>
+                                            <button class="text-red-600 hover:text-red-900" x-data=""
+                                                x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">
+                                                {{ __('Delete') }}
+                                            </button>
+                                        @else
+                                            <p class="text-red-600">
+                                                Deleted
+                                            </p>
+                                        @endif
+
 
                                         <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
                                             <form method="post" action="{{ route('events.destroy', $event) }}"

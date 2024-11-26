@@ -11,7 +11,20 @@ class Event extends Model
 {
     /** @use HasFactory<\Database\Factories\EventFactory> */
     use HasFactory;
-    protected $fillable = ['title', 'description', 'banner'];
+    protected $fillable = [
+        'title',
+        'description',
+        'banner',
+        'location',
+        'max_volunteers',
+        'category',
+        'prefered_skills',
+        'RegisterStart',
+        'RegisterEnd',
+        'EventStart',
+        'EventEnd',
+        'is_active',
+    ];
 
     public function organizer(): BelongsTo
     {
