@@ -16,10 +16,13 @@
                             A list of all the users in your account including their name, title, email and role.
                         </p>
                         <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                            <button type="button"
-                                class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                Add user
-                            </button>
+                            <a href={{ Route('events.create') }}>
+                                <button type="button"
+                                    class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                    Create Event
+                                </button>
+                            </a>
+
                         </div>
                     </div>
                 </x-card.description>
@@ -38,14 +41,18 @@
                         <x-table.tbody>
                             @foreach ($events as $event)
                                 <tr>
-                                    <x-table.td>{{ $event->title }}</x-table.td>
+                                    <x-table.td>
+                                        <a class="text-indigo-600 hover:text-indigo-900"
+                                            href={{ Route('events.show', $event) }}>{{ $event->title }}</a>
+                                    </x-table.td>
                                     <x-table.td>{{ \Carbon\Carbon::parse($event->RegisterStart)->format('Y-m-d') . ' - ' . \Carbon\Carbon::parse($event->RegisterEnd)->format('Y-m-d') }}</x-table.td>
                                     <x-table.td>{{ \Carbon\Carbon::parse($event->EventStart)->format('Y-m-d') . ' - ' . \Carbon\Carbon::parse($event->EventEnd)->format('Y-m-d') }}</x-table.td>
                                     <x-table.td>{{ $event->prefered_skills }}</x-table.td>
                                     <x-table.td>{{ $event->category }}</x-table.td>
                                     <x-table.td>
                                         @if ($event->is_active)
-                                            <a href="#" class="text-indigo-600 hover:text-indigo-900">
+                                            <a href={{ Route('events.edit', $event) }}
+                                                class="text-indigo-600 hover:text-indigo-900">
                                                 Edit
                                             </a>
                                             <button class="text-red-600 hover:text-red-900" x-data=""
