@@ -45,7 +45,8 @@
                                     <x-table.td>{{ $event->category }}</x-table.td>
                                     <x-table.td>
                                         @if ($event->is_active)
-                                            <a href="#" class="text-indigo-600 hover:text-indigo-900">
+                                            <a href={{ Route('events.edit', $event) }}
+                                                class="text-indigo-600 hover:text-indigo-900">
                                                 Edit
                                             </a>
                                             <button class="text-red-600 hover:text-red-900" x-data=""

@@ -21,10 +21,10 @@ return new class extends Migration
             $table->string('banner');
             $table->enum('category', ['music', 'sport', 'education', 'technology', 'art', 'fashion', 'food', 'other'])->default('other');
             $table->enum('prefered_skills', ['it', 'design', 'marketing', 'finance', 'comunication', 'leader', 'other'])->default('other');
-            $table->dateTime('RegisterStart');
-            $table->dateTime('RegisterEnd');
-            $table->dateTime('EventStart');
-            $table->dateTime('EventEnd');
+            $table->date('RegisterStart');
+            $table->date('RegisterEnd');
+            $table->date('EventStart');
+            $table->date('EventEnd');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

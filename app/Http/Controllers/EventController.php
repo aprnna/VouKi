@@ -7,6 +7,7 @@ use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Gate;
 
 class EventController extends Controller
 {
@@ -24,7 +25,16 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('events.create');
+        Gate::authorize('isOrganizer');
+        return view('events.form', [
+            'event' => new Event(),
+            'page_meta' => [
+                'title' => 'Create Event',
+                'description' => 'Create a new event',
+                'method' => 'POST',
+                'url' => Route('events.store')
+            ]
+        ]);
     }
 
     /**
@@ -60,7 +70,15 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        //
+        return view('events.form', [
+            'event' => $event,
+            'page_meta' => [
+                'title' => 'Edit Event',
+                'description' => 'Edit a event',
+                'method' => 'PUT',
+                'url' => Route('events.update', $event)
+            ]
+        ]);
     }
 
     /**
@@ -68,7 +86,8 @@ class EventController extends Controller
      */
     public function update(UpdateEventRequest $request, Event $event)
     {
-        //
+        $event->update($request->validated());
+        return Redirect::route('events.index')->with('success', 'Event updated successfully');
     }
 
     public function join(Event $event)
