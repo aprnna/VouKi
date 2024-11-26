@@ -62,6 +62,7 @@ class EventController extends Controller
 
     public function myEvents()
     {
+        Gate::authorize('isOrganizer');
         $events = Auth::user()->events;
         return view('events.my', compact('events'));
     }
@@ -70,6 +71,9 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
+        if (Auth::id() !== $event->organizer_id) {
+            abort(404);
+        }
         return view('events.form', [
             'event' => $event,
             'page_meta' => [
