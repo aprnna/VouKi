@@ -18,7 +18,7 @@
                         <time datetime="2022-10-10" class="block text-xs text-gray-500"> 10th Oct 2022 </time>
 
                         <a href="#">
-                            <h3 class="mt-0.5 text-lg text-gray-900">{{ $event->name }}</h3>
+                            <h3 class="mt-0.5 text-lg text-gray-900">{{ $event->title }}</h3>
                         </a>
 
                         <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
