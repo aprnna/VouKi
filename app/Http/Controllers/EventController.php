@@ -69,11 +69,17 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+    public function eventVolunteers(Event $event)
+    {
+        if (!Gate::allows('OrganizeEvent', $event)) abort(404);
+        $volunteers = $event->volunteers;
+        return view('events.volunteers', compact('volunteers'));
+    }
+
     public function edit(Event $event)
     {
-        if (Auth::id() !== $event->organizer_id) {
-            abort(404);
-        }
+        if (!Gate::allows('OrganizeEvent', $event)) abort(404);
+
         return view('events.form', [
             'event' => $event,
             'page_meta' => [

@@ -32,7 +32,7 @@ return new class extends Migration
         Schema::create('event_user', function (Blueprint $table) {
             $table->foreignId('event_id')->constrained();
             $table->foreignId('user_id')->constrained();
-
+            $table->timestamps();
             $table->primary(['event_id', 'user_id']);
         });
     }
