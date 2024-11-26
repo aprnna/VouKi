@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class EventController extends Controller
 {
@@ -50,6 +51,11 @@ class EventController extends Controller
         return view('events.show', compact('event'));
     }
 
+    public function myEvents()
+    {
+        $events = Auth::user()->events;
+        return view('events.my', compact('events'));
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -74,8 +80,5 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Event $event)
-    {
-        //
-    }
+    public function destroy(Event $event) {}
 }
