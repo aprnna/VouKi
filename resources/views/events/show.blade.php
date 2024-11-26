@@ -53,9 +53,9 @@
                     </div>
                 </dl>
             </div>
-            <div>
+            <div class="flex gap-3">
                 @if (!$event->volunteers->contains(Auth::id()))
-                    <form action="{{ route('event.join', $event) }}" method="POST">
+                    <form action="{{ route('events.join', $event) }}" method="POST">
                         @csrf
                         <x-primary-button>
                             Join Event
@@ -64,6 +64,13 @@
                 @else
                     <p class="text-green-500">You have already joined this event.</p>
                 @endif
+                @can('OrganizeEvent', $event)
+                    <a href="{{ route('events.volunteers', $event) }}">
+                        <x-primary-button>
+                            List Volunteers
+                        </x-primary-button>
+                    </a>
+                @endcan
             </div>
         </x-card>
     </x-container>

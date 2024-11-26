@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Event;
 use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -21,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('isOrganizer', fn(User $user)=> $user->role === 'organizer');
+        Gate::define('isOrganizer', fn(User $user) => $user->role === 'organizer');
+        Gate::define('OrganizeEvent', fn(User $user, Event $event) => $user->role === 'organizer' && $event->organizer_id === $user->id);
     }
 }
