@@ -23,6 +23,11 @@ class Event extends Model
         'RegisterEnd',
         'EventStart',
         'EventEnd',
+        'latitute',
+        'longitude',
+        'city',
+        'province',
+        'country',
         'is_active',
     ];
 

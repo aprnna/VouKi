@@ -53,6 +53,7 @@
                     </div>
                 </dl>
             </div>
+            {{-- <div id="map" style="height: 98vh;width:100%;"></div> --}}
             <div class="flex gap-3">
                 @if (!$event->volunteers->contains(Auth::id()))
                     <form action="{{ route('events.join', $event) }}" method="POST">
@@ -74,4 +75,16 @@
             </div>
         </x-card>
     </x-container>
+    {{-- <script>
+        var map = L.map('map').setView([-1.5, 123], 5);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Pemetaan'
+        }).addTo(map);
+
+        latitude = -10;
+        longitude = 120;
+        L.marker([latitude, longitude])
+            .bindPopup('Testing Marker')
+            .addTo(map);
+    </script> --}}
 </x-app-layout>

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('organizer_id')->constrained('users');
             $table->string('title');
             $table->text('description');
-            $table->string('location')->nullable();
             $table->integer('max_volunteers');
             $table->string('banner');
             $table->enum('category', ['music', 'sport', 'education', 'technology', 'art', 'fashion', 'food', 'other'])->default('other');
@@ -25,6 +24,11 @@ return new class extends Migration
             $table->date('RegisterEnd');
             $table->date('EventStart');
             $table->date('EventEnd');
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
+            $table->string('city')->nullable();
+            $table->string('province')->nullable();
+            $table->string('country')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

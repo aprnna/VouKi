@@ -74,9 +74,9 @@
                             </x-primary-button>
                         </a>
                         <a href={{ route('register') }}>
-                            <x-primary-button class="bg-white text-gray-950 hover:bg-gray-200">
+                            <x-secondary-button>
                                 {{ __('Register') }}
-                            </x-primary-button>
+                            </x-secondary-button>
                         </a>
                     </div>
                 @endauth
