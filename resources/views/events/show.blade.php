@@ -73,5 +73,36 @@
                 @endcan
             </div>
         </x-card>
+
+        <x-card class="w-2/3 mt-6">
+            <h3 class="font-semibold text-lg text-gray-900 mb-4">Reviews</h3>
+
+            @if ($event->reviews->isNotEmpty())
+                <div class="divide-y divide-gray-200">
+                    @foreach ($event->reviews as $review)
+                        <div class="py-3">
+                            <div class="flex justify-between items-center">
+                                <p class="font-medium text-gray-800">{{ $review->user->name }}</p>
+                                <span class="text-gray-500 text-sm">{{ $review->created_at->format('Y-m-d') }}</span>
+                            </div>
+                            <p class="mt-1 text-gray-700">{{ $review->content }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <p class="text-gray-500">No reviews yet. Be the first to leave one!</p>
+            @endif
+
+            @if ($event->volunteers->contains(Auth::id()))
+                <form action="{{ route('reviews.store', $event) }}" method="POST" class="mt-4">
+                    @csrf
+                    <textarea name="content" rows="3" placeholder="Write your review..."
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                    <x-primary-button class="mt-2">
+                        Submit Review
+                    </x-primary-button>
+                </form>
+            @endif
+        </x-card>
     </x-container>
 </x-app-layout>
