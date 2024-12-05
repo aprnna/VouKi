@@ -75,8 +75,7 @@
         </x-card>
 
         <x-card class="w-full mt-6">
-            <h3 class="font-semibold text-lg text-gray-900 mb-4">Reviews</h3>
-
+            <h3 class="font-semibold text-lg text-gray-900">Reviews</h3>
             @if ($event->reviews->isNotEmpty())
                 <div class="divide-y divide-gray-200">
                     @foreach ($event->reviews as $review)
@@ -93,27 +92,55 @@
                 <p class="text-gray-500">No reviews yet. Be the first to leave one!</p>
             @endif
 
+            
+        </x-card>
+        <x-card>
             @if ($event->volunteers->contains(Auth::id()))
-                <form action="{{ route('events.review.store', $event) }}" method="POST" class="mt-4">
-                    @csrf
+            <form action="{{ route('events.review.store', $event) }}" method="POST" class="">
+                @csrf
                     <div class="flex flex-col">
+                        <h3 class="font-semibold text-lg text-gray-900">Your Review</h3>
                         <textarea name="comment" rows="3" placeholder="Write your review..."
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-                        <label for="">Your Rating</label>
-                        <select name="rating" id="" class="rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-2"></textarea>
+                        <label for="" class="mt-4">Your Rating</label>
+                        {{-- <select name="rating" id="" class="rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                             <option value="" selected disabled>select rating</option>
                             <option value="1">1</option>
                             <option value="1">2</option>
                             <option value="1">3</option>
                             <option value="1">4</option>
                             <option value="1">5</option>
-                        </select>
+                        </select> --}}
+                        <input type="hidden" id="rating-input" name="rating">
+                        <div class="flex space-x-1">
+                            <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star1">&#9733;</button>
+                            <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star2">&#9733;</button>
+                            <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star3">&#9733;</button>
+                            <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star4">&#9733;</button>
+                            <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star5">&#9733;</button>
+                        </div>                        
                     </div>
-                    <x-primary-button class="mt-2">
+                    <x-primary-button class="mt-4">
                         Submit Review
                     </x-primary-button>
+                    @if(session('message')){
+                        <p class="text-red-500 mt-2">{{ session('message') }}</p>
+                    }
+                    @endif
                 </form>
             @endif
         </x-card>
     </x-container>
 </x-app-layout>
+<script>
+    const stars = document.querySelectorAll('button');
+    stars.forEach((star, index) => {
+        star.addEventListener('click', () => {
+            stars.forEach((s, i) => {
+                s.classList.toggle('text-yellow-500', i <= index);
+                s.classList.toggle('text-gray-300', i > index);
+            });
+            document.getElementById('rating-input').value = index + 1; // Menyimpan nilai
+        });
+    });
+</script>
