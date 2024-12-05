@@ -51,6 +51,26 @@
                             {{ $event->description }}
                         </dd>
                     </div>
+                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                        <dt class="font-medium text-gray-900">Organizer Name</dt>
+                        <dd class="text-gray-700 sm:col-span-2">
+                            {{ $event->organizer->name }}
+                        </dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                        <dt class="font-medium text-gray-900">Rating Organizer</dt>
+                        <dd class="text-gray-700 sm:col-span-2 flex items-center">
+                            @php $averageRatingOrganizer = round($averageRating); @endphp
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= $averageRatingOrganizer)
+                                    <span class="text-2xl text-yellow-500 }}">&#9733;</span>
+                                @else
+                                    <span class="text-2xl text-gray-300 }}">&#9733;</span>
+                                @endif
+                            @endfor
+                            <p class="ml-2">{{ number_format($averageRating, 1) }} / 5</p>
+                        </dd>
+                    </div>
                 </dl>
             </div>
             <div class="flex gap-3">
@@ -80,9 +100,9 @@
             <div class="flex justify-between">
                 <h3 class="font-semibold text-lg text-gray-900">Reviews</h3>
                 <div class="rating flex items-center justify-end">
-                    @php $averageRating = round($event->average_rating); @endphp
+                    @php $averageRatingEvent = round($event->average_rating); @endphp
                     @for ($i = 1; $i <= 5; $i++)
-                        @if ($i <= $averageRating)
+                        @if ($i <= $averageRatingEvent)
                             <span class="text-2xl text-yellow-500 }}">&#9733;</span>
                         @else
                             <span class="text-2xl text-gray-300 }}">&#9733;</span>

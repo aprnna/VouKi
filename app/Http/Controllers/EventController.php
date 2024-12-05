@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Gate;
@@ -56,9 +57,19 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
+        $events = Event::with(['volunteers', 'organizer'])->findOrFail($event->id);
+
+        $averageRating = Event::where('organizer_id', $events->organizer->id)
+        ->whereHas('reviews')
+        ->with('reviews')
+        ->get()
+        ->pluck('reviews')
+        ->flatten()
+        ->avg('rating');
+
         $event = Event::with('volunteers')->where('is_active', true)->findOrFail($event->id);
         $event->load('reviews');
-        return view('events.show', compact('event'));
+        return view('events.show', compact('event', 'averageRating'));
     }
 
     public function myEvents()
