@@ -17,7 +17,7 @@ class ReviewController extends Controller
 
         $request->validate([
             'comment' => 'required|string|max:500',
-            'rating' => 'required|integer|between:1,5',
+            // 'rating' => 'required|integer|between:1,5',
         ]);
 
         Review::create([

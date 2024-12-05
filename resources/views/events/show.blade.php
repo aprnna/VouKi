@@ -74,7 +74,7 @@
             </div>
         </x-card>
 
-        <x-card class="w-2/3 mt-6">
+        <x-card class="w-full mt-6">
             <h3 class="font-semibold text-lg text-gray-900 mb-4">Reviews</h3>
 
             @if ($event->reviews->isNotEmpty())
@@ -85,7 +85,7 @@
                                 <p class="font-medium text-gray-800">{{ $review->user->name }}</p>
                                 <span class="text-gray-500 text-sm">{{ $review->created_at->format('Y-m-d') }}</span>
                             </div>
-                            <p class="mt-1 text-gray-700">{{ $review->content }}</p>
+                            <p class="mt-1 text-gray-700">{{ $review->comment }}</p>
                         </div>
                     @endforeach
                 </div>
@@ -94,10 +94,21 @@
             @endif
 
             @if ($event->volunteers->contains(Auth::id()))
-                <form action="{{ route('reviews.store', $event) }}" method="POST" class="mt-4">
+                <form action="{{ route('events.review.store', $event) }}" method="POST" class="mt-4">
                     @csrf
-                    <textarea name="content" rows="3" placeholder="Write your review..."
-                        class="w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                    <div class="flex flex-col">
+                        <textarea name="comment" rows="3" placeholder="Write your review..."
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                        <label for="">Your Rating</label>
+                        <select name="rating" id="" class="rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="" selected disabled>select rating</option>
+                            <option value="1">1</option>
+                            <option value="1">2</option>
+                            <option value="1">3</option>
+                            <option value="1">4</option>
+                            <option value="1">5</option>
+                        </select>
+                    </div>
                     <x-primary-button class="mt-2">
                         Submit Review
                     </x-primary-button>
