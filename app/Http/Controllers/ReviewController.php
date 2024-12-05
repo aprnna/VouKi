@@ -11,13 +11,17 @@ class ReviewController extends Controller
 {
     public function store(Request $request, Event $event)
     {
+        if (Review::where('user_id', Auth::id())->where('event_id', $event->id)->exists()) {
+            return back()->with('message', 'You have already reviewed this event.');
+        }
+
         if (!$event->volunteers()->where('user_id', Auth::id())->exists() || now()->lessThan($event->EventEnd)) {
-            abort(403, 'You are not allowed to review this event.');
+            return back()->with('message', 'You are not allowed to review this event.');
         }
 
         $request->validate([
             'comment' => 'required|string|max:500',
-            // 'rating' => 'required|integer|between:1,5',
+            'rating' => 'required|integer|between:1,5',
         ]);
 
         Review::create([
@@ -27,6 +31,6 @@ class ReviewController extends Controller
             'rating' => $request->rating,
         ]);
 
-        return back()->with('success', 'Review submitted successfully.');
+        return back()->with('message', 'Review submitted successfully.');
     }
 }
