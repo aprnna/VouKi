@@ -54,13 +54,15 @@
                 </dl>
             </div>
             <div class="flex gap-3">
-                @if (!$event->volunteers->contains(Auth::id()))
+                @if (!$event->volunteers->contains(Auth::id()) && !Auth::user()->can('OrganizeEvent', $event))
                     <form action="{{ route('events.join', $event) }}" method="POST">
                         @csrf
                         <x-primary-button>
                             Join Event
                         </x-primary-button>
                     </form>
+                @elseif (Auth::user()->can('OrganizeEvent', $event))
+                    <div></div>
                 @else
                     <p class="text-green-500">You have already joined this event.</p>
                 @endif
@@ -78,13 +80,20 @@
             <h3 class="font-semibold text-lg text-gray-900">Reviews</h3>
             @if ($event->reviews->isNotEmpty())
                 <div class="divide-y divide-gray-200">
-                    @foreach ($event->reviews as $review)
-                        <div class="py-3">
-                            <div class="flex justify-between items-center">
+                    @foreach ($event->reviews->where('type', 'event') as $review)
+                        <div class="py-3 flex justify-between">
+                            <div class="flex flex-col">
                                 <p class="font-medium text-gray-800">{{ $review->user->name }}</p>
+                                <p class="mt-1 text-gray-700">{{ $review->comment }}</p>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <div class="flex space-x-1 mt-2">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                    <span class="text-2xl {{ $i <= $review->rating ? 'text-yellow-500' : 'text-gray-300' }}">&#9733;</span>
+                                    @endfor
+                                </div>
                                 <span class="text-gray-500 text-sm">{{ $review->created_at->format('Y-m-d') }}</span>
                             </div>
-                            <p class="mt-1 text-gray-700">{{ $review->comment }}</p>
                         </div>
                     @endforeach
                 </div>
@@ -94,53 +103,55 @@
 
             
         </x-card>
-        <x-card>
-            @if ($event->volunteers->contains(Auth::id()))
-            <form action="{{ route('events.review.store', $event) }}" method="POST" class="">
-                @csrf
-                    <div class="flex flex-col">
-                        <h3 class="font-semibold text-lg text-gray-900">Your Review</h3>
-                        <textarea name="comment" rows="3" placeholder="Write your review..."
-                            class="w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-2"></textarea>
-                        <label for="" class="mt-4">Your Rating</label>
-                        {{-- <select name="rating" id="" class="rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                            <option value="" selected disabled>select rating</option>
-                            <option value="1">1</option>
-                            <option value="1">2</option>
-                            <option value="1">3</option>
-                            <option value="1">4</option>
-                            <option value="1">5</option>
-                        </select> --}}
-                        <input type="hidden" id="rating-input" name="rating">
-                        <div class="flex space-x-1">
-                            <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star1">&#9733;</button>
-                            <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star2">&#9733;</button>
-                            <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star3">&#9733;</button>
-                            <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star4">&#9733;</button>
-                            <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star5">&#9733;</button>
-                        </div>                        
-                    </div>
-                    <x-primary-button class="mt-4">
-                        Submit Review
-                    </x-primary-button>
-                    @if(session('message')){
-                        <p class="text-red-500 mt-2">{{ session('message') }}</p>
-                    }
-                    @endif
+        @if ($event->volunteers->contains(Auth::id()))
+            <x-card>
+                <form action="{{ route('events.review.store', $event) }}" method="POST" class="">
+                    @csrf
+                        <div class="flex flex-col">
+                            <h3 class="font-semibold text-lg text-gray-900">Your Review</h3>
+                            <textarea name="comment" rows="3" placeholder="Write your review..."
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-2"></textarea>
+                            <label for="" class="mt-4">Your Rating</label>
+                            {{-- <select name="rating" id="" class="rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="" selected disabled>select rating</option>
+                                <option value="1">1</option>
+                                <option value="1">2</option>
+                                <option value="1">3</option>
+                                <option value="1">4</option>
+                                <option value="1">5</option>
+                            </select> --}}
+                            <input type="hidden" id="rating-input" name="rating">
+                            <div class="flex space-x-1">
+                                <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star1">&#9733;</button>
+                                <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star2">&#9733;</button>
+                                <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star3">&#9733;</button>
+                                <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star4">&#9733;</button>
+                                <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star5">&#9733;</button>
+                            </div>                        
+                        </div>
+                        @if(session('message'))
+                            <p class="text-red-500 mt-2">{{ session('message') }}</p>
+                        @elseif(session('success'))
+                            <p class="text-green-500 mt-2">{{ session('success') }}</p>
+                        @endif
+                        <x-primary-button class="mt-4">
+                            Submit Review
+                        </x-primary-button>
                 </form>
-            @endif
-        </x-card>
+            </x-card>
+        @endif
     </x-container>
 </x-app-layout>
 <script>
-    const stars = document.querySelectorAll('button');
+    const stars = document.querySelectorAll('button[id^="star"]');
     stars.forEach((star, index) => {
         star.addEventListener('click', () => {
+            console.log("Selected rating: ", index + 1);
             stars.forEach((s, i) => {
                 s.classList.toggle('text-yellow-500', i <= index);
                 s.classList.toggle('text-gray-300', i > index);
             });
-            document.getElementById('rating-input').value = index + 1; // Menyimpan nilai
+            document.getElementById('rating-input').value = index + 1;
         });
     });
 </script>

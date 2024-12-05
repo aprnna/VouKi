@@ -10,7 +10,10 @@ class Review extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'event_id', 'comment', 'rating'];
+    protected $fillable = ['user_id', 'event_id', 'comment', 'rating', 'type'];
+
+    const TYPE_EVENT = 'event';
+    const TYPE_VOLUNTEER = 'volunteer';
 
     public function user(): BelongsTo
     {

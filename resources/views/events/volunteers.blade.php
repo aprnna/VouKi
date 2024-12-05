@@ -22,21 +22,110 @@
                                 <x-table.th>Name</x-table.th>
                                 <x-table.th>Email</x-table.th>
                                 <x-table.th>Date Register</x-table.th>
+                                <x-table.th>Action</x-table.th>
                             </tr>
                         </x-table.thead>
                         <x-table.tbody>
                             @foreach ($volunteers as $volunteer)
-                                @dump($volunteer)
+                                {{-- @dump($volunteer) --}}
                                 <tr>
                                     <x-table.td>{{ $volunteer->name }}</x-table.td>
                                     <x-table.td>{{ $volunteer->email }}</x-table.td>
                                     <x-table.td>{{ \Carbon\Carbon::parse($event->created_at)->format('Y-m-d') }}</x-table.td>
+                                    <x-table.td>
+                                        {{-- <button x-on:click="$dispatch('open-modal', { detail: 'review-volunteer-{{ $volunteer->id }}' })">
+                                            Open Modal
+                                        </button>
+                                        <x-modal name="review-volunteer-{{ $volunteer->id }}" maxWidth="lg">
+                                            dawdwa
+                                        </x-modal> --}}
+                                        <div x-data="{ isOpen: false }">
+                                            <button 
+                                                class="px-4 py-2 bg-blue-600 text-white rounded" 
+                                                x-on:click="isOpen = true"
+                                            >
+                                                Review Volunteer
+                                            </button>
+
+                                            <div 
+                                                x-show="isOpen" 
+                                                class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50"
+                                                x-cloak
+                                            >
+                                                <div class="bg-white w-1/3 rounded-lg shadow-lg p-6">
+                                                    <h3 class="text-lg font-bold mb-4">Review Volunteer</h3>
+                                                    <form action="{{ route('volunteer.review.store', ['event' => $event->id, 'volunteer' => $volunteer->id]) }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="event_id" value="{{ $volunteer->id }}">
+                                                        
+                                                        <div class="mb-4">
+                                                            <label for="comment" class="block text-sm font-medium text-gray-700">Comment</label>
+                                                            <textarea 
+                                                                id="comment" 
+                                                                name="comment" 
+                                                                rows="4" 
+                                                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                                                placeholder="Write your comment here..."
+                                                                required
+                                                            ></textarea>
+                                                        </div>
+
+                                                        <div class="mb-4">
+                                                            <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
+                                                            <input type="hidden" id="rating-input" name="rating">
+                                                            <div class="flex space-x-1">
+                                                                <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star1">&#9733;</button>
+                                                                <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star2">&#9733;</button>
+                                                                <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star3">&#9733;</button>
+                                                                <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star4">&#9733;</button>
+                                                                <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star5">&#9733;</button>
+                                                            </div>                        
+                                                        </div>
+                                                        
+                                                        @if(session('message'))
+                                                        <p class="text-red-500 mt-2">{{ session('message') }}</p>
+                                                        @elseif(session('success'))
+                                                            <p class="text-green-500 mt-2">{{ session('success') }}</p>
+                                                        @endif
+                                                        <div class="flex justify-end space-x-4">
+                                                            <button 
+                                                                type="button" 
+                                                                class="px-4 py-2 bg-gray-300 text-gray-800 rounded"
+                                                                x-on:click="isOpen = false"
+                                                            >
+                                                                Cancel
+                                                            </button>
+                                                            <button 
+                                                                type="submit" 
+                                                                class="px-4 py-2 bg-blue-600 text-white rounded"
+                                                            >
+                                                                Submit
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </x-table.td>
                                 </tr>
-                            @endforeach
-                        </x-table.tbody>
-                    </x-table>
-                </x-card.content>
-            </x-card.header>
-        </x-card>
+                                @endforeach
+                            </x-table.tbody>
+                        </x-table>
+                    </x-card.content>
+                </x-card.header>
+            </x-card>
     </x-container>
 </x-app-layout>
+<script>
+    const stars = document.querySelectorAll('button[id^="star"]');
+    stars.forEach((star, index) => {
+        star.addEventListener('click', () => {
+            console.log("Selected rating: ", index + 1);
+            stars.forEach((s, i) => {
+                s.classList.toggle('text-yellow-500', i <= index);
+                s.classList.toggle('text-gray-300', i > index);
+            });
+            document.getElementById('rating-input').value = index + 1;
+        });
+    });
+</script>

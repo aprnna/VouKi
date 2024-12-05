@@ -15,7 +15,8 @@ Route::middleware('auth')->group(function () {
     Route::post('events/{event}/join', [EventController::class, 'join'])->name('events.join');
     Route::get('/my-events', [EventController::class, 'myEvents'])->name('events.my');
     Route::get('/event/{event}/volunteers', [EventController::class, 'eventVolunteers'])->name('events.volunteers');
-    Route::post('/events/{event}/review', [ReviewController::class, 'store'])->name('events.review.store');
+    Route::post('/events/{event}/review', [ReviewController::class, 'storeEventReview'])->name('events.review.store');
+    Route::post('events/{event}/volunteers/{volunteer}/review', [ReviewController::class, 'storeVolunteerReview'])->name('volunteer.review.store');
 });
 
 

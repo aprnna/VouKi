@@ -73,7 +73,7 @@ class EventController extends Controller
     {
         if (!Gate::allows('OrganizeEvent', $event)) abort(404);
         $volunteers = $event->volunteers;
-        return view('events.volunteers', compact('volunteers'));
+        return view('events.volunteers', compact('volunteers', 'event'));
     }
 
     public function edit(Event $event)
