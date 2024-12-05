@@ -54,9 +54,9 @@
                                             >
                                                 <div class="bg-white w-1/3 rounded-lg shadow-lg p-6">
                                                     <h3 class="text-lg font-bold mb-4">Review Volunteer</h3>
-                                                    <form action="{{ route('volunteer.review.store', ['volunteer' => $volunteer->id]) }}" method="POST">
+                                                    <form action="{{ route('volunteer.review.store', ['event' => $event->id, 'volunteer' => $volunteer->id]) }}" method="POST">
                                                         @csrf
-                                                        <input type="hidden" name="volunteer_id" value="{{ $volunteer->id }}">
+                                                        <input type="hidden" name="event_id" value="{{ $volunteer->id }}">
                                                         
                                                         <div class="mb-4">
                                                             <label for="comment" class="block text-sm font-medium text-gray-700">Comment</label>
@@ -81,7 +81,12 @@
                                                                 <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl" id="star5">&#9733;</button>
                                                             </div>                        
                                                         </div>
-
+                                                        
+                                                        @if(session('message'))
+                                                        <p class="text-red-500 mt-2">{{ session('message') }}</p>
+                                                        @elseif(session('success'))
+                                                            <p class="text-green-500 mt-2">{{ session('success') }}</p>
+                                                        @endif
                                                         <div class="flex justify-end space-x-4">
                                                             <button 
                                                                 type="button" 

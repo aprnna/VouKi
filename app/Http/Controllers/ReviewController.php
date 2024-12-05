@@ -63,9 +63,7 @@ class ReviewController extends Controller
 
     public function storeVolunteerReview(Request $request, Event $event, User $volunteer)
     {
-        if (!Gate::allows('OrganizeEvent', $event)) {
-            return back()->with('message', 'Unauthorized action.');
-        }
+        if (!Gate::allows('OrganizeEvent', $event)) abort(404);
 
         if (Review::where('user_id', $volunteer->id)
             ->where('event_id', $event->id)
