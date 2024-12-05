@@ -103,7 +103,7 @@
 
             
         </x-card>
-        @if ($event->volunteers->contains(Auth::id()))
+        @if ($event->volunteers->contains(Auth::id()) && !$event->reviews->pluck('user_id')->contains(Auth::id()))
             <x-card>
                 <form action="{{ route('events.review.store', $event) }}" method="POST" class="">
                     @csrf

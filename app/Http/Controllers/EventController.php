@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
+use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Gate;
@@ -55,7 +56,6 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-
         $event = Event::with('volunteers')->where('is_active', true)->findOrFail($event->id);
         return view('events.show', compact('event'));
     }
