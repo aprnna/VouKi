@@ -45,6 +45,10 @@ class ReviewController extends Controller
             return back()->with('message', 'You have already reviewed this event.');
         }
 
+        if (!$event->volunteers()->where('user_id', Auth::id())->exists() || now()->lessThan($event->EventEnd)) {
+            return back()->with('message', 'You are not allowed to review this event.');
+        }
+
         $request->validate([
             'comment' => 'required|string|max:500',
             'rating' => 'required|integer|between:1,5',
@@ -70,6 +74,10 @@ class ReviewController extends Controller
             ->where('type', Review::TYPE_VOLUNTEER)
             ->exists()) {
             return back()->with('message', 'You have already reviewed this volunteer.');
+        }
+
+        if (!$event->organizer()->where('event_id', Auth::id())->exists() || now()->lessThan($event->EventEnd)) {
+            return back()->with('message', 'You are not allowed to review this volunteer.');
         }
 
         $request->validate([

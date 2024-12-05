@@ -77,7 +77,20 @@
         </x-card>
 
         <x-card class="w-full mt-6">
-            <h3 class="font-semibold text-lg text-gray-900">Reviews</h3>
+            <div class="flex justify-between">
+                <h3 class="font-semibold text-lg text-gray-900">Reviews</h3>
+                <div class="rating flex items-center justify-end">
+                    @php $averageRating = round($event->average_rating); @endphp
+                    @for ($i = 1; $i <= 5; $i++)
+                        @if ($i <= $averageRating)
+                            <span class="text-2xl text-yellow-500 }}">&#9733;</span>
+                        @else
+                            <span class="text-2xl text-gray-300 }}">&#9733;</span>
+                        @endif
+                    @endfor
+                    <p class="ml-2">{{ number_format($event->average_rating, 1) }} / 5</p>
+                </div>
+            </div>
             @if ($event->reviews->isNotEmpty())
                 <div class="divide-y divide-gray-200">
                     @foreach ($event->reviews->where('type', 'event') as $review)
@@ -103,7 +116,11 @@
 
             
         </x-card>
-        @if ($event->volunteers->contains(Auth::id()) && !$event->reviews->pluck('user_id')->contains(Auth::id()))
+        @if (
+                $event->volunteers->contains(Auth::id()) && 
+                !$event->reviews->where('type', \App\Models\Review::TYPE_EVENT)->pluck('user_id')->contains(Auth::id()) &&
+                now()->greaterThan(\Carbon\Carbon::parse($event->EventEnd))
+            )
             <x-card>
                 <form action="{{ route('events.review.store', $event) }}" method="POST" class="">
                     @csrf

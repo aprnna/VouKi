@@ -57,6 +57,7 @@ class EventController extends Controller
     public function show(Event $event)
     {
         $event = Event::with('volunteers')->where('is_active', true)->findOrFail($event->id);
+        $event->load('reviews');
         return view('events.show', compact('event'));
     }
 
