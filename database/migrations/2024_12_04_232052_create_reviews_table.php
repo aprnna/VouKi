@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('event_id')->constrained()->onDelete('cascade');
             $table->text('comment');
             $table->unsignedTinyInteger('rating')->comment('Rating from 1 to 5');
+            $table->string('type')->default('event');
             $table->timestamps();
         });
     }
