@@ -11,7 +11,7 @@
             @foreach ($events as $event)
                 <div
                     class="w-full bg-white sm:w-1/2 md:w-1/3 lg:w-1/4 flex flex-col overflow-hidden rounded-lg shadow transition hover:shadow-lg">
-                    <img alt='{{ $event->name }}' src='{{ \Illuminate\Support\Facades\Storage::url($event->banner) }}'
+                    <img src="{{ route('private.file', basename($event->banner)) }}" alt="{{ $event->title }}"
                         class="h-32 w-full object-cover" />
 
                     <div class="p-4 sm:p-6 flex-grow">

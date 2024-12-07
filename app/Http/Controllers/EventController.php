@@ -59,11 +59,13 @@ class EventController extends Controller
     {
         $events = Event::with(['volunteers', 'organizer'])->findOrFail($event->id);
 
-        $averageRating = Event::where('organizer_id', $events->organizer->id)
+        $averageRating = Event::where('organizer_id', $event->organizer->id)
         ->whereHas('reviews')
         ->with('reviews')
         ->get()
-        ->pluck('reviews')
+        ->flatMap(function ($e) {
+            return $e->reviews->where('type', 'event');
+        })
         ->flatten()
         ->avg('rating');
 

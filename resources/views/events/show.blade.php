@@ -8,8 +8,8 @@
 
     <x-container>
         <x-card class="flex justify-center items-center flex-col">
-            <img alt='{{ $event->title }}' src='{{ \Illuminate\Support\Facades\Storage::url($event->banner) }}'
-                class="rounded-lg w-2/3 object-cover" />
+            <img src="{{ route('private.file', basename($event->banner)) }}" alt="{{ $event->title }}"
+                class="rounded-lg h-64 w-2/3 object-cover" />
             <div class="flow-root w-2/3">
                 <dl class="-my-3 divide-y divide-gray-100 text-sm">
                     <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
