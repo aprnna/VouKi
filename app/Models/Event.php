@@ -44,6 +44,8 @@ class Event extends Model
 
     public function getAverageRatingAttribute()
     {
-        return $this->reviews()->avg('rating') ?: 0; // Default ke 0 jika tidak ada review
+        return $this->reviews()
+        ->where('type', 'event')
+        ->avg('rating') ?: 0;
     }
 }
