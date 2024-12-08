@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('event_id')->constrained('events');
             $table->foreignId('user_id')->constrained('users');
+            $table->boolean('user_accepted')->default(false);
             $table->unsignedTinyInteger('user_rating');
             $table->text('user_review');
             $table->unsignedTinyInteger('event_rating');
