@@ -31,7 +31,7 @@
                         <x-input-label for="description" :value="__('Description Events')" />
                         <x-textarea-input id="description"
                             name="description">{{ old('description', $event->description) }}</x-textarea-input>
-                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('description')" class="mt-2" />
                     </div>
 
                     {{-- Max Volunteer --}}
@@ -72,24 +72,6 @@
                                 <x-input-error :messages="$errors->get('EventEnd')" class="mt-2" />
                             </div>
                         </div>
-                    </div>
-
-                    {{-- Prefered Skills --}}
-                    <div>
-                        <x-input-label for="skills" :value="__('Prefered Skills')" class="mb-3" />
-                        <x-bladewind::select id="skills" name="skills" searchable="true" label_key="skill"
-                            value_key="id" flag_key="skill" multiple="true" label="Select a skill" max_selectable="3"
-                            :data="$skills" />
-                        <x-input-error :messages="$errors->get('skills')" class="mt-2" />
-                    </div>
-
-                    {{-- Category --}}
-                    <div>
-                        <x-input-label for="categories" :value="__('Categories')" class="mb-3" />
-                        <x-bladewind::select name="categories" searchable="true" label_key="category" value_key="id"
-                            flag_key="category" multiple="true" label="Select a category" max_selectable="3"
-                            :data="$categories" />
-                        <x-input-error :messages="$errors->get('categories')" class="mt-2" />
                     </div>
 
 
@@ -144,7 +126,31 @@
                             </div>
                         </div>
                     </div>
+                    {{-- Detail Location --}}
+                    <div>
+                        <x-input-label for="detail_location" :value="__('Detail Location')" />
+                        <x-textarea-input id="detail_location"
+                            name="detail_location">{{ old('detail_location', $event->detail_location) }}</x-textarea-input>
+                        <x-input-error :messages="$errors->get('detail_location')" class="mt-2" />
+                    </div>
 
+                    {{-- Prefered Skills --}}
+                    <div>
+                        <x-input-label for="skills" :value="__('Prefered Skills')" class="mb-3" />
+                        <x-bladewind::select id="skills" name="skills" searchable="true" label_key="skill"
+                            value_key="id" flag_key="skill" multiple="true" label="Select a skill" max_selectable="3"
+                            :data="$skills" />
+                        <x-input-error :messages="$errors->get('skills')" class="mt-2" />
+                    </div>
+
+                    {{-- Category --}}
+                    <div>
+                        <x-input-label for="categories" :value="__('Categories')" class="mb-3" />
+                        <x-bladewind::select name="categories" searchable="true" label_key="category" value_key="id"
+                            flag_key="category" multiple="true" label="Select a category" max_selectable="3"
+                            :data="$categories" />
+                        <x-input-error :messages="$errors->get('categories')" class="mt-2" />
+                    </div>
 
                 </form>
             </x-card.content>

@@ -33,6 +33,7 @@ class StoreEventRequest extends FormRequest
             'EventEnd' => ['required', 'date'],
             'latitude' => ['required', 'string'],
             'longitude' => ['required', 'string'],
+            'detail_location' => ['required', 'string'],
             'city' => ['required', 'string'],
             'province' => ['required', 'string'],
             'country' => ['required', 'string'],
