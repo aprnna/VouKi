@@ -18,8 +18,6 @@ return new class extends Migration
             $table->text('description');
             $table->integer('max_volunteers');
             $table->string('banner');
-            $table->enum('category', ['music', 'sport', 'education', 'technology', 'art', 'fashion', 'food', 'other'])->default('other');
-            $table->enum('prefered_skills', ['it', 'design', 'marketing', 'finance', 'comunication', 'leader', 'other'])->default('other');
             $table->date('RegisterStart');
             $table->date('RegisterEnd');
             $table->date('EventStart');
@@ -30,14 +28,8 @@ return new class extends Migration
             $table->string('province')->nullable();
             $table->string('country')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->boolean('status')->default(true);
             $table->timestamps();
-        });
-
-        Schema::create('event_user', function (Blueprint $table) {
-            $table->foreignId('event_id')->constrained();
-            $table->foreignId('user_id')->constrained();
-            $table->timestamps();
-            $table->primary(['event_id', 'user_id']);
         });
     }
 

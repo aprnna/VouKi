@@ -12,8 +12,10 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- Bladewind --}}
+    <link href="{{ asset('vendor/bladewind/css/animate.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('vendor/bladewind/css/bladewind-ui.min.css') }}" rel="stylesheet" />
+    <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
 
     {{-- Leaflet --}}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -26,40 +28,52 @@
     {{-- Leaflet GeoSearch --}}
     <link rel="stylesheet" href="https://unpkg.com/leaflet-geosearch@latest/dist/geosearch.css" />
 
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 </head>
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
         @include('layouts.navigation')
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-        <!-- Page Heading -->
-        @isset($header)
-            <header class="bg-white shadow mb-12">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
+
+        </head>
+
+        <body class="font-sans antialiased">
+            <div class="min-h-screen bg-gray-100">
+                @include('layouts.navigation')
+
+                <!-- Page Heading -->
+                @isset($header)
+                    <header class="bg-white shadow mb-12">
+                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                            {{ $header }}
+                        </div>
+                    </header>
+                @endisset
+
+                <!-- Page Content -->
+                <main>
+                    {{ $slot }}
+                </main>
+            </div>
+        </body>
+        {{-- Leaflet --}}
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+        {{-- Leaflet Get My Location --}}
+        <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.78/dist/L.Control.Locate.min.js" charset="utf-8">
+        </script>
+
+        {{-- Leaflet GeoSearch --}}
+        <script src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js"></script>
+
+        @isset($scripts)
+            {{ $scripts }}
         @endisset
-
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
-    </div>
-</body>
-{{-- Leaflet --}}
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
-{{-- Leaflet Get My Location --}}
-<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.78/dist/L.Control.Locate.min.js" charset="utf-8">
-</script>
-
-{{-- Leaflet GeoSearch --}}
-<script src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js"></script>
-
-@isset($scripts)
-    {{ $scripts }}
-@endisset
 
 </html>

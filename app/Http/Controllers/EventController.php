@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
+use App\Models\Category;
+use App\Models\Review;
+use App\Models\Skill;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -28,6 +34,8 @@ class EventController extends Controller
         Gate::authorize('isOrganizer');
         return view('events.form', [
             'event' => new Event(),
+            'skills' => Skill::where('status', 1)->get(),
+            'categories' => Category::where('status', 1)->get(),
             'page_meta' => [
                 'title' => 'Create Event',
                 'description' => 'Create a new event',
@@ -42,12 +50,17 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request)
     {
+        $categories = Str::of($request->validated()['categories'])->split('/[\s,]+/');
+        $skills = Str::of($request->validated()['skills'])->split('/[\s,]+/');
         $file = $request->file('banner');
-        $request->user()->events()->create([
+        $event = $request->user()->events()->create([
             ...$request->validated(),
             ...['banner' => $file->store('/images/events')]
         ]);
-        return to_route('events.index');
+        $event->categories()->attach($categories);
+        $event->skills()->attach($skills);
+
+        return Redirect::route('events.index')->with('success', 'Event created successfully');
     }
 
     /**
@@ -55,9 +68,21 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
+        $events = Event::with(['volunteers', 'organizer'])->findOrFail($event->id);
+
+        $averageRating = Event::where('organizer_id', $event->organizer->id)
+            ->whereHas('reviews')
+            ->with('reviews')
+            ->get()
+            ->flatMap(function ($e) {
+                return $e->reviews->where('type', 'event');
+            })
+            ->flatten()
+            ->avg('rating');
 
         $event = Event::with('volunteers')->where('is_active', true)->findOrFail($event->id);
-        return view('events.show', compact('event'));
+        $event->load('reviews');
+        return view('events.show', compact('event', 'averageRating'));
     }
 
     public function myEvents()
@@ -73,7 +98,7 @@ class EventController extends Controller
     {
         if (!Gate::allows('OrganizeEvent', $event)) abort(404);
         $volunteers = $event->volunteers;
-        return view('events.volunteers', compact('volunteers'));
+        return view('events.volunteers', compact('volunteers', 'event'));
     }
 
     public function edit(Event $event)
