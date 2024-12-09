@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Skills;
+use App\Models\Skill;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
@@ -15,7 +15,13 @@ class SkillSeeder extends Seeder
     public function run(): void
     {
         $skills = [
-            'it', 'design', 'marketing', 'finance', 'comunication', 'leader', 'other'
+            'it',
+            'design',
+            'marketing',
+            'finance',
+            'comunication',
+            'leader',
+            'other'
         ];
 
         $data = [];
@@ -28,6 +34,6 @@ class SkillSeeder extends Seeder
             ];
         }
 
-        Skills::insert($data);
+        Skill::insert($data);
     }
 }
