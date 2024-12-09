@@ -24,7 +24,12 @@ class Event extends Model
         'RegisterEnd',
         'EventStart',
         'EventEnd',
-        'is_active',
+        'latitude',
+        'longitude',
+        'city',
+        'province',
+        'country',
+        'detail_location',
     ];
 
     public function organizer(): BelongsTo

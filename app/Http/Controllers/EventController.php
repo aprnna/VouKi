@@ -22,7 +22,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::where('is_active', true)->get();
+        $events = Event::get();
         return view('events.index', compact('events'));
     }
 
@@ -68,21 +68,22 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        $events = Event::with(['volunteers', 'organizer'])->findOrFail($event->id);
+        // $events = Event::with(['volunteers', 'organizer'])->findOrFail($event->id);
 
-        $averageRating = Event::where('organizer_id', $event->organizer->id)
-            ->whereHas('reviews')
-            ->with('reviews')
-            ->get()
-            ->flatMap(function ($e) {
-                return $e->reviews->where('type', 'event');
-            })
-            ->flatten()
-            ->avg('rating');
+        // $averageRating = Event::where('organizer_id', $event->organizer->id)
+        //     ->whereHas('reviews')
+        //     ->with('reviews')
+        //     ->get()
+        //     ->flatMap(function ($e) {
+        //         return $e->reviews->where('type', 'event');
+        //     })
+        //     ->flatten()
+        //     ->avg('rating');
 
-        $event = Event::with('volunteers')->where('is_active', true)->findOrFail($event->id);
-        $event->load('reviews');
-        return view('events.show', compact('event', 'averageRating'));
+        $event = Event::with('volunteers')->findOrFail($event->id);
+        // $event->load('reviews');
+        // return view('events.show', compact('event', 'averageRating'));
+        return view('events.show', compact('event'));
     }
 
     public function myEvents()
