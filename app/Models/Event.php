@@ -42,10 +42,20 @@ class Event extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'event_categories', 'event_id', 'category_id');
+    }
+
+    public function skills(): BelongsToMany
+    {
+        return $this->belongsToMany(Skill::class, 'event_skills', 'event_id', 'skill_id');
+    }
+
     public function getAverageRatingAttribute()
     {
         return $this->reviews()
-        ->where('type', 'event')
-        ->avg('rating') ?: 0;
+            ->where('type', 'event')
+            ->avg('rating') ?: 0;
     }
 }

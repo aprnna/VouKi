@@ -75,36 +75,23 @@
                     </div>
 
                     {{-- Prefered Skills --}}
-                    <div class="col-span-6 sm:col-span-3">
-                        <label for="prefered_skills" class="block text-sm font-medium text-gray-900"> Skills </label>
-                        <x-select name="prefered_skills" id="prefered_skills">
-                            <x-select.option :event="$event->prefered_skills" :value="'0'">Select...</x-select.option>
-                            <x-select.option :event="$event->prefered_skills" :value="'it'">IT</x-select.option>
-                            <x-select.option :event="$event->prefered_skills" :value="'design'">Design</x-select.option>
-                            <x-select.option :event="$event->prefered_skills" :value="'marketing'">Marketing</x-select.option>
-                            <x-select.option :event="$event->prefered_skills" :value="'finance'">Finance</x-select.option>
-                            <x-select.option :event="$event->prefered_skills" :value="'comunication'">Comunication</x-select.option>
-                            <x-select.option :event="$event->prefered_skills" :value="'leader'">Leader</x-select.option>
-                            <x-select.option :event="$event->prefered_skills" :value="'other'">Other</x-select.option>
-                        </x-select>
-                        <x-input-error :messages="$errors->get('prefered_skills')" class="mt-2" />
+                    <div>
+                        <x-input-label for="skills" :value="__('Prefered Skills')" class="mb-3" />
+                        <x-bladewind::select id="skills" name="skills" searchable="true" label_key="skill"
+                            value_key="id" flag_key="skill" multiple="true" label="Select a skill" max_selectable="3"
+                            :data="$skills" />
+                        <x-input-error :messages="$errors->get('skills')" class="mt-2" />
                     </div>
-                    <div class="col-span-6 sm:col-span-3">
-                        <label for="category" class="block text-sm font-medium text-gray-900"> Prefered
-                            Categories </label>
-                        <x-select name="category" id="category">
-                            <x-select.option :event="$event->category" :value="'0'">Select...</x-select.option>
-                            <x-select.option :event="$event->category" :value="'music'">Music</x-select.option>
-                            <x-select.option :event="$event->category" :value="'sport'">Sport</x-select.option>
-                            <x-select.option :event="$event->category" :value="'education'">Education</x-select.option>
-                            <x-select.option :event="$event->category" :value="'technology'">Technology</x-select.option>
-                            <x-select.option :event="$event->category" :value="'art'">Art</x-select.option>
-                            <x-select.option :event="$event->category" :value="'fashion'">Fashion</x-select.option>
-                            <x-select.option :event="$event->category" :value="'food'">Food</x-select.option>
-                            <x-select.option :event="$event->category" :value="'other'">Other</x-select.option>
-                        </x-select>
-                        <x-input-error :messages="$errors->get('category')" class="mt-2" />
+
+                    {{-- Category --}}
+                    <div>
+                        <x-input-label for="categories" :value="__('Categories')" class="mb-3" />
+                        <x-bladewind::select name="categories" searchable="true" label_key="category" value_key="id"
+                            flag_key="category" multiple="true" label="Select a category" max_selectable="3"
+                            :data="$categories" />
+                        <x-input-error :messages="$errors->get('categories')" class="mt-2" />
                     </div>
+
 
                     {{-- Banner --}}
                     <div>

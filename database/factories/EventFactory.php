@@ -27,8 +27,6 @@ class EventFactory extends Factory
             'RegisterEnd' => fake()->dateTimeBetween('+1 month', '+2 month'),
             'EventStart' => fake()->dateTimeBetween('+2 month', '+3 month'),
             'EventEnd' => fake()->dateTimeBetween('+3 month', '+4 month'),
-            'category' => fake()->randomElement(['music', 'sport', 'education', 'technology', 'art', 'fashion', 'food', 'other']),
-            'prefered_skills' => fake()->randomElement(['it', 'design', 'marketing', 'finance', 'comunication', 'leader', 'other']),
         ];
     }
 }
