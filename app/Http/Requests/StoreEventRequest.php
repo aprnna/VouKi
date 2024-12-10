@@ -24,7 +24,6 @@ class StoreEventRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
-            // 'location' => ['required', 'string'],
             'max_volunteers' => ['required', 'integer'],
             'categories' => ['required'],
             'skills' => ['required'],
@@ -32,6 +31,12 @@ class StoreEventRequest extends FormRequest
             'RegisterEnd' => ['required', 'date'],
             'EventStart' => ['required', 'date'],
             'EventEnd' => ['required', 'date'],
+            'latitude' => ['required', 'string'],
+            'longitude' => ['required', 'string'],
+            'detail_location' => ['required', 'string'],
+            'city' => ['required', 'string'],
+            'province' => ['required', 'string'],
+            'country' => ['required', 'string'],
             'banner' => ['required', 'image', 'mimes:png,jpg,jpeg,gif, svg', 'max:2048'],
         ];
     }

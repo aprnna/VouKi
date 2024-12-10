@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Categories;
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
@@ -16,7 +16,14 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            'music', 'sport', 'education', 'technology', 'art', 'fashion', 'food', 'other'
+            'music',
+            'sport',
+            'education',
+            'technology',
+            'art',
+            'fashion',
+            'food',
+            'other'
         ];
 
         $data = [];
@@ -30,6 +37,6 @@ class CategorySeeder extends Seeder
         }
 
 
-        Categories::insert($data);
+        Category::insert($data);
     }
 }
