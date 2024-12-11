@@ -7,6 +7,7 @@ use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class ReviewController extends Controller
@@ -36,15 +37,8 @@ class ReviewController extends Controller
     //     return back()->with('success', 'Review submitted successfully.');
     // }
 
-    public function storeEventReview(Request $request, Event $event)
+    public function updateEventReview(Request $request, Event $event)
     {
-        if (Review::where('user_id', Auth::id())
-            ->where('event_id', $event->id)
-            ->where('type', Review::TYPE_EVENT)
-            ->exists()) {
-            return back()->with('message', 'You have already reviewed this event.');
-        }
-
         if (!$event->volunteers()->where('user_id', Auth::id())->exists() || now()->lessThan($event->EventEnd)) {
             return back()->with('message', 'You are not allowed to review this event.');
         }
@@ -54,13 +48,14 @@ class ReviewController extends Controller
             'rating' => 'required|integer|between:1,5',
         ]);
 
-        Review::create([
+        $data = [
             'user_id' => Auth::id(),
             'event_id' => $event->id,
-            'comment' => $request->comment,
-            'rating' => $request->rating,
-            'type' => Review::TYPE_EVENT,
-        ]);
+            'user_review' => $request->comment,
+            'event_rating' => $request->rating,
+        ];
+
+        $event->updateReview($data);
 
         return back()->with('success', 'Review submitted successfully.');
     }

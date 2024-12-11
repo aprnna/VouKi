@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('event_id')->constrained('events');
             $table->foreignId('user_id')->constrained('users');
             $table->enum('user_acceptance_status', ['rejected', 'pending', 'accepted'])->default('pending');
-            $table->unsignedTinyInteger('user_rating');
-            $table->text('user_review');
-            $table->unsignedTinyInteger('event_rating');
+            $table->unsignedTinyInteger('user_rating')->nullable()->default(null);
+            $table->text('user_review')->nullable()->default(null);
+            $table->unsignedTinyInteger('event_rating')->nullable()->default(null);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
