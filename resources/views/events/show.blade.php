@@ -35,15 +35,23 @@
                             {{ \Carbon\Carbon::parse($event->EventStart)->format('Y-m-d') . ' - ' . \Carbon\Carbon::parse($event->EventEnd)->format('Y-m-d') }}
                         </dd>
                     </div>
-                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Prefered skill</dt>
-                        <dd class="text-gray-700 sm:col-span-2">
-                            {{ $event->prefered_skills }}
+                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4 items-center">
+                        <dt class="font-medium text-gray-900">Prefered Skill</dt>
+                        <div class="flex gap-2">
+                            @foreach ($event->skills as $skill)
+                                <dd class="text-gray-100 sm:col-span-2 bg-slate-500 px-3 py-2 rounded-lg hover:bg-slate-700">
+                                    {{$skill->skill}}
+                            @endforeach
+                        </div>
                     </div>
                     <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Prefered skill</dt>
-                        <dd class="text-gray-700 sm:col-span-2">
-                            {{ $event->category }}
+                        <dt class="font-medium text-gray-900">Category Event</dt>
+                        <div class="flex gap-2">
+                            @foreach ($event->categories as $category)
+                                <dd class="text-gray-700 sm:col-span-2 bg-slate-300 px-3 py-2 rounded-lg hover:bg-slate-200">
+                                    {{$category->category}}
+                            @endforeach
+                        </div>
                     </div>
                     <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                         <dt class="font-medium text-gray-900">Description</dt>
@@ -98,7 +106,7 @@
             </div>
         </x-card>
 
-        @dump($event)
+        @dump($event->skills)
 
         @if ($event->volunteers->contains(function ($volunteer) {
                 return 
