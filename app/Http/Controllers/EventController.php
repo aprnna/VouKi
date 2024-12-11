@@ -68,7 +68,9 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        $event = Event::with('volunteers')->findOrFail($event->id);
+        $event = Event::with(['volunteers' => function($query) {
+            $query->select('users.*', 'user_acceptance_status');
+        }])->findOrFail($event->id);
         return view('events.show', compact('event'));
     }
 

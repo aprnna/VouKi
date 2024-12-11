@@ -98,7 +98,13 @@
             </div>
         </x-card>
 
-        @if ($event->volunteers->contains(Auth::id()) &&
+        @dump($event)
+
+        @if ($event->volunteers->contains(function ($volunteer) {
+                return 
+                    $volunteer->id === Auth::id() && 
+                    $volunteer->user_acceptance_status === 'accepted';
+                }) && 
                 now()->greaterThan(\Carbon\Carbon::parse($event->EventEnd)))
                 <x-card>
                 <form action="{{ route('events.review.update', $event) }}" method="POST" class="">
@@ -119,14 +125,6 @@
                         <textarea name="comment" rows="3" placeholder="Write your review..."
                             class="w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-2">{{$comment}}</textarea>
                         <label for="" class="mt-4">Your Rating</label>
-                        {{-- <select name="rating" id="" class="rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                <option value="" selected disabled>select rating</option>
-                                <option value="1">1</option>
-                                <option value="1">2</option>
-                                <option value="1">3</option>
-                                <option value="1">4</option>
-                                <option value="1">5</option>
-                            </select> --}}
                         <input type="hidden" id="rating-input" name="rating" value="{{ $rating }}">
                         <div class="flex space-x-1">
                             <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl"
