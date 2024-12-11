@@ -60,33 +60,25 @@ class ReviewController extends Controller
         return back()->with('success', 'Review submitted successfully.');
     }
 
-    public function storeVolunteerReview(Request $request, Event $event, User $volunteer)
+    public function updateVolunteerReview(Request $request, Event $event, User $volunteer)
     {
         if (!Gate::allows('OrganizeEvent', $event)) abort(404);
 
-        if (Review::where('user_id', $volunteer->id)
-            ->where('event_id', $event->id)
-            ->where('type', Review::TYPE_VOLUNTEER)
-            ->exists()) {
-            return back()->with('message', 'You have already reviewed this volunteer.');
-        }
-
-        if (!$event->organizer()->where('event_id', Auth::id())->exists() || now()->lessThan($event->EventEnd)) {
+        if (!$event->volunteers()->where('event_id', $event->id)->exists() || now()->lessThan($event->EventEnd)) {
             return back()->with('message', 'You are not allowed to review this volunteer.');
         }
 
         $request->validate([
-            'comment' => 'required|string|max:500',
             'rating' => 'required|integer|between:1,5',
         ]);
 
-        Review::create([
+        $data = [
             'user_id' => $volunteer->id,
             'event_id' => $event->id,
-            'comment' => $request->comment,
-            'rating' => $request->rating,
-            'type' => Review::TYPE_VOLUNTEER,
-        ]);
+            'user_rating' => $request->rating,
+        ];
+
+        $event->updateUserRating($data);
 
         return back()->with('success', 'Volunteer review submitted successfully.');
     }

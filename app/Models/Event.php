@@ -82,5 +82,14 @@ class Event extends Model
         $this->volunteers()->where('user_id', $data['user_id'])->update(['user_review' => $data['user_review'], 'event_rating' => $data['event_rating']]);
     }
 
+    public function updateUserRating($data){
+        $this->volunteers()->where('user_id', $data['user_id'])->update(['user_rating' => $data['user_rating']]);
+    }
+    
+    public function getAllUsersRatingAttribute() {
+        return $this->volunteers()
+            ->select('name', 'user_rating', 'user_id', 'event_id')
+            ->get();
+    }
 
 }

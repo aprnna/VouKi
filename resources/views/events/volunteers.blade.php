@@ -26,27 +26,25 @@
                             </tr>
                         </x-table.thead>
                         <x-table.tbody>
+                            {{-- @dump($all_users_rating) --}}
+                            
                             @foreach ($volunteers as $volunteer)
-                                {{-- @dump($volunteer) --}}
                                 <tr>
                                     <x-table.td>{{ $volunteer->name }}</x-table.td>
                                     <x-table.td>{{ $volunteer->email }}</x-table.td>
                                     <x-table.td>{{ \Carbon\Carbon::parse($event->created_at)->format('Y-m-d') }}</x-table.td>
                                     <x-table.td>
-                                        {{-- <button x-on:click="$dispatch('open-modal', { detail: 'review-volunteer-{{ $volunteer->id }}' })">
-                                            Open Modal
-                                        </button>
-                                        <x-modal name="review-volunteer-{{ $volunteer->id }}" maxWidth="lg">
-                                            dawdwa
-                                        </x-modal> --}}
                                         <div x-data="{ isOpen: false }">
+                                            @php
+                                                $userRating = $all_users_rating->get($volunteer->id);
+                                            @endphp
                                             <button 
                                                 class="px-4 py-2 bg-blue-600 text-white rounded" 
                                                 x-on:click="isOpen = true"
                                                 onclick="clearSession()"
                                                 id="review-button"
                                             >
-                                                Review Volunteer
+                                                {{ $userRating->user_rating != null ? 'Edit Review Volunteer' : 'Review Volunteer' }}
                                             </button>
 
                                             <div 
@@ -55,42 +53,33 @@
                                                 x-cloak
                                             >
                                                 <div class="bg-white w-1/3 rounded-lg shadow-lg p-6">
-                                                    <h3 class="text-lg font-bold mb-4">Review Volunteer</h3>
-                                                    <form action="{{ route('volunteer.review.store', ['event' => $event->id, 'volunteer' => $volunteer->id]) }}" method="POST">
+                                                    <h3 class="text-lg font-bold mb-4">
+                                                        {{ $userRating->user_rating != null ? 'Edit Review Volunteer' : 'Review Volunteer' }}
+                                                    </h3>
+                                                    <form action="{{ route('volunteer.review.update', ['event' => $event->id, 'volunteer' => $volunteer->id]) }}" method="POST">
                                                         @csrf
-                                                        <div class="mb-4">
-                                                            <label for="comment" class="block text-sm font-medium text-gray-700">Comment</label>
-                                                            <textarea 
-                                                                id="comment" 
-                                                                name="comment" 
-                                                                rows="4" 
-                                                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                                                placeholder="Write your comment here..."
-                                                                required
-                                                            ></textarea>
-                                                        </div>
-
+                                                        @method('PATCH')
                                                         <div class="mb-4">
                                                             <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
                                                             <div class="flex space-x-1">
                                                                 @for ($i = 1; $i <= 5; $i++)
-                                                                    <button 
-                                                                        type="button" 
-                                                                        class="text-gray-300 hover:text-yellow-500 text-2xl" 
-                                                                        id="star-{{ $volunteer->id }}-{{ $i }}"
-                                                                    >
-                                                                        &#9733;
-                                                                    </button>
+                                                                <button 
+                                                                    type="button"
+                                                                    class="{{ $userRating && $i <= $userRating->user_rating ? 'text-yellow-500' : 'text-gray-300' }} hover:text-yellow-500 text-2xl"
+                                                                    id="star-{{ $volunteer->id }}-{{ $i }}"
+                                                                >
+                                                                    &#9733;
+                                                                </button>
                                                                 @endfor
                                                             </div>
-                                                            <input type="hidden" id="rating-input-{{ $volunteer->id }}" name="rating">
+                                                            <input 
+                                                                type="hidden" 
+                                                                id="rating-input-{{ $volunteer->id }}" 
+                                                                name="rating" 
+                                                                value="{{ $userRating->user_rating != null ? $userRating->user_rating : '' }}"
+                                                            >
                                                         </div>
                                                         
-                                                        @if(session('message'))
-                                                        <p class="text-red-500 mt-2">{{ session('message') }}</p>
-                                                        @elseif(session('success'))
-                                                            <p class="text-green-500 mt-2">{{ session('success') }}</p>
-                                                        @endif
                                                         <div class="flex justify-end space-x-4">
                                                             <button 
                                                                 type="button" 
@@ -103,7 +92,7 @@
                                                                 type="submit" 
                                                                 class="px-4 py-2 bg-blue-600 text-white rounded"
                                                             >
-                                                                Submit
+                                                                {{ $userRating->user_rating != null ? 'Update' : 'Submit' }}
                                                             </button>
                                                         </div>
                                                     </form>

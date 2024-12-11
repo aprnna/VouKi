@@ -18,7 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-events', [EventController::class, 'myEvents'])->name('events.my');
     Route::get('/event/{event}/volunteers', [EventController::class, 'eventVolunteers'])->name('events.volunteers');
     Route::patch('/events/{event}/review', [ReviewController::class, 'updateEventReview'])->name('events.review.update');
-    Route::post('events/{event}/volunteers/{volunteer}/review', [ReviewController::class, 'storeVolunteerReview'])->name('volunteer.review.store');
+    Route::patch('events/{event}/volunteers/{volunteer}/review', [ReviewController::class, 'updateVolunteerReview'])->name('volunteer.review.update');
 });
 
 

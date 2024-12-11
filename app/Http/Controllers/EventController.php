@@ -84,8 +84,10 @@ class EventController extends Controller
     public function eventVolunteers(Event $event)
     {
         if (!Gate::allows('OrganizeEvent', $event)) abort(404);
-        $volunteers = $event->volunteers;
-        return view('events.volunteers', compact('volunteers', 'event'));
+        // $volunteers = $event->volunteers;
+        $volunteers = $event->volunteers()->withPivot('user_rating')->get();
+        $all_users_rating = $event->volunteers()->select('user_id', 'user_rating')->get()->keyBy('user_id');
+        return view('events.volunteers', compact('volunteers', 'event', 'all_users_rating'));
     }
 
     public function edit(Event $event)
