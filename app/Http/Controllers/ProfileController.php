@@ -18,6 +18,7 @@ class ProfileController extends Controller
     {
         return view('profile.edit', [
             'user' => $request->user(),
+            'detail' => $request->user()->userDetail,
         ]);
     }
 
@@ -31,7 +32,10 @@ class ProfileController extends Controller
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
-
+        $request->user()->userDetail()->updateOrCreate(
+            ['user_id' => $request->user()->id],
+            $request->validated()
+        );
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');

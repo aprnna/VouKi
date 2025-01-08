@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->unique();
             $table->string('phone');
-            $table->text('address');
             $table->date('birth_date');
-            $table->boolean('availability')->default(true);
+            $table->string('city');
+            $table->string('province');
+            $table->string('country');
+            $table->text('address');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

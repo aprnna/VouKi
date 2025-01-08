@@ -49,7 +49,8 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('events.index', absolute: false));
+        // return redirect(route('events.index', absolute: false));
+        return redirect(route('user-detail.create', absolute: false));
     }
     public function storeOrganizer(Request $request): RedirectResponse
     {
@@ -70,6 +71,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('events.index', absolute: false));
+        // return redirect(route('events.index', absolute: false));
+        return redirect(route('user-detail.create', absolute: false));
     }
 }
