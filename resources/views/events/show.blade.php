@@ -7,57 +7,122 @@
     </x-slot>
 
     <x-container>
-        <x-card class="flex justify-center items-center flex-col">
+        <x-card class="flex justify-center flex-col">
             <img src="{{ route('private.file', basename($event->banner)) }}" alt="{{ $event->title }}"
-                class="rounded-lg h-64 w-2/3 object-cover" />
-            <div class="flow-root w-2/3">
-                <dl class="-my-3 divide-y divide-gray-100 text-sm">
-                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Title</dt>
-                        <dd class="text-gray-700 sm:col-span-2">{{ $event->title }}</dd>
-                    </div>
+                class="rounded-sm h-72 min-w-full object-cover" />
 
-                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Need Voulenter</dt>
-                        <dd class="text-gray-700 sm:col-span-2">{{ $event->max_volunteers }}</dd>
+            <div class="flex flex-row">
+                <div class="flex-auto w-3/4 pr-5">
+                    <div class="justify-start">
+                        <div class="font-sans font-semibold text-xl text-gray-900">{{ $event->title }}</div>
                     </div>
+                    <div class="pt-4 pb-4">
+                        <i>by</i> {{ $event->organizer->name }}
+                    </div>
+                    <div class="pt-4">
+                        <p class="text-justify">{{ $event->description }}</p>
+                    </div>
+                    <div class="pt-4 pb-4">
+                        <h1 class="font-bold">Location Event:</h1>
+                    </div>
+                    <div>
+                        <div id="map" style="height: 50vh; width:50vw; margin-top: 0"></div>
+                    </div>
+                </div>
+                <div class="flex-auto w-1/4">
+                    @if (!$event->volunteers->contains(Auth::id()) && !Auth::user()->can('OrganizeEvent', $event))
+                        <form action="{{ route('events.join', $event) }}" method="POST">
+                            @csrf
+                            <x-primary-button>
+                                Join Event
+                            </x-primary-button>
+                        </form>
+                    @elseif (Auth::user()->can('OrganizeEvent', $event))
+                        <div></div>
+                    @else
+                        <p class="text-green-500">You have already joined this event.</p>
+                    @endif
+                    @can('OrganizeEvent', $event)
+                        <a href="{{ route('events.volunteers', $event) }}">
+                            <x-primary-button class="bg-red-600">
+                                List Volunteers
+                            </x-primary-button>
+                        </a>
+                    @endcan
+                    <div class="py-4">
+                        <b>Registration</b>
+                    </div>
+                    <div>
+                        {{ \Carbon\Carbon::parse($event->RegisterStart)->format('Y-m-d') . ' - ' . \Carbon\Carbon::parse($event->RegisterEnd)->format('Y-m-d') }}
+                    </div>
+                    <div class="py-4">
+                        <b>Date And Time</b>
+                    </div>
+                    <div>
+                        {{ \Carbon\Carbon::parse($event->EventStart)->format('Y-m-d') . ' - ' . \Carbon\Carbon::parse($event->EventEnd)->format('Y-m-d') }}
+                    </div>
+                    <div class="py-4">
+                        <b>Volunteers Needed</b>
+                    </div>
+                    <div>
+                        {{ $event->max_volunteers }}
+                    </div>
+                    <div class="py-4">
+                        <b>Prefered Skills</b>
+                    </div>
+                    <div>
+                        {{ $event->prefered_skill }}
+                    </div>
+                    <div class="py-4">
+                        <b>Event Category</b>
+                    </div>
+                    <div>
+                        {{ $event->category }}
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Need Voulenter</dt>
+                <dd class="text-gray-700 sm:col-span-2">{{ $event->max_volunteers }}</dd>
+            </div>
 
-                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Registration</dt>
-                        <dd class="text-gray-700 sm:col-span-2">
-                            {{ \Carbon\Carbon::parse($event->RegisterStart)->format('Y-m-d') . ' - ' . \Carbon\Carbon::parse($event->RegisterEnd)->format('Y-m-d') }}
-                        </dd>
-                    </div>
+            <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Registration</dt>
+                <dd class="text-gray-700 sm:col-span-2">
+                    {{ \Carbon\Carbon::parse($event->RegisterStart)->format('Y-m-d') . ' - ' . \Carbon\Carbon::parse($event->RegisterEnd)->format('Y-m-d') }}
+                </dd>
+            </div>
 
-                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Date</dt>
-                        <dd class="text-gray-700 sm:col-span-2">
-                            {{ \Carbon\Carbon::parse($event->EventStart)->format('Y-m-d') . ' - ' . \Carbon\Carbon::parse($event->EventEnd)->format('Y-m-d') }}
-                        </dd>
-                    </div>
-                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Prefered skill</dt>
-                        <dd class="text-gray-700 sm:col-span-2">
-                            {{ $event->prefered_skills }}
-                    </div>
-                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Prefered skill</dt>
-                        <dd class="text-gray-700 sm:col-span-2">
-                            {{ $event->category }}
-                    </div>
-                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Description</dt>
-                        <dd class="text-gray-700 sm:col-span-2">
-                            {{ $event->description }}
-                        </dd>
-                    </div>
-                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Organizer Name</dt>
-                        <dd class="text-gray-700 sm:col-span-2">
-                            {{ $event->organizer->name }}
-                        </dd>
-                    </div>
-                    {{-- <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+            <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Date</dt>
+                <dd class="text-gray-700 sm:col-span-2">
+                    {{ \Carbon\Carbon::parse($event->EventStart)->format('Y-m-d') . ' - ' . \Carbon\Carbon::parse($event->EventEnd)->format('Y-m-d') }}
+                </dd>
+            </div>  --}}
+            {{--<div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Prefered skill</dt>
+                <dd class="text-gray-700 sm:col-span-2">
+                    {{ $event->prefered_skills }}
+            </div>
+            <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Prefered skill</dt>
+                <dd class="text-gray-700 sm:col-span-2">
+                    {{ $event->category }}
+            </div>   --}}
+            {{--
+            <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Description</dt>
+                <dd class="text-gray-700 sm:col-span-2">
+                    {{ $event->description }}
+                </dd>
+            </div>
+            <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Organizer Name</dt>
+                <dd class="text-gray-700 sm:col-span-2">
+                    {{ $event->organizer->name }}
+                </dd>
+            </div> --}}
+            {{-- <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                         <dt class="font-medium text-gray-900">Rating Organizer</dt>
                         <dd class="text-gray-700 sm:col-span-2 flex items-center">
                             @php $averageRatingOrganizer = round($averageRating); @endphp
@@ -71,31 +136,6 @@
                             <p class="ml-2">{{ number_format($averageRating, 1) }} / 5</p>
                         </dd>
                     </div> --}}
-                </dl>
-            </div>
-            <h1 class="font-bold">Location Event:</h1>
-            <div id="map" style="height: 50vh; width:50vw; margin-top: 0"></div>
-            <div class="flex gap-3">
-                @if (!$event->volunteers->contains(Auth::id()) && !Auth::user()->can('OrganizeEvent', $event))
-                    <form action="{{ route('events.join', $event) }}" method="POST">
-                        @csrf
-                        <x-primary-button>
-                            Join Event
-                        </x-primary-button>
-                    </form>
-                @elseif (Auth::user()->can('OrganizeEvent', $event))
-                    <div></div>
-                @else
-                    <p class="text-green-500">You have already joined this event.</p>
-                @endif
-                @can('OrganizeEvent', $event)
-                    <a href="{{ route('events.volunteers', $event) }}">
-                        <x-primary-button>
-                            List Volunteers
-                        </x-primary-button>
-                    </a>
-                @endcan
-            </div>
         </x-card>
         {{-- 
         <x-card class="w-full mt-6">
