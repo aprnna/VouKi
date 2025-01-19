@@ -1,3 +1,3 @@
-<div class="mt-6 space-y-6">
+<div class="tw-mt-6 tw-space-y-6">
   {{ $slot }}
 </div>
