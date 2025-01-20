@@ -60,7 +60,7 @@ class EventController extends Controller
         $event->categories()->attach($categories);
         $event->skills()->attach($skills);
 
-        return Redirect::route('events.index')->with('success', 'Event created successfully');
+        return Redirect::route('events.my')->with('status', 'Event created successfully');
     }
 
     /**
@@ -68,7 +68,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        $event = Event::with(['volunteers' => function($query) {
+        $event = Event::with(['volunteers' => function ($query) {
             $query->select('users.*', 'user_acceptance_status');
         }])->findOrFail($event->id);
         return view('events.show', compact('event'));
@@ -77,7 +77,12 @@ class EventController extends Controller
     public function myEvents()
     {
         Gate::authorize('isOrganizer');
-        $events = Auth::user()->events;
+        $user = Auth::user();
+        $events = $user->events->map(function ($event) {
+            $event->total_register = $event->volunteers()->count();
+            $event->total_volunteer = $event->volunteers()->wherePivot('user_acceptance_status', 'accepted')->count();
+            return $event;
+        });
         return view('events.my', compact('events'));
     }
     /**
@@ -98,6 +103,10 @@ class EventController extends Controller
 
         return view('events.form', [
             'event' => $event,
+            'skills' => Skill::where('status', 1)->get(),
+            'categories' => Category::where('status', 1)->get(),
+            'user_skills' => $event->skills->pluck('id'),
+            'user_categories' => $event->categories->pluck('id'),
             'page_meta' => [
                 'title' => 'Edit Event',
                 'description' => 'Edit a event',
@@ -113,7 +122,11 @@ class EventController extends Controller
     public function update(UpdateEventRequest $request, Event $event)
     {
         $event->update($request->validated());
-        return Redirect::route('events.index')->with('success', 'Event updated successfully');
+        $categories = Str::of($request->validated()['categories'])->split('/[\s,]+/');
+        $skills = Str::of($request->validated()['skills'])->split('/[\s,]+/');
+        $event->categories()->sync($categories);
+        $event->skills()->sync($skills);
+        return Redirect::route('events.index')->with('status', 'success');
     }
 
     public function join(Event $event)

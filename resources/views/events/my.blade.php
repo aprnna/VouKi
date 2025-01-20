@@ -1,5 +1,6 @@
 <x-app-layout>
     @slot('title', 'My Events')
+
     <x-slot name="header">
         <h2 class="tw-font-semibold tw-text-xl tw-text-gray-800 tw-leading-tight">
             {{ __('My Events') }}
@@ -7,6 +8,12 @@
     </x-slot>
 
     <x-container>
+        @if(session('status'))
+        <x-bladewind::alert type="success">
+            {{ session('status') }}
+        </x-bladewind::alert>
+        @endif
+
         <x-card>
             <x-card.header>
                 <x-card.title>My Event</x-card.title>
@@ -33,8 +40,9 @@
                                 <x-table.th>Title</x-table.th>
                                 <x-table.th>Register Date</x-table.th>
                                 <x-table.th>Activity Date</x-table.th>
-                                <x-table.th>Prefered Skills</x-table.th>
-                                <x-table.th>Category</x-table.th>
+                                <x-table.th>Total Register</x-table.th>
+                                <x-table.th>Total Volunteer</x-table.th>
+                                <x-table.th>Status</x-table.th>
                                 <x-table.th>Action</x-table.th>
                             </tr>
                         </x-table.thead>
@@ -45,14 +53,20 @@
                                     <a class="tw-text-indigo-600 hover:tw-text-indigo-900" href={{ Route('events.show',
                                         $event) }}>{{ $event->title }}</a>
                                 </x-table.td>
-                                <x-table.td>{{ \Carbon\Carbon::parse($event->RegisterStart)->format('Y-m-d') . ' - ' .
-                                    \Carbon\Carbon::parse($event->RegisterEnd)->format('Y-m-d') }}</x-table.td>
-                                <x-table.td>{{ \Carbon\Carbon::parse($event->EventStart)->format('Y-m-d') . ' - ' .
-                                    \Carbon\Carbon::parse($event->EventEnd)->format('Y-m-d') }}</x-table.td>
-                                <x-table.td>{{ $event->prefered_skills }}</x-table.td>
-                                <x-table.td>{{ $event->category }}</x-table.td>
+                                <x-table.td>{{ \Carbon\Carbon::parse($event->RegisterStart)->format('Y-M-d') . ' / ' .
+                                    \Carbon\Carbon::parse($event->RegisterEnd)->format('Y-M-d') }}</x-table.td>
+                                <x-table.td>{{ \Carbon\Carbon::parse($event->EventStart)->format('Y-M-d') . ' / ' .
+                                    \Carbon\Carbon::parse($event->EventEnd)->format('Y-M-d') }}</x-table.td>
+                                <x-table.td>{{ $event->total_register }}</x-table.td>
                                 <x-table.td>
-                                    @if ($event->is_active)
+                                    <a class="tw-text-indigo-600 hover:tw-text-indigo-900"
+                                        href="{{ route('events.volunteers', $event) }}">
+                                        {{ $event->total_volunteer }} Volunteers
+                                    </a>
+                                </x-table.td>
+                                <x-table.td>{{ $event->isActive ? 'Active' : 'Inactive' }}</x-table.td>
+                                <x-table.td>
+                                    @if ($event->status)
                                     <a href={{ Route('events.edit', $event) }}
                                         class="tw-text-indigo-600 hover:tw-text-indigo-900">
                                         Edit

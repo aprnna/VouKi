@@ -24,15 +24,20 @@ class UpdateEventRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
-            // 'location' => ['required', 'string'],
             'max_volunteers' => ['required', 'integer'],
-            'category' => ['required', 'string', 'in:music,sport,education,technology,art,fashion,food,other'],
-            'prefered_skills' => ['required', 'string', 'in:it,design,marketing,finance,comunication,leader,other'],
+            'categories' => ['required'],
+            'skills' => ['required'],
             'RegisterStart' => ['required', 'date'],
             'RegisterEnd' => ['required', 'date'],
             'EventStart' => ['required', 'date'],
             'EventEnd' => ['required', 'date'],
-            'banner' =>  ['image', 'mimes:png,jpg,jpeg,gif, svg', 'max:2048'],
+            'latitude' => ['required', 'string'],
+            'longitude' => ['required', 'string'],
+            'detail_location' => ['required', 'string'],
+            'city' => ['required', 'string'],
+            'province' => ['required', 'string'],
+            'country' => ['required', 'string'],
+            'banner' => ['image', 'mimes:png,jpg,jpeg,gif, svg', 'max:2048'],
         ];
     }
 }
