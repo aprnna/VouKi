@@ -1,1 +1,1 @@
-<input type="date" {{ $attributes->merge(['class' => 'block mt-1 w-full']) }} />
+<input type="date" {{ $attributes->merge(['class' => 'tw-block tw-mt-1 tw-w-full']) }} />

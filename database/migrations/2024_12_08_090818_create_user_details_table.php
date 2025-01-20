@@ -12,12 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_details', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->primary();
             $table->string('phone');
-            $table->text('address');
             $table->date('birth_date');
-            $table->boolean('availability')->default(true);
+            $table->text('address');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

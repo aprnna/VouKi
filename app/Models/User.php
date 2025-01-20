@@ -4,10 +4,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -50,6 +52,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function userDetail(): HasOne
+    {
+        return $this->hasOne(UserDetail::class);
+    }
+
     public function events(): HasMany
     {
         return $this->hasMany(Event::class, 'organizer_id');
@@ -60,4 +67,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Event::class, 'event_user', 'user_id', 'event_id')->withTimestamps();
     }
 
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'user_categories', 'user_id', 'category_id')->withTimestamps();
+    }
+
+    public function skills(): BelongsToMany
+    {
+        return $this->belongsToMany(Skill::class, 'user_skills', 'user_id', 'skill_id')->withTimestamps();
+    }
 }
