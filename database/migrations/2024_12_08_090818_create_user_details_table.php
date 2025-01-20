@@ -16,9 +16,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->unique();
             $table->string('phone');
             $table->date('birth_date');
-            $table->string('city');
-            $table->string('province');
-            $table->string('country');
             $table->text('address');
             $table->boolean('status')->default(true);
             $table->timestamps();

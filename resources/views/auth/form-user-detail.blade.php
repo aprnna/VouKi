@@ -5,21 +5,22 @@
 
         <!-- Phone -->
         <div>
-            <x-input-label for="phone" :value="__('phone')" />
+            <x-input-label for="phone" :value="__('Phone')" />
+            {{--
             <x-text-input id="phone" class="tw-block tw-mt-1 tw-w-full" type="text" name="phone" :value="old('phone')"
-                required autofocus autocomplete="phone" />
+                required autofocus autocomplete="phone" /> --}}
+            <x-bladewind::input name="phone" :value="old('phone')" placeholder="08XXXXXXXXX" />
             <x-input-error :messages="$errors->get('name')" class="tw-mt-2" />
         </div>
 
         <!-- Birth Date -->
         <div class="tw-mt-4">
             <x-input-label for="birth_date" :value="__('Birth Date')" />
-            <x-text-input id="birth_date" class="tw-block tw-mt-1 tw-w-full" type="date" name="birth_date"
-                :value="old('birth_date')" required autocomplete="birth_date" />
-            <x-bladewind::datepicker />
+            <x-bladewind::datepicker placeholder="Birth Date" name="birth_date" format="yyyy-mm-dd" />
             <x-input-error :messages="$errors->get('email')" class="tw-mt-2" />
         </div>
 
+        {{--
         <!-- City-->
         <div class="tw-mt-4">
             <x-input-label for="city" :value="__('City')" />
@@ -30,7 +31,7 @@
             <x-input-error :messages="$errors->get('city')" class="tw-mt-2" />
         </div>
 
-        {{-- Province --}}
+        <!-- Province -->
         <div class="tw-mt-4">
             <x-input-label for="province" :value="__('Province')" />
 
@@ -40,7 +41,7 @@
             <x-input-error :messages="$errors->get('province')" class="tw-mt-2" />
         </div>
 
-        {{-- Country --}}
+        <!-- Country -->
         <div class="tw-mt-4">
             <x-input-label for="country" :value="__('Country')" />
 
@@ -48,15 +49,33 @@
                 autocomplete="country" />
 
             <x-input-error :messages="$errors->get('country')" class="tw-mt-2" />
+            <x-input-error :messages="$errors->get('country')" class="mt-2" />
+        </div>
+        --}}
+
+        <!-- Skills -->
+        <div class="mt-3">
+            <x-input-label for="skills" :value="__('Prefered Skills')" class="mb-3" />
+            <x-bladewind::select id="skills" name="skills" searchable="true" label_key="skill" value_key="id"
+                flag_key="skill" multiple="true" max_selectable="3" :data="$skills" />
+            <x-input-error :messages="$errors->get('skills')" class="mt-2" />
+        </div>
+
+        {{-- Category --}}
+        <div>
+            <x-input-label for="categories" :value="__('Categories')" class="mb-3" />
+            <x-bladewind::select name="categories" searchable="true" label_key="category" value_key="id"
+                flag_key="category" multiple="true" max_selectable="3" :data="$categories" />
+            <x-input-error :messages="$errors->get('categories')" class="mt-2" />
         </div>
 
         {{-- Address --}}
         <div class="tw-mt-4">
             <x-input-label for="address" :value="__('Address')" />
-
+            {{--
             <x-textarea-input id="address" class="tw-block tw-mt-1 tw-w-full" type="text" name="address" required
-                autocomplete="address" />
-
+                autocomplete="address" /> --}}
+            <x-bladewind::textarea name="address" placeholder="Address" required />
             <x-input-error :messages="$errors->get('address')" class="tw-mt-2" />
         </div>
 

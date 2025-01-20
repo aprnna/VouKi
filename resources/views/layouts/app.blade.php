@@ -31,14 +31,11 @@
     <link href="{{ asset('vendor/bladewind/css/animate.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('vendor/bladewind/css/bladewind-ui.min.css') }}" rel="stylesheet" />
     <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
-
-
 </head>
 
 <body class="tw-font-sans tw-antialiased">
     <div class="tw-min-h-screen tw-bg-gray-100">
         @include('layouts.navigation')
-
         <!-- Page Heading -->
         @isset($header)
         <header class="tw-bg-white tw-shadow tw-mb-12">

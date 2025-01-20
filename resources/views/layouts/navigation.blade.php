@@ -81,7 +81,6 @@
                 @endauth
             </div>
 
-
             <!-- Hamburger -->
             <div class="tw--me-2 tw-flex tw-items-center sm:tw-hidden">
                 <button @click="open = ! open"
