@@ -55,30 +55,47 @@
                 tw-w-full" :value="old('phone', $detail?->phone)" required autofocus autocomplete="phone" />
             <x-input-error class="tw-mt-2" :messages="$errors->get('phone')" />
         </div>
+        <!-- Skills -->
+        <div class="mt-3">
+            <x-input-label for="skills" :value="__('Prefered Skills')" class="mb-3" />
+            <x-bladewind::select id="skills" name="skills" searchable="true" label_key="skill" value_key="id"
+                flag_key="skill" multiple="true" max_selectable="3" :data="$skills"
+                :selected_value="implode(',', $user_skills->toArray())" />
+            <x-input-error :messages="$errors->get('skills')" class="mt-2" />
+        </div>
 
-        {{-- City --}}
+        {{-- Category --}}
         <div>
+            <x-input-label for="categories" :value="__('Categories')" class="mb-3" />
+            <x-bladewind::select name="categories" searchable="true" label_key="category" value_key="id"
+                flag_key="category" multiple="true" max_selectable="3" :data="$categories"
+                :selected_value="implode(',', $user_categories->toArray())" />
+            <x-input-error :messages="$errors->get('categories')" class="mt-2" />
+        </div>
+        {{-- Skills --}}
+        {{-- City --}}
+        {{-- <div>
             <x-input-label for="city" :value="__('City')" />
             <x-text-input id="city" name="city" type="text" class="tw-mt-1 tw-block
-                tw-w-full" :value="old('city', $detail?->city)" required autofocus autocomplete="city" />
+            tw-w-full" :value="old('city', $detail?->city)" required autofocus autocomplete="city" />
             <x-input-error class="tw-mt-2" :messages="$errors->get('city')" />
-        </div>
+        </div> --}}
 
         {{-- Province --}}
-        <div>
+        {{-- <div>
             <x-input-label for="province" :value="__('Province')" />
             <x-text-input id="province" name="province" type="text" class="tw-mt-1 tw-block
-                tw-w-full" :value="old('province', $detail?->province)" required autofocus autocomplete="province" />
+            tw-w-full" :value="old('province', $detail?->province)" required autofocus autocomplete="province" />
             <x-input-error class="tw-mt-2" :messages="$errors->get('province')" />
-        </div>
+        </div> --}}
 
         {{-- Country --}}
-        <div>
+        {{-- <div>
             <x-input-label for="country" :value="__('Country')" />
             <x-text-input id="country" name="country" type="text" class="tw-mt-1 tw-block
-                tw-w-full" :value="old('country', $detail?->country)" required autofocus autocomplete="country" />
+            tw-w-full" :value="old('country', $detail?->country)" required autofocus autocomplete="country" />
             <x-input-error class="tw-mt-2" :messages="$errors->get('country')" />
-        </div>
+        </div> --}}
 
         {{-- Address --}}
         <div>

@@ -52,7 +52,6 @@
             <x-input-error :messages="$errors->get('country')" class="mt-2" />
         </div>
         --}}
-
         <!-- Skills -->
         <div class="mt-3">
             <x-input-label for="skills" :value="__('Prefered Skills')" class="mb-3" />

@@ -69,11 +69,11 @@ class User extends Authenticatable
 
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class, 'user_categories', 'user_detail_id', 'category_id')->withTimestamps();
+        return $this->belongsToMany(Category::class, 'user_categories', 'user_id', 'category_id')->withTimestamps();
     }
 
     public function skills(): BelongsToMany
     {
-        return $this->belongsToMany(Skill::class, 'user_skills', 'user_detail_id', 'skill_id')->withTimestamps();
+        return $this->belongsToMany(Skill::class, 'user_skills', 'user_id', 'skill_id')->withTimestamps();
     }
 }

@@ -39,8 +39,8 @@ class UserDetailController extends Controller
 
         // Update or Create user detail
         $user = $request->user();
-        $user->userDetail()->updateOrCreate(
-            ['user_id' => $user->id],
+        $user->updateOrCreate(
+            ['id' => $user->id],
             $request->all()
         );
         $user->categories()->attach($categories);
