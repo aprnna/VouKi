@@ -68,21 +68,9 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        // $events = Event::with(['volunteers', 'organizer'])->findOrFail($event->id);
-
-        // $averageRating = Event::where('organizer_id', $event->organizer->id)
-        //     ->whereHas('reviews')
-        //     ->with('reviews')
-        //     ->get()
-        //     ->flatMap(function ($e) {
-        //         return $e->reviews->where('type', 'event');
-        //     })
-        //     ->flatten()
-        //     ->avg('rating');
-
-        $event = Event::with('volunteers')->findOrFail($event->id);
-        // $event->load('reviews');
-        // return view('events.show', compact('event', 'averageRating'));
+        $event = Event::with(['volunteers' => function($query) {
+            $query->select('users.*', 'user_acceptance_status');
+        }])->findOrFail($event->id);
         return view('events.show', compact('event'));
     }
 
@@ -98,8 +86,10 @@ class EventController extends Controller
     public function eventVolunteers(Event $event)
     {
         if (!Gate::allows('OrganizeEvent', $event)) abort(404);
-        $volunteers = $event->volunteers;
-        return view('events.volunteers', compact('volunteers', 'event'));
+        // $volunteers = $event->volunteers;
+        $volunteers = $event->volunteers()->withPivot('user_rating')->get();
+        $all_users_rating = $event->volunteers()->select('user_id', 'user_rating')->get()->keyBy('user_id');
+        return view('events.volunteers', compact('volunteers', 'event', 'all_users_rating'));
     }
 
     public function edit(Event $event)

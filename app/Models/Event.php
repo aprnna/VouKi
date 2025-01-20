@@ -42,10 +42,6 @@ class Event extends Model
         return $this->belongsToMany(User::class, 'event_user',  'event_id', 'user_id')->withTimestamps();
     }
 
-    public function reviews(): HasMany
-    {
-        return $this->hasMany(Review::class);
-    }
 
     public function categories(): BelongsToMany
     {
@@ -59,8 +55,41 @@ class Event extends Model
 
     public function getAverageRatingAttribute()
     {
-        return $this->reviews()
-            ->where('type', 'event')
-            ->avg('rating') ?: 0;
+        return $this->volunteers()
+            ->avg('event_rating') ?: 0;
     }
+
+    public function getAllEventReviewsAttribute(){
+        return $this->volunteers()
+            ->select('name', 'event_rating', 'user_review', 'event_id', 'user_id','event_user.created_at', 'event_user.updated_at')
+            ->get();
+    }
+
+    public function getReviewsEventAttribute(){
+        return $this->volunteers()
+            ->select('name', 'event_rating', 'user_review', 'user_rating', 'event_id', 'user_id')
+            ->get();
+    }
+
+    public function getOrganizerAverageRatingAttribute(){
+        return $this->organizer()
+            ->join('events', 'users.id','organizer_id')
+            ->join('event_user', 'events.id','event_user.event_id')
+            ->avg('event_rating') ?: 0;
+    }
+
+    public function updateReview($data){
+        $this->volunteers()->where('user_id', $data['user_id'])->update(['user_review' => $data['user_review'], 'event_rating' => $data['event_rating']]);
+    }
+
+    public function updateUserRating($data){
+        $this->volunteers()->where('user_id', $data['user_id'])->update(['user_rating' => $data['user_rating']]);
+    }
+    
+    public function getAllUsersRatingAttribute() {
+        return $this->volunteers()
+            ->select('name', 'user_rating', 'user_id', 'event_id')
+            ->get();
+    }
+
 }
