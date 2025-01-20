@@ -55,6 +55,8 @@
                 tw-w-full" :value="old('phone', $detail?->phone)" required autofocus autocomplete="phone" />
             <x-input-error class="tw-mt-2" :messages="$errors->get('phone')" />
         </div>
+
+        @can('isVolunteer')
         <!-- Skills -->
         <div class="mt-3">
             <x-input-label for="skills" :value="__('Prefered Skills')" class="mb-3" />
@@ -72,6 +74,8 @@
                 :selected_value="implode(',', $user_categories->toArray())" />
             <x-input-error :messages="$errors->get('categories')" class="mt-2" />
         </div>
+        @endcan
+
         {{-- Skills --}}
         {{-- City --}}
         {{-- <div>

@@ -18,33 +18,41 @@ class UserDetailController extends Controller
     {
         $skills = Skill::where('status', 1)->get();
         $categories = Category::where('status', 1)->get();
-        return view('auth.form-user-detail', compact('skills', 'categories'));
+        $role = Auth::user()->role;
+        return view('auth.form-user-detail', compact('role', 'skills', 'categories'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'phone' => ['required', 'string', 'max:255'],
-            // 'city' => ['required', 'string', 'max:255'],
-            // 'province' => ['required', 'string', 'max:255'],
-            // 'country' => ['required', 'string', 'max:255'],
-            // 'address' => ['required', 'string', 'max:255'],
-            'skills' => ['required'],
-            'categories' => ['required'],
-            'birth_date' => ['required', 'date'],
-        ]);
-
-        $categories = Str::of($validated['categories'])->split('/[\s,]+/');
-        $skills = Str::of($validated['skills'])->split('/[\s,]+/');
-
-        // Update or Create user detail
+        $role = $request->user()->role;
+        $validated = '';
         $user = $request->user();
-        $user->updateOrCreate(
-            ['id' => $user->id],
-            $request->all()
+        if ($role == 'organizer') {
+            $validated = $request->validate([
+                'phone' => ['required', 'string', 'max:255'],
+                'address' => ['required', 'string', 'max:255'],
+                'birth_date' => ['required', 'date'],
+            ]);
+        } else {
+            $validated = $request->validate([
+                'phone' => ['required', 'string', 'max:255'],
+                'address' => ['required', 'string', 'max:255'],
+                'skills' => ['required'],
+                'categories' => ['required'],
+                'birth_date' => ['required', 'date'],
+            ]);
+            $categories = Str::of($validated['categories'])->split('/[\s,]+/');
+            $skills = Str::of($validated['skills'])->split('/[\s,]+/');
+            $user->categories()->sync($categories);
+            $user->skills()->sync($skills);
+        }
+        // dd($validated);
+
+        // Update user detail
+        $user->userDetail()->updateOrCreate(
+            ['user_id' => $user->id],
+            $validated
         );
-        $user->categories()->attach($categories);
-        $user->skills()->attach($skills);
 
         return redirect()->route('events.index');
     }

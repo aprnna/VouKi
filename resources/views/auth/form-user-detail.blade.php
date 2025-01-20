@@ -1,11 +1,11 @@
 <x-guest-layout>
-    <h1 class="tw-text-center tw-font-bold tw-text-lg tw-pb-4">Register</h1>
+    <h1 class="tw-text-center tw-font-bold tw-text-lg tw-pb-4">Detail {{ ucfirst($role) }}</h1>
     <form method="POST" action="{{ route('user-detail.store') }}">
         @csrf
 
         <!-- Phone -->
         <div>
-            <x-input-label for="phone" :value="__('Phone')" />
+            <x-input-label for="phone" :value="$role == 'organizer' ? 'Phone Organizer' : 'Phone'" />
             {{--
             <x-text-input id="phone" class="tw-block tw-mt-1 tw-w-full" type="text" name="phone" :value="old('phone')"
                 required autofocus autocomplete="phone" /> --}}
@@ -15,7 +15,7 @@
 
         <!-- Birth Date -->
         <div class="tw-mt-4">
-            <x-input-label for="birth_date" :value="__('Birth Date')" />
+            <x-input-label for="birth_date" :value="$role == 'organizer' ? 'Date of Establishment' : 'Birth Date'" />
             <x-bladewind::datepicker placeholder="Birth Date" name="birth_date" format="yyyy-mm-dd" />
             <x-input-error :messages="$errors->get('email')" class="tw-mt-2" />
         </div>
@@ -53,24 +53,29 @@
         </div>
         --}}
         <!-- Skills -->
+
+        @can('isVolunteer')
         <div class="mt-3">
-            <x-input-label for="skills" :value="__('Prefered Skills')" class="mb-3" />
+            <x-input-label for="skills" :value="__('Skills')" class="mb-3" />
             <x-bladewind::select id="skills" name="skills" searchable="true" label_key="skill" value_key="id"
-                flag_key="skill" multiple="true" max_selectable="3" :data="$skills" />
+                flag_key="skill" multiple="true" max_selectable="3" :data="$skills" placeholder="Select One or More" />
             <x-input-error :messages="$errors->get('skills')" class="mt-2" />
         </div>
 
         {{-- Category --}}
         <div>
-            <x-input-label for="categories" :value="__('Categories')" class="mb-3" />
+            <x-input-label for="categories" :value="__('Prefered Categories')" class="mb-3" />
             <x-bladewind::select name="categories" searchable="true" label_key="category" value_key="id"
-                flag_key="category" multiple="true" max_selectable="3" :data="$categories" />
+                flag_key="category" multiple="true" max_selectable="3" :data="$categories"
+                placeholder="Select One or More" />
             <x-input-error :messages="$errors->get('categories')" class="mt-2" />
         </div>
+        @endcan
+
 
         {{-- Address --}}
         <div class="tw-mt-4">
-            <x-input-label for="address" :value="__('Address')" />
+            <x-input-label for="address" :value="$role == 'organizer' ? 'Address Organizer' : 'Address'" />
             {{--
             <x-textarea-input id="address" class="tw-block tw-mt-1 tw-w-full" type="text" name="address" required
                 autocomplete="address" /> --}}
