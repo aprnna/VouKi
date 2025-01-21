@@ -49,7 +49,7 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
                         @can('isOrganizer')
-                        <x-dropdown-link :href="route('events.create')">
+                        <x-dropdown-link :href="route('events.create',['step'=>1])">
                             {{ __('Create Events') }}
                         </x-dropdown-link>
                         @endcan
@@ -118,7 +118,7 @@
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
                 @can('isOrganizer')
-                <x-responsive-nav-link :href="route('events.create')">
+                <x-responsive-nav-link :href="route('events.create', ['step'=>1])">
                     {{ __('Create Event') }}
                 </x-responsive-nav-link>
                 @endcan

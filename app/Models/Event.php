@@ -30,6 +30,8 @@ class Event extends Model
         'province',
         'country',
         'detail_location',
+        'status',
+        'isActive',
     ];
 
     public function organizer(): BelongsTo
@@ -42,7 +44,6 @@ class Event extends Model
         return $this->belongsToMany(User::class, 'event_user',  'event_id', 'user_id')->withTimestamps();
     }
 
-
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'event_categories', 'event_id', 'category_id')->withTimestamps();
@@ -51,6 +52,11 @@ class Event extends Model
     public function skills(): BelongsToMany
     {
         return $this->belongsToMany(Skill::class, 'event_skills', 'event_id', 'skill_id')->withTimestamps();
+    }
+
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Questions::class);
     }
 
     public function getAverageRatingAttribute()

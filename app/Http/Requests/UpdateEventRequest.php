@@ -38,6 +38,7 @@ class UpdateEventRequest extends FormRequest
             'province' => ['required', 'string'],
             'country' => ['required', 'string'],
             'banner' => ['image', 'mimes:png,jpg,jpeg,gif, svg', 'max:2048'],
+            'redirect' => ['string'],
         ];
     }
 }

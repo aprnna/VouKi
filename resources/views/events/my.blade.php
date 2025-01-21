@@ -23,7 +23,7 @@
                             A list of all the users in your account including their name, title, email and role.
                         </p>
                         <div class="tw-mt-4 tw-sm:ml-16 tw-sm:mt-0 tw-sm:flex-none">
-                            <a href={{ Route('events.create') }}>
+                            <a href={{ Route('events.create', ['step'=>1] ) }}>
                                 <button type="button"
                                     class="tw-block tw-rounded-md tw-bg-indigo-600 tw-px-3 tw-py-2 tw-text-center tw-text-sm tw-font-semibold tw-text-white tw-shadow-sm hover:tw-bg-indigo-500 focus-visible:tw-outline focus-visible:tw-outline-2 focus-visible:tw-outline-offset-2 focus-visible:tw-outline-indigo-600">
                                     Create Event

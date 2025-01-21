@@ -8,6 +8,9 @@
     </x-slot>
     <x-container>
         <x-card>
+            @if ($page_meta['progress'])
+            <x-progress-create-event step='1' />
+            @endif
             <x-card.header>
                 <x-card.title>{{ $page_meta['title'] }}</x-card.title>
                 <x-card.description>{{ $page_meta['description'] }}</x-card.description>
@@ -17,7 +20,11 @@
                     class="tw-space-y-3 tw-relative" enctype="multipart/form-data">
                     @method($page_meta['method'])
                     @csrf
-
+                    @if ($page_meta['progress'])
+                    <input type="hidden" name="redirect" value="events.questions.create">
+                    @else
+                    <input type="hidden" name="redirect" value="events.my">
+                    @endif
                     {{-- title --}}
                     <div>
                         <x-input-label for="title" :value="__('Name Events')" />
@@ -140,9 +147,9 @@
 
                 </form>
             </x-card.content>
-            <x-card.footer>
+            <x-card.footer class="tw-flex tw-justify-end">
                 <x-primary-button form="form-create-event">
-                    Save
+                    Next
                 </x-primary-button>
             </x-card.footer>
         </x-card>

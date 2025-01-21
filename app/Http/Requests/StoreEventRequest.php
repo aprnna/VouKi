@@ -38,6 +38,7 @@ class StoreEventRequest extends FormRequest
             'province' => ['required', 'string'],
             'country' => ['required', 'string'],
             'banner' => ['required', 'image', 'mimes:png,jpg,jpeg,gif, svg', 'max:2048'],
+            'redirect' => ['string'],
         ];
     }
 }
