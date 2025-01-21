@@ -36,6 +36,8 @@ class EventController extends Controller
             'event' => new Event(),
             'skills' => Skill::where('status', 1)->get(),
             'categories' => Category::where('status', 1)->get(),
+            'user_skills' => collect([]),
+            'user_categories' => collect([]),
             'page_meta' => [
                 'title' => 'Create Event',
                 'description' => 'Create a new event',
