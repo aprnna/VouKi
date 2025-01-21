@@ -59,6 +59,14 @@ class Event extends Model
         return $this->hasMany(Questions::class);
     }
 
+    public function getRegisterEvent()
+    {
+        return $this->volunteers()->where('user_acceptance_status', 'pending')->get();
+    }
+    public function getAcceptedEvent()
+    {
+        return $this->volunteers()->where('user_acceptance_status', 'accepted')->get();
+    }
     public function getAverageRatingAttribute()
     {
         return $this->volunteers()

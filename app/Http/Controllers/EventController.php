@@ -157,6 +157,7 @@ class EventController extends Controller
     }
     public function eventRegister(Event $event)
     {
+        $registerEvent = $event->getRegisterEvent();
         return view('events.register.list', compact('event'));
     }
 }

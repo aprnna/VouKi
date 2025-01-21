@@ -57,7 +57,12 @@
                                     \Carbon\Carbon::parse($event->RegisterEnd)->format('Y-M-d') }}</x-table.td>
                                 <x-table.td>{{ \Carbon\Carbon::parse($event->EventStart)->format('Y-M-d') . ' / ' .
                                     \Carbon\Carbon::parse($event->EventEnd)->format('Y-M-d') }}</x-table.td>
-                                <x-table.td>{{ $event->total_register }}</x-table.td>
+                                <x-table.td>
+                                    <a class="tw-text-indigo-600 hover:tw-text-indigo-900"
+                                        href="{{ route('events.register', $event) }}">
+                                        {{ $event->total_register }} Register
+                                    </a>
+                                </x-table.td>
                                 <x-table.td>
                                     <a class="tw-text-indigo-600 hover:tw-text-indigo-900"
                                         href="{{ route('events.volunteers', $event) }}">
