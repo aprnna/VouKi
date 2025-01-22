@@ -37,6 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-events', [EventController::class, 'myEvents'])->name('events.my');
     Route::get('/event/{event}/volunteers', [EventController::class, 'eventVolunteers'])->name('events.volunteers');
     Route::get('/event/{event}/register', [EventController::class, 'eventRegister'])->name('events.register');
+    Route::get('/event/{event}/register/{user}', [EventController::class, 'eventRegisterDetail'])->name('events.register.show');
+    Route::put('/event/{event}/register/{user}', [EventController::class, 'acceptanceStatus'])->name('events.register.update');
     Route::patch('/events/{event}/review', [ReviewController::class, 'updateEventReview'])->name('events.review.update');
     Route::patch('events/{event}/volunteers/{volunteer}/review', [ReviewController::class, 'updateVolunteerReview'])->name('volunteer.review.update');
 });

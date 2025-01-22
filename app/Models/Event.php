@@ -41,7 +41,7 @@ class Event extends Model
 
     public function volunteers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'event_user',  'event_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'event_user',  'event_id', 'user_id')->withPivot('user_acceptance_status', 'user_rating', 'user_review', 'event_rating', 'status')->withTimestamps();
     }
 
     public function categories(): BelongsToMany
@@ -59,10 +59,6 @@ class Event extends Model
         return $this->hasMany(Questions::class);
     }
 
-    public function getRegisterEvent()
-    {
-        return $this->volunteers()->where('user_acceptance_status', 'pending')->get();
-    }
     public function getAcceptedEvent()
     {
         return $this->volunteers()->where('user_acceptance_status', 'accepted')->get();

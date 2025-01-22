@@ -48,7 +48,6 @@ class QuestionEventController extends Controller
 
     function createAnswer(Event $event)
     {
-        // check apakah user sudah melakukan answer di event yang sama atau belum
         $isRegistered = $event->volunteers()->where('user_id', Auth::id())->exists();
         if ($isRegistered) {
             return redirect()->route('events.show', $event)->with('error', 'You have already registered for the event');

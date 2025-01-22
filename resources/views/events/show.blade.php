@@ -7,16 +7,7 @@
     </x-slot>
 
     <x-container>
-        @if (session('success'))
-        <x-bladewind::alert type="success">
-            {{ session('success') }}
-        </x-bladewind::alert>
-        @elseif (session('error'))
-        <x-bladewind::alert type="error">
-            {{ session('error') }}
-        </x-bladewind::alert>
-        @endif
-
+        <x-alert-status />
         <x-card class="tw-flex tw-justify-center tw-items-center tw-flex-col">
             <img src="{{ route('private.file', basename($event->banner)) }}" alt="{{ $event->title }}"
                 class="tw-rounded-lg tw-h-64 tw-w-2/3 tw-object-cover" />

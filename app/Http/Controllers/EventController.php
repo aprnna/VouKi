@@ -159,7 +159,24 @@ class EventController extends Controller
     }
     public function eventRegister(Event $event)
     {
-        $registerEvent = $event->getRegisterEvent();
-        return view('events.register.list', compact('event'));
+        $registerEvent = $event->volunteers()->get();
+        return view('events.register.list', compact('event', 'registerEvent'));
+    }
+    public function eventRegisterDetail(Event $event, User $user)
+    {
+        $questions = $event->questions()->get();
+
+        foreach ($questions as $question) {
+            $question->userAnswer = $question->singleAnswer($user);
+        }
+        return view('events.register.show', compact('event', 'user', 'questions'));
+    }
+    public function acceptanceStatus(Event $event, User $user, Request $request)
+    {
+        $status = $request->query('status', 'pending');
+        $event->volunteers()->updateExistingPivot($user->id, [
+            'user_acceptance_status' => $status,
+        ]);
+        return Redirect::route('events.register', $event)->with('status', 'Status updated successfully');
     }
 }

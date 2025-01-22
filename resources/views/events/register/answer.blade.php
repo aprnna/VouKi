@@ -10,11 +10,14 @@
   <x-container>
     <x-card>
       <x-card.header>
-        <x-card.title>List Register Event</x-card.title>
+        <x-card.title>
+          {{ $event->title }}
+        </x-card.title>
         <x-card.description>
           <div class="tw-sm:flex tw-sm:items-center">
             <p class="tw-sm:flex-auto tw-mt-2 tw-text-sm tw-text-gray-700">
-              A list of all the users in your account including their name, title, email and role.
+              Please fill out the form below to register for the event. Your answers will help us to better organize the
+              event and ensure it meets your needs.
             </p>
           </div>
         </x-card.description>
