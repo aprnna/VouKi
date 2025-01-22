@@ -15,11 +15,14 @@
                         class="h-32 w-full object-cover" />
 
                     <div class="p-4 sm:p-6 flex-grow">
-                        <time datetime="2022-10-10" class="block text-xs text-gray-500"> 10th Oct 2022 </time>
 
                         <a href="#">
-                            <h3 class="mt-0.5 text-lg text-gray-900">{{ $event->title }}</h3>
+                            <h3 class="mt-0.5 text-lg text-blue-700 font-bold pb-4">{{ $event->title }}</h3>
                         </a>
+
+                        <hr>
+
+                        <time datetime="2022-10-10" class="block text-xs text-gray-500 pt-4 pb-4"> 10th Oct 2022 </time>
 
                         <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
                             {{ $event->description }}
