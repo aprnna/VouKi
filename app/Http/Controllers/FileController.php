@@ -10,7 +10,7 @@ class FileController extends Controller
 {
     public function getPrivateFile($filename)
     {
-        $path = storage_path('app/private/images/events/' . $filename);
+        $path = storage_path("app/public/images/events/" . $filename);
 
         if (!File::exists($path)) {
             abort(404);
