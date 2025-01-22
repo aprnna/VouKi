@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Questions;
 use App\Models\Event;
+use App\Models\Answer;
+use Illuminate\Support\Facades\Auth;
 
 class QuestionEventController extends Controller
 {
@@ -42,5 +44,40 @@ class QuestionEventController extends Controller
         $question->status = 0;
         $question->save();
         return redirect()->back();
+    }
+
+    function createAnswer(Event $event)
+    {
+        // check apakah user sudah melakukan answer di event yang sama atau belum
+        $isRegistered = $event->volunteers()->where('user_id', Auth::id())->exists();
+        if ($isRegistered) {
+            return redirect()->route('events.show', $event)->with('error', 'You have already registered for the event');
+        }
+        $questions = $event->questions()->where('status', 1)->get();
+        return view('events.register.answer', compact('event', 'questions'));
+    }
+
+    function storeAnswer(Request $request, Event $event)
+    {
+        $request->validate([
+            'answers' => 'required|array',
+            'answers.*' => 'required|string|max:255',
+        ]);
+
+        foreach ($request->answers as $questionId => $answerText) {
+            Answer::updateOrCreate(
+                [
+                    'user_id' => Auth::user()->id,
+                    'question_id' => $questionId,
+                ],
+                [
+                    'answer' => $answerText,
+                ]
+            );
+        }
+
+        $event->volunteers()->attach(Auth::id());
+
+        return redirect()->route('events.show', $event)->with('success', 'You have successfully registered for the event');
     }
 }

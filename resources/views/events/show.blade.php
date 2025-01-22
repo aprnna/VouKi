@@ -7,6 +7,16 @@
     </x-slot>
 
     <x-container>
+        @if (session('success'))
+        <x-bladewind::alert type="success">
+            {{ session('success') }}
+        </x-bladewind::alert>
+        @elseif (session('error'))
+        <x-bladewind::alert type="error">
+            {{ session('error') }}
+        </x-bladewind::alert>
+        @endif
+
         <x-card class="tw-flex tw-justify-center tw-items-center tw-flex-col">
             <img src="{{ route('private.file', basename($event->banner)) }}" alt="{{ $event->title }}"
                 class="tw-rounded-lg tw-h-64 tw-w-2/3 tw-object-cover" />
@@ -88,8 +98,9 @@
             <div id="map" style="height: 50vh; width:50vw; margin-top: 0"></div>
             <div class="tw-flex tw-gap-3">
                 @if (!$event->volunteers->contains(Auth::id()) && !Auth::user()->can('OrganizeEvent', $event))
-                <form action="{{ route('events.join', $event) }}" method="POST">
+                <form action="{{ route('events.answer.create', $event) }}" method="POST">
                     @csrf
+                    @method('get')
                     <x-primary-button>
                         Join Event
                     </x-primary-button>
@@ -108,8 +119,6 @@
                 @endcan
             </div>
         </x-card>
-
-        @dump($event->skills)
 
         @if ($event->volunteers->contains(function ($volunteer) {
         return

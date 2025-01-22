@@ -135,8 +135,10 @@ class EventController extends Controller
 
     public function join(Event $event)
     {
-        $event->volunteers()->attach(Auth::id());
-        return back();
+        return view('events.register.answer', compact('event'));
+
+        // $event->volunteers()->attach(Auth::id());
+        // return back();
     }
     public function status(Event $event)
     {
