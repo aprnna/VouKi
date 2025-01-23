@@ -1,18 +1,18 @@
 <x-app-layout>
     @slot('title', 'Events')
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="tw-font-semibold tw-text-xl tw-text-gray-800 tw-leading-tight">
             {{ __('Events') }}
         </h2>
     </x-slot>
 
     <x-container>
-        <div class="flex gap-5 flex-wrap  justify-center">
+        <div class="tw-flex tw-gap-5 tw-flex-wrap tw-justify-center">
             @foreach ($events as $event)
-                <div
-                    class="w-full bg-white sm:w-1/2 md:w-1/3 lg:w-1/4 flex flex-col overflow-hidden rounded-lg shadow transition hover:shadow-lg">
-                    <img src="{{ route('private.file', basename($event->banner)) }}" alt="{{ $event->title }}"
-                        class="h-32 w-full object-cover" />
+            <div
+                class="tw-w-full tw-bg-white sm:tw-w-1/2 md:tw-w-1/3 lg:tw-w-1/4 tw-flex tw-flex-col tw-overflow-hidden tw-rounded-lg tw-shadow tw-transition hover:tw-shadow-lg">
+                <img src="{{ route('private.file', basename($event->banner)) }}" alt="{{ $event->title }}"
+                    class="tw-h-32 tw-w-full tw-object-cover" />
 
                     <div class="p-4 sm:p-6 flex-grow">
 
@@ -37,7 +37,21 @@
                             &rarr;
                         </span>
                     </a>
+
+                    <p class="tw-mt-2 tw-line-clamp-3 tw-text-sm/relaxed tw-text-gray-500">
+                        {{ $event->description }}
+                    </p>
+
                 </div>
+                <a href={{ Route('events.show', $event) }}
+                    class="tw-group tw-mt-4 tw-inline-flex tw-items-center tw-gap-1 tw-text-sm tw-font-medium tw-text-blue-600 tw-p-4">
+                    Detail Event
+
+                    <span aria-hidden="true" class="tw-block tw-transition-all group-hover:tw-ms-0.5 rtl:tw-rotate-180">
+                        &rarr;
+                    </span>
+                </a>
+            </div>
             @endforeach
         </div>
     </x-container>

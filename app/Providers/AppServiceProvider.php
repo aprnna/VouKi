@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define('isOrganizer', fn(User $user) => $user->role === 'organizer');
+        Gate::define('isVolunteer', fn(User $user) => $user->role === 'volunteer');
         Gate::define('OrganizeEvent', fn(User $user, Event $event) => $user->role === 'organizer' && $event->organizer_id === $user->id);
     }
 }

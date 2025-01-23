@@ -1,7 +1,7 @@
 <x-app-layout>
     @slot('title', 'Detail Event')
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="tw-font-semibold tw-text-xl tw-text-gray-800 tw-leading-tight">
             {{ $event->title }}
         </h2>
     </x-slot>
@@ -203,8 +203,8 @@
                 star.addEventListener('click', () => {
                     console.log("Selected rating: ", index + 1);
                     stars.forEach((s, i) => {
-                        s.classList.toggle('text-yellow-500', i <= index);
-                        s.classList.toggle('text-gray-300', i > index);
+                        s.classList.toggle('tw-text-yellow-500', i <= index);
+                        s.classList.toggle('tw-text-gray-300', i > index);
                     });
                     document.getElementById('rating-input').value = index + 1;
                 });
@@ -217,11 +217,11 @@
                 for (let i = 1; i <= 5; i++) {
                     const star = document.getElementById(`star${i}`);
                     if (i <= rating) {
-                        star.classList.remove('text-gray-300');
-                        star.classList.add('text-yellow-500');
+                        star.classList.remove('tw-text-gray-300');
+                        star.classList.add('tw-text-yellow-500');
                     } else {
-                        star.classList.remove('text-yellow-500');
-                        star.classList.add('text-gray-300');
+                        star.classList.remove('tw-text-yellow-500');
+                        star.classList.add('tw-text-gray-300');
                     }
                 }
             }

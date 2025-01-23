@@ -1,21 +1,20 @@
 @props([
-    'name',
-    'show' => false,
-    'maxWidth' => '2xl'
+'name',
+'show' => false,
+'maxWidth' => '2xl'
 ])
 
 @php
 $maxWidth = [
-    'sm' => 'sm:max-w-sm',
-    'md' => 'sm:max-w-md',
-    'lg' => 'sm:max-w-lg',
-    'xl' => 'sm:max-w-xl',
-    '2xl' => 'sm:max-w-2xl',
+'sm' => 'tw-sm:tw-max-w-sm',
+'md' => 'tw-sm:tw-max-w-md',
+'lg' => 'tw-sm:tw-max-w-lg',
+'xl' => 'tw-sm:tw-max-w-xl',
+'2xl' => 'tw-sm:tw-max-w-2xl',
 ][$maxWidth];
 @endphp
 
-<div
-    x-data="{
+<div x-data="{
         show: @js($show),
         focusables() {
             // All focusable element types...
@@ -30,49 +29,34 @@ $maxWidth = [
         prevFocusable() { return this.focusables()[this.prevFocusableIndex()] || this.lastFocusable() },
         nextFocusableIndex() { return (this.focusables().indexOf(document.activeElement) + 1) % (this.focusables().length + 1) },
         prevFocusableIndex() { return Math.max(0, this.focusables().indexOf(document.activeElement)) -1 },
-    }"
-    x-init="$watch('show', value => {
+    }" x-init="$watch('show', value => {
         if (value) {
             document.body.classList.add('overflow-y-hidden');
             {{ $attributes->has('focusable') ? 'setTimeout(() => firstFocusable().focus(), 100)' : '' }}
         } else {
             document.body.classList.remove('overflow-y-hidden');
         }
-    })"
-    x-on:open-modal.window="$event.detail == '{{ $name }}' ? show = true : null"
-    x-on:close-modal.window="$event.detail == '{{ $name }}' ? show = false : null"
-    x-on:close.stop="show = false"
-    x-on:keydown.escape.window="show = false"
-    x-on:keydown.tab.prevent="$event.shiftKey || nextFocusable().focus()"
-    x-on:keydown.shift.tab.prevent="prevFocusable().focus()"
-    x-show="show"
-    class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50"
-    style="display: {{ $show ? 'block' : 'none' }};"
->
-    <div
-        x-show="show"
-        class="fixed inset-0 transform transition-all"
-        x-on:click="show = false"
-        x-transition:enter="ease-out duration-300"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="ease-in duration-200"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-    >
-        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+    })" x-on:open-modal.window="$event.detail == '{{ $name }}' ? show = true : null"
+    x-on:close-modal.window="$event.detail == '{{ $name }}' ? show = false : null" x-on:close.stop="show = false"
+    x-on:keydown.escape.window="show = false" x-on:keydown.tab.prevent="$event.shiftKey || nextFocusable().focus()"
+    x-on:keydown.shift.tab.prevent="prevFocusable().focus()" x-show="show"
+    class="tw-fixed tw-inset-0 tw-overflow-y-auto tw-px-4 tw-py-6 tw-sm:tw-px-0 tw-z-50"
+    style="display: {{ $show ? 'block' : 'none' }};">
+    <div x-show="show" class="tw-fixed tw-inset-0 tw-transform tw-transition-all" x-on:click="show = false"
+        x-transition:enter="tw-ease-out tw-duration-300" x-transition:enter-start="tw-opacity-0"
+        x-transition:enter-end="tw-opacity-100" x-transition:leave="tw-ease-in tw-duration-200"
+        x-transition:leave-start="tw-opacity-100" x-transition:leave-end="tw-opacity-0">
+        <div class="tw-absolute tw-inset-0 tw-bg-gray-500 tw-opacity-75"></div>
     </div>
 
-    <div
-        x-show="show"
-        class="mb-6 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full {{ $maxWidth }} sm:mx-auto"
-        x-transition:enter="ease-out duration-300"
-        x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-        x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-        x-transition:leave="ease-in duration-200"
-        x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-        x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-    >
+    <div x-show="show"
+        class="tw-mb-6 tw-bg-white tw-rounded-lg tw-overflow-hidden tw-shadow-xl tw-transform tw-transition-all tw-sm:tw-w-full {{ $maxWidth }} tw-sm:tw-mx-auto"
+        x-transition:enter="tw-ease-out tw-duration-300"
+        x-transition:enter-start="tw-opacity-0 tw-translate-y-4 tw-sm:tw-translate-y-0 tw-sm:tw-scale-95"
+        x-transition:enter-end="tw-opacity-100 tw-translate-y-0 tw-sm:tw-scale-100"
+        x-transition:leave="tw-ease-in tw-duration-200"
+        x-transition:leave-start="tw-opacity-100 tw-translate-y-0 tw-sm:tw-scale-100"
+        x-transition:leave-end="tw-opacity-0 tw-translate-y-4 tw-sm:tw-translate-y-0 tw-sm:tw-scale-95">
         {{ $slot }}
     </div>
 </div>

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_categories', function (Blueprint $table) {
-            $table->foreignId('user_detail_id')->constrained('user_details');
+            $table->foreignId('user_id')->constrained('users');
             $table->foreignId('category_id')->constrained('categories');
             $table->boolean('status')->default(true);
             $table->timestamps();

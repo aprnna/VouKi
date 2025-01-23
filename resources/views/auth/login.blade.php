@@ -1,6 +1,6 @@
 <x-guest-layout>
     <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    <x-auth-session-status class="tw-mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
@@ -22,10 +22,10 @@
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" class="text-red-500" />
 
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
+            <x-text-input id="password" class="tw-block tw-mt-1 tw-w-full" type="password" name="password" required
                 autocomplete="current-password" />
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <x-input-error :messages="$errors->get('password')" class="tw-mt-2" />
         </div>
 
         <!-- Remember Me -->
@@ -58,7 +58,7 @@
     </form>
     <div class="w-full space-y-3 mb-2 mt-3">
         <a href={{ Route('google.redirect') }}>
-            <x-secondary-button class="w-full text-center justify-center">
+            <x-secondary-button class="tw-w-full tw-text-center tw-justify-center">
                 Sign in with Google
             </x-secondary-button>
         </a>
