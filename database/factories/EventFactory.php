@@ -21,7 +21,7 @@ class EventFactory extends Factory
             'organizer_id' => User::factory(['role' => 'organizer']),
             'title' => fake()->name(),
             'description' => fake()->sentence(),
-            'banner' =>  "images/events/xtU4O3zOueyraMI95aQvBOLa9ETmD6JsOnB6f87Z.jpg",
+            'banner' =>  "images/events/nRtXQ6nn6Mp1gSvdLNJVc4X9vNncaqR6oVrfVHuB.png",
             'max_volunteers' => fake()->numberBetween(1, 100),
             'RegisterStart' => fake()->dateTimeBetween('now', '+1 month'),
             'RegisterEnd' => fake()->dateTimeBetween('+1 month', '+2 month'),
@@ -35,7 +35,8 @@ class EventFactory extends Factory
             'province' => fake()->state(),
             'country' => fake()->country(),
             'detail_location' => fake()->address(),
-            'isActive' => fake()->boolean(),
+            'isActive' => fake()->boolean(TRUE),
+            'status' => fake()->boolean(TRUE),
         ];
     }
 }
