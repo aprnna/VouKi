@@ -5,22 +5,22 @@
     <form method="POST" action="{{ route('login') }}">
         @csrf
         <div>
-            <h3 class="text-red-500 font-bold text-xl pt-3 pb-3">
+            <h3 class="tw-text-red-500 tw-font-bold tw-text-xl tw-pt-3 tw-pb-3">
                 Sign In
             </h3>
         </div>
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" class="text-red-500" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
+            <x-input-label for="email" :value="__('Email')" class="tw-text-red-500" />
+            <x-text-input id="email" class="tw-block tw-mt-1 tw-w-full" type="email" name="email" :value="old('email')" required
                 autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <x-input-error :messages="$errors->get('email')" class="tw-mt-2" />
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" class="text-red-500" />
+        <div class="tw-mt-4">
+            <x-input-label for="password" :value="__('Password')" class="tw-text-red-500" />
 
             <x-text-input id="password" class="tw-block tw-mt-1 tw-w-full" type="password" name="password" required
                 autocomplete="current-password" />
@@ -29,17 +29,17 @@
         </div>
 
         <!-- Remember Me -->
-        <div class="flex flex-row mt-4 justify-between">
-            <div class="flex flex-1/2">
-                <label for="remember_me" class="inline-flex items-center">
+        <div class="tw-flex tw-flex-row tw-mt-4 tw-justify-between">
+            <div class="tw-flex tw-flex-1/2">
+                <label for="remember_me" class="tw-inline-flex tw-items-center">
                     <input id="remember_me" type="checkbox"
-                        class="rounded border-gray-300 text-red-500 shadow-sm focus:ring-indigo-500" name="remember">
-                    <span class="ms-2 text-sm text-red-500 font-semibold">{{ __('Remember me') }}</span>
+                        class="tw-rounded tw-border-gray-300 tw-text-red-500 tw-shadow-sm focus:tw-ring-indigo-500" name="remember">
+                    <span class="tw-ms-2 tw-text-sm tw-text-red-500 tw-font-semibold">{{ __('Remember me') }}</span>
                 </label>
             </div>
-            <div class="flex flex-auto">
+            <div class="tw-flex tw-flex-auto">
                 @if (Route::has('password.request'))
-                <a class="underline text-sm text-red-500 font-semibold hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                <a class="tw-underline tw-text-sm tw-text-red-500 tw-font-semibold hover:tw-text-gray-900 tw-rounded-md focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-indigo-500"
                     href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
@@ -47,16 +47,16 @@
             </div>
         </div>
 
-        <div class="flex flex-row">
-            <div class="flex-1 mt-4">
-                <x-primary-button class="flex w-full justify-center">
+        <div class="tw-flex tw-flex-row">
+            <div class="tw-flex-1 tw-mt-4">
+                <x-primary-button class="tw-flex tw-w-full tw-justify-center">
                     {{ __('Log in') }}
                 </x-primary-button>
             </div>
         </div>
         
     </form>
-    <div class="w-full space-y-3 mb-2 mt-3">
+    <div class="tw-w-full tw-space-y-3 tw-mb-2 tw-mt-3">
         <a href={{ Route('google.redirect') }}>
             <x-secondary-button class="tw-w-full tw-text-center tw-justify-center">
                 Sign in with Google
@@ -64,9 +64,9 @@
         </a>
     </div>
 
-    <div class="flex flex-row">
-        <div class="flex-1 mt-4">
-            <p class="text-sm text-red-500">Don't have an account? <a class="underline text-sm font-semibold hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href=>Sign Up</a>
+    <div class="tw-flex tw-flex-row">
+        <div class="tw-flex-1 tw-mt-4">
+            <p class="tw-text-sm tw-text-red-500">Don't have an account? <a class="tw-underline tw-text-sm tw-font-semibold hover:tw-text-gray-900 tw-rounded-md focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-indigo-500" href=>Sign Up</a>
         </div>
     </div>
 </x-guest-layout>

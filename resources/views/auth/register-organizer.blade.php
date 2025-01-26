@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <h1 class="font-bold text-lg pb-4">Register Organizer</h1>
+    <h1 class="tw-font-bold tw-text-lg tw-pb-4">Register Organizer</h1>
     <form method="POST" action="{{ route('register.organizer') }}">
         @csrf
 

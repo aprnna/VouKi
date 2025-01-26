@@ -7,73 +7,73 @@
     </x-slot>
 
     <x-container>
-        <x-card class="flex justify-center flex-col">
+        <x-card class="tw-flex tw-justify-center tw-flex-col">
             <img src="{{ route('private.file', basename($event->banner)) }}" alt="{{ $event->title }}"
-                class="rounded-md h-72 min-w-full object-cover" />
+                class="tw-rounded-md tw-h-72 tw-min-w-full tw-object-cover" />
 
-            <div class="flex flex-row">
-                <div class="flex-auto w-3/4 pr-5">
-                    <div class="justify-start">
-                        <div class="font-sans font-semibold text-xl text-gray-900">{{ $event->title }}</div>
+            <div class="tw-flex tw-flex-row">
+                <div class="tw-flex-auto tw-w-3/4 tw-pr-5">
+                    <div class="tw-justify-start">
+                        <div class="tw-font-sans tw-font-semibold tw-text-xl tw-text-gray-900">{{ $event->title }}</div>
                     </div>
-                    <div class="pt-4 pb-4">
+                    <div class="tw-pt-4 tw-pb-4">
                         <i>by</i> {{ $event->organizer->name }}
                     </div>
-                    <div class="pt-4">
-                        <p class="text-justify">{{ $event->description }}</p>
+                    <div class="tw-pt-4">
+                        <p class="tw-text-justify">{{ $event->description }}</p>
                     </div>
-                    <div class="pt-4 pb-4">
-                        <h1 class="font-bold">Location Event:</h1>
+                    <div class="tw-pt-4 tw-pb-4">
+                        <h1 class="tw-font-bold">Location Event:</h1>
                     </div>
                     <div>
-                        <div id="map" style="height: 50vh; width:50vw; margin-top: 0" class="rounded-lg"></div>
+                        <div id="map" style="height: 50vh; width:50vw; margin-top: 0" class="tw-rounded-lg"></div>
                     </div>
                 </div>
-                <div class="flex-auto w-1/4">
+                <div class="tw-flex-auto tw-w-1/4">
                     @if (!$event->volunteers->contains(Auth::id()) && !Auth::user()->can('OrganizeEvent', $event))
                         <form action="{{ route('events.join', $event) }}" method="POST">
                             @csrf
-                            <x-primary-button class="flex-auto w-full bg-red-600 justify-center">
+                            <x-primary-button class="tw-flex-auto tw-w-full tw-bg-red-600 tw-justify-center">
                                 Join Event
                             </x-primary-button>
                         </form>
                     @elseif (Auth::user()->can('OrganizeEvent', $event))
                         <div></div>
                     @else
-                        <p class="text-green-500">You have already joined this event.</p>
+                        <p class="tw-text-green-500">You have already joined this event.</p>
                     @endif
                     @can('OrganizeEvent', $event)
                         <a href="{{ route('events.volunteers', $event) }}">
-                            <x-primary-button class="flex-auto w-full bg-red-600 justify-center">
+                            <x-primary-button class="tw-flex-auto tw-w-full tw-bg-red-600 tw-justify-center">
                                 List Volunteers
                             </x-primary-button>
                         </a>
                     @endcan
-                    <div class="py-4">
+                    <div class="tw-py-4">
                         <b>Registration</b>
                     </div>
                     <div>
                         {{ \Carbon\Carbon::parse($event->RegisterStart)->format('Y-m-d') . ' - ' . \Carbon\Carbon::parse($event->RegisterEnd)->format('Y-m-d') }}
                     </div>
-                    <div class="py-4">
+                    <div class="tw-py-4">
                         <b>Date And Time</b>
                     </div>
                     <div>
                         {{ \Carbon\Carbon::parse($event->EventStart)->format('Y-m-d') . ' - ' . \Carbon\Carbon::parse($event->EventEnd)->format('Y-m-d') }}
                     </div>
-                    <div class="py-4">
+                    <div class="tw-py-4">
                         <b>Volunteers Needed</b>
                     </div>
                     <div>
                         {{ $event->max_volunteers }}
                     </div>
-                    <div class="py-4">
+                    <div class="tw-py-4">
                         <b>Prefered Skills</b>
                     </div>
                     <div>
                         {{ $event->prefered_skill }}
                     </div>
-                    <div class="py-4">
+                    <div class="tw-py-4">
                         <b>Event Category</b>
                     </div>
                     <div>
@@ -81,7 +81,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex-1">
+            <div class="tw-flex-1">
                 @if ($event->volunteers->contains(function ($volunteer) {
                     return 
                         $volunteer->id === Auth::id() && 
@@ -92,8 +92,8 @@
                     <form action="{{ route('events.review.update', $event) }}" method="POST" class="">
                         @csrf
                         @method('PATCH')
-                        <div class="flex flex-col">
-                            <h3 class="font-semibold text-lg text-gray-900">Your Review</h3>
+                        <div class="tw-flex tw-flex-col">
+                            <h3 class="tw-font-semibold tw-text-lg tw-text-gray-900">Your Review</h3>
                             @php
                                 $comment = "";
                                 $rating = null;
@@ -105,66 +105,66 @@
                                 }
                             @endphp
                             <textarea name="comment" rows="3" placeholder="Write your review..."
-                                class="w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-2">{{$comment}}</textarea>
-                            <label for="" class="mt-4">Your Rating</label>
+                                class="tw-w-full tw-rounded-md tw-border-gray-300 tw-shadow-sm focus:tw-ring-indigo-500 focus:tw-border-indigo-500 tw-mt-2">{{$comment}}</textarea>
+                            <label for="" class="tw-mt-4">Your Rating</label>
                             <input type="hidden" id="rating-input" name="rating" value="{{ $rating }}">
-                            <div class="flex space-x-1">
-                                <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl"
+                            <div class="tw-flex tw-space-x-1">
+                                <button type="button" class="tw-text-gray-300 hover:tw-text-yellow-500 tw-text-2xl"
                                     id="star1">&#9733;</button>
-                                <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl"
+                                <button type="button" class="tw-text-gray-300 hover:tw-text-yellow-500 tw-text-2xl"
                                     id="star2">&#9733;</button>
-                                <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl"
+                                <button type="button" class="tw-text-gray-300 hover:tw-text-yellow-500 tw-text-2xl"
                                     id="star3">&#9733;</button>
-                                <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl"
+                                <button type="button" class="tw-text-gray-300 hover:tw-text-yellow-500 tw-text-2xl"
                                     id="star4">&#9733;</button>
-                                <button type="button" class="text-gray-300 hover:text-yellow-500 text-2xl"
+                                <button type="button" class="tw-text-gray-300 hover:tw-text-yellow-500 tw-text-2xl"
                                     id="star5">&#9733;</button>
                             </div>
                         </div>
                         @if (session('message'))
-                            <p class="text-red-500 mt-2">{{ session('message') }}</p>
+                            <p class="tw-text-red-500 tw-mt-2">{{ session('message') }}</p>
                         @elseif(session('success'))
-                            <p class="text-green-500 mt-2">{{ session('success') }}</p>
+                            <p class="tw-text-green-500 tw-mt-2">{{ session('success') }}</p>
                         @endif
-                        <x-primary-button class="mt-4">
+                        <x-primary-button class="tw-mt-4">
                             {{ $rating !== null ? 'Edit Review' : 'Submit Review' }}
                         </x-primary-button>
                     </form>
                 </x-card>
             @endif
              
-            <x-card class="w-full mt-6">
-                <div class="flex justify-between">
-                    <h3 class="font-semibold text-lg text-gray-900">Reviews</h3>
-                    <div class="rating flex items-center justify-end">
+            <x-card class="tw-w-full tw-mt-6">
+                <div class="tw-flex tw-justify-between">
+                    <h3 class="tw-font-semibold tw-text-lg tw-text-gray-900">Reviews</h3>
+                    <div class="rating tw-flex tw-items-center tw-justify-end">
                         @php $averageRatingEvent = round($event->average_rating); @endphp
                         @for ($i = 1; $i <= 5; $i++)
                             @if ($i <= $averageRatingEvent)
-                                <span class="text-2xl text-yellow-500 }}">&#9733;</span>
+                                <span class="tw-text-2xl tw-text-yellow-500 }}">&#9733;</span>
                             @else
-                                <span class="text-2xl text-gray-300 }}">&#9733;</span>
+                                <span class="tw-text-2xl tw-text-gray-300 }}">&#9733;</span>
                             @endif
                         @endfor
-                        <p class="ml-2">{{ number_format($event->average_rating, 1) }} / 5</p>
+                        <p class="tw-ml-2">{{ number_format($event->average_rating, 1) }} / 5</p>
                     </div>
                 </div>
                 @if ($event->all_event_reviews->isNotEmpty())
-                    <div class="divide-y divide-gray-200">
+                    <div class="tw-divide-y tw-divide-gray-200">
                         @foreach ($event->all_event_reviews as $review)
                             @if ($review->event_rating != null)
-                                <div class="py-3 flex justify-between">
-                                    <div class="flex flex-col">
-                                        <p class="font-medium text-gray-800">{{ $review->name }}</p>
-                                        <p class="mt-1 text-gray-700">{{ $review->user_review }}</p>
+                                <div class="tw-py-3 tw-flex tw-justify-between">
+                                    <div class="tw-flex tw-flex-col">
+                                        <p class="tw-font-medium tw-text-gray-800">{{ $review->name }}</p>
+                                        <p class="tw-mt-1 tw-text-gray-700">{{ $review->user_review }}</p>
                                     </div>
-                                    <div class="flex flex-col items-end">
-                                        <div class="flex space-x-1 mt-2">
+                                    <div class="tw-flex tw-flex-col tw-items-end">
+                                        <div class="tw-flex tw-space-x-1 tw-mt-2">
                                             @for ($i = 1; $i <= 5; $i++)
                                                 <span
-                                                    class="text-2xl {{ $i <= $review->event_rating ? 'text-yellow-500' : 'text-gray-300' }}">&#9733;</span>
+                                                    class="tw-text-2xl {{ $i <= $review->event_rating ? 'tw-text-yellow-500' : 'tw-text-gray-300' }}">&#9733;</span>
                                             @endfor
                                         </div>
-                                        <span class="text-gray-500 text-sm">{{ $review->created_at->format('Y-m-d') }}</span>
+                                        <span class="tw-text-gray-500 tw-text-sm">{{ $review->created_at->format('Y-m-d') }}</span>
                                     </div>
                             @else
                                 <div></div>
@@ -173,7 +173,7 @@
                         @endforeach
                     </div>
                 @else
-                    <p class="text-gray-500">No reviews yet. Be the first to leave one!</p>
+                    <p class="tw-text-gray-500">No reviews yet. Be the first to leave one!</p>
                 @endif
             </x-card>
             </div>
