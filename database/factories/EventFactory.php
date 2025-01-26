@@ -26,6 +26,16 @@ class EventFactory extends Factory
             'RegisterEnd' => fake()->dateTimeBetween('+1 month', '+2 month'),
             'EventStart' => fake()->dateTimeBetween('+2 month', '+3 month'),
             'EventEnd' => fake()->dateTimeBetween('+3 month', '+4 month'),
+            'isActive' => fake()->boolean(),
+            'status' => fake()->boolean(),
+            'latitude' => fake()->latitude(),
+            'longitude' => fake()->longitude(),
+            'city' => fake()->city(),
+            'province' => fake()->state(),
+            'country' => fake()->country(),
+            'detail_location' => fake()->address(),
+            'isActive' => fake()->boolean(TRUE),
+            'status' => fake()->boolean(TRUE),
         ];
     }
 }

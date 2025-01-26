@@ -28,6 +28,7 @@ return new class extends Migration
             $table->date('RegisterEnd');
             $table->date('EventStart');
             $table->date('EventEnd');
+            $table->boolean('isActive')->default(false);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

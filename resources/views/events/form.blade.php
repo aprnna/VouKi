@@ -8,89 +8,95 @@
     </x-slot>
     <x-container>
         <x-card>
+            @if ($page_meta['progress'])
+            <x-progress-create-event step='1' />
+            @endif
             <x-card.header>
                 <x-card.title>{{ $page_meta['title'] }}</x-card.title>
                 <x-card.description>{{ $page_meta['description'] }}</x-card.description>
             </x-card.header>
             <x-card.content>
-                <form id="form-create-event" action={{ $page_meta['url'] }} method="POST" class="tw-space-y-3"
-                    enctype="multipart/form-data">
+                <form id="form-create-event" action={{ $page_meta['url'] }} method="POST"
+                    class="tw-space-y-3 tw-relative" enctype="multipart/form-data">
                     @method($page_meta['method'])
                     @csrf
-
+                    @if ($page_meta['progress'])
+                    <input type="hidden" name="redirect" value="events.questions.create">
+                    @else
+                    <input type="hidden" name="redirect" value="events.my">
+                    @endif
                     {{-- title --}}
                     <div>
                         <x-input-label for="title" :value="__('Name Events')" />
-                        <x-text-input id="title" class="tw-block tw-mt-1 tw-w-full" type="text" name="title"
-                            :value="old('title', $event->title)" autofocus />
+                        <x-bladewind::input id="title" name="title" :value="old('title', $event->title)" autofocus />
                         <x-input-error :messages="$errors->get('title')" class="tw-mt-2" />
                     </div>
 
                     {{-- description --}}
                     <div>
                         <x-input-label for="description" :value="__('Description Events')" />
-                        <x-textarea-input id="description" name="description">{{ old('description', $event->description)
-                            }}</x-textarea-input>
+                        <x-bladewind::textarea id="description" name="description" placeholder="Description Event"
+                            :selected_value="old('description', $event->description)" />
                         <x-input-error :messages="$errors->get('description')" class="tw-mt-2" />
+                    </div>
+                    {{-- Prefered Skills --}}
+                    <div>
+                        <x-input-label for="skills" :value="__('Prefered Skills')" class="mb-3" />
+                        <x-bladewind::select id="skills" name="skills" searchable="true" label_key="skill"
+                            value_key="id" flag_key="skill" multiple="true" label="Select a skill" max_selectable="3"
+                            :data="$skills" :selected_value="old('skills', implode(',', $user_skills->toArray()))" />
+                        <x-input-error :messages="$errors->get('skills')" class="mt-2" />
+                    </div>
+
+                    {{-- Category --}}
+                    <div>
+                        <x-input-label for="categories" :value="__('Categories')" class="mb-3" />
+                        <x-bladewind::select name="categories" searchable="true" label_key="category" value_key="id"
+                            flag_key="category" multiple="true" label="Select a category" max_selectable="3"
+                            :data="$categories"
+                            :selected_value="old('categories', implode(',', $user_skills->toArray()))" />
+                        <x-input-error :messages="$errors->get('categories')" class="mt-2" />
                     </div>
 
                     {{-- Max Volunteer --}}
                     <div>
                         <x-input-label for="max_volunteers" :value="__('Max Volunteesr')" />
-                        <x-text-input id="max_volunteers" class="tw-block tw-mt-1 tw-w-full" type="number"
-                            name="max_volunteers" :value="old('max_volunteers', $event->max_volunteers)" />
+                        <x-bladewind::input id="max_volunteers" type="number" name="max_volunteers"
+                            :value="old('max_volunteers', $event->max_volunteers)" />
                         <x-input-error :messages="$errors->get('max_volunteers')" class="tw-mt-2" />
                     </div>
 
                     {{-- Register Date --}}
                     <div>
-                        <x-input-label :value="__('Register Date')" />
-                        <div class="tw-flex tw-items-center tw-gap-3">
-                            <div>
-                                <x-date-input id="register_start" name="RegisterStart"
-                                    :value="old('RegisterStart', $event->RegisterStart)" />
-                                <x-input-error :messages="$errors->get('RegisterStart')" class="tw-mt-2" />
-                            </div>
-                            <h1> to </h1>
-                            <div>
-                                <x-date-input id="register_end" name="RegisterEnd"
-                                    :value="old('RegisterEnd', $event->RegisterEnd)" />
-                                <x-input-error :messages="$errors->get('RegisterEnd')" class="tw-mt-2" />
-                            </div>
-                        </div>
+                        <x-input-label :value="__('Register Date')" class="tw-mb-5" />
+                        <x-bladewind::datepicker type="range" date_from_name="RegisterStart" date_to_name="RegisterEnd"
+                            :default_date_from="old('RegisterStart', $event->RegisterStart)"
+                            :default_date_to="old('RegisterEnd', $event->RegisterEnd)" class="text-black"
+                            format="yyyy-mm-dd" class="tw-z-50" />
                     </div>
 
                     {{-- Event Date --}}
                     <div>
-                        <x-input-label :value="__('Event Date')" />
-                        <div class="tw-flex tw-items-center tw-gap-3">
-                            <div>
-                                <x-date-input id="event_start" name="EventStart"
-                                    :value="old('EventStart', $event->EventStart)" />
-                                <x-input-error :messages="$errors->get('EventStart')" class="tw-mt-2" />
-                            </div>
-                            <h1> to </h1>
-                            <div>
-                                <x-date-input id="event_end" name="EventEnd"
-                                    :value="old('EventEnd', $event->EventEnd)" />
-                                <x-input-error :messages="$errors->get('EventEnd')" class="tw-mt-2" />
-                            </div>
-                        </div>
+                        <x-input-label :value="__('Event Date')" class="tw-mb-5" />
+                        <x-bladewind::datepicker type="range" date_from_name="EventStart" date_to_name="EventEnd"
+                            class="text-black" format="yyyy-mm-dd" class="tw-z-50"
+                            :default_date_from="old('EventStart', $event->EventStart)"
+                            :default_date_to="old('EventEnd', $event->EventEnd)" />
+                        <x-input-error :messages="$errors->get('EventStart')" class="mt-2" />
                     </div>
 
 
                     {{-- Banner --}}
                     <div>
                         <x-input-label for="banner" :value="__('Events Banner')" />
-                        <x-text-input id="banner" class="tw-block tw-mt-1 tw-w-full" type="file" name="banner"
-                            :value="old('description')" />
-                        <x-input-error :messages="$errors->get('banner')" class="tw-mt-2" />
+                        <x-bladewind::filepicker name="banner" accepted_file_types=".png, .jpeg, .jpg" />
+                        <x-input-error :messages="$errors->get('banner')" class="mt-2" />
                     </div>
 
                     {{-- MAPS --}}
                     <x-input-label :value="__('Select Location Event')" />
                     <div class="tw-flex tw-gap-10 tw-flex-wrap">
-                        <div class="tw-flex-grow">
+                        <div class="tw-flex-grow tw-z-0">
                             <div id="map" style="height: 50vh;"></div>
 
                             <p>
@@ -101,31 +107,31 @@
                             <div>
                                 <x-input-label for="latitude" :value="__('Latitude')" />
                                 <x-text-input readonly id="latitude" class="tw-block tw-mt-1 tw-w-full" type="text"
-                                    name="latitude" :value="old('latitude')" />
+                                    name="latitude" :value="old('latitude',$event->latitude)" />
                                 <x-input-error :messages="$errors->get('latitude')" class="tw-mt-2" />
                             </div>
                             <div>
                                 <x-input-label for="longitude" :value="__('Longitude')" />
                                 <x-text-input readonly id="longitude" class="tw-block tw-mt-1 tw-w-full" type="text"
-                                    name="longitude" :value="old('longitude')" />
+                                    name="longitude" :value="old('longitude', $event->longitude)" />
                                 <x-input-error :messages="$errors->get('longitude')" class="tw-mt-2" />
                             </div>
                             <div>
                                 <x-input-label for="city" :value="__('City')" />
                                 <x-text-input readonly id="city" class="tw-block tw-mt-1 tw-w-full" type="text"
-                                    name="city" :value="old('city')" />
+                                    name="city" :value="old('city', $event->city)" />
                                 <x-input-error :messages="$errors->get('city')" class="tw-mt-2" />
                             </div>
                             <div>
                                 <x-input-label for="province" :value="__('Province')" />
                                 <x-text-input readonly id="province" class="tw-block tw-mt-1 tw-w-full" type="text"
-                                    name="province" :value="old('province')" />
+                                    name="province" :value="old('province', $event->province)" />
                                 <x-input-error :messages="$errors->get('province')" class="tw-mt-2" />
                             </div>
                             <div>
                                 <x-input-label for="country" :value="__('Country')" />
                                 <x-text-input readonly id="country" class="tw-block tw-mt-1 tw-w-full" type="text"
-                                    name="country" :value="old('country')" />
+                                    name="country" :value="old('country', $event->country)" />
                                 <x-input-error :messages="$errors->get('country')" class="tw-mt-2" />
                             </div>
                         </div>
@@ -133,34 +139,29 @@
                     {{-- Detail Location --}}
                     <div>
                         <x-input-label for="detail_location" :value="__('Detail Location')" />
-                        <x-textarea-input id="detail_location" name="detail_location">{{ old('detail_location',
-                            $event->detail_location) }}</x-textarea-input>
+                        <x-bladewind::textarea id="detail_location" name="detail_location" placeholder="Detail Location"
+                            :selected_value="old('detail_location', $event->detail_location)" />
                         <x-input-error :messages="$errors->get('detail_location')" class="tw-mt-2" />
                     </div>
 
-                    {{-- Prefered Skills --}}
-                    <div>
-                        <x-input-label for="skills" :value="__('Prefered Skills')" class="tw-mb-3" />
-                        <x-bladewind::select id="skills" name="skills" searchable="true" label_key="skill"
-                            value_key="id" flag_key="skill" multiple="true" label="Select a skill" max_selectable="3"
-                            :data="$skills" />
-                        <x-input-error :messages="$errors->get('skills')" class="tw-mt-2" />
-                    </div>
-
-                    {{-- Category --}}
-                    <div>
-                        <x-input-label for="categories" :value="__('Categories')" class="tw-mb-3" />
-                        <x-bladewind::select name="categories" searchable="true" label_key="category" value_key="id"
-                            flag_key="category" multiple="true" label="Select a category" max_selectable="3"
-                            :data="$categories" />
-                        <x-input-error :messages="$errors->get('categories')" class="tw-mt-2" />
-                    </div>
 
                 </form>
             </x-card.content>
-            <x-card.footer>
+            <x-card.footer class="tw-flex tw-justify-end">
+                @if ($page_meta['method'] = 'put')
+                <a href={{ route('events.questions.edit', $event) }}>
+                    <x-secondary-button>
+                        Edit Question
+                    </x-secondary-button>
+                </a>
+                <a href={{ route('events.my') }}>
+                    <x-secondary-button>
+                        Back
+                    </x-secondary-button>
+                </a>
+                @endif
                 <x-primary-button form="form-create-event">
-                    Save
+                    {{ $page_meta['progress'] ? 'Next' : 'Save' }}
                 </x-primary-button>
             </x-card.footer>
         </x-card>

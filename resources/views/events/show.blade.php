@@ -7,6 +7,7 @@
     </x-slot>
 
     <x-container>
+        <x-alert-status />
         <x-card class="tw-flex tw-justify-center tw-items-center tw-flex-col">
             @if (isset($event->banner))
                 <img src="{{ asset('storage/' . $event->banner) }}" alt="{{ $event->title }}"
@@ -93,8 +94,9 @@
             <div id="map" style="height: 50vh; width:50vw; margin-top: 0"></div>
             <div class="tw-flex tw-gap-3">
                 @if (!$event->volunteers->contains(Auth::id()) && !Auth::user()->can('OrganizeEvent', $event))
-                <form action="{{ route('events.join', $event) }}" method="POST">
+                <form action="{{ route('events.answer.create', $event) }}" method="POST">
                     @csrf
+                    @method('get')
                     <x-primary-button>
                         Join Event
                     </x-primary-button>
@@ -113,8 +115,6 @@
                 @endcan
             </div>
         </x-card>
-
-        @dump($event->skills)
 
         @if ($event->volunteers->contains(function ($volunteer) {
         return
