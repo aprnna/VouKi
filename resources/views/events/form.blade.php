@@ -148,8 +148,8 @@
                 </form>
             </x-card.content>
             <x-card.footer class="tw-flex tw-justify-end">
-                @if ($page_meta['method'] = 'put')
-                <a href={{ route('events.questions.edit', $event) }}>
+                @if (!$page_meta['progress'] )
+                <a href={{ route('events.questions.edit', isset($event)) }}>
                     <x-secondary-button>
                         Edit Question
                     </x-secondary-button>

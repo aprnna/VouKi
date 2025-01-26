@@ -63,7 +63,7 @@ class EventController extends Controller
         $event->categories()->attach($categories);
         $event->skills()->attach($skills);
 
-        return Redirect::route($request->validated()["redirect"], $event)->with('status', 'Event created successfully');
+        return Redirect::route($request->validated()["redirect"], [$event, 'step' => 2])->with('status', 'Event created successfully');
     }
 
     /**

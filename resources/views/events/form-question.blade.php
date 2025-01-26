@@ -54,11 +54,19 @@
         </x-table>
       </x-card.content>
       <x-card.footer class="tw-flex tw-justify-end">
+        @if($progress)
         <a href="{{ route('events.status',$event) }}">
           <x-primary-button>
             Next
           </x-primary-button>
         </a>
+        @else
+        <a href="{{ route('events.my') }}">
+          <x-primary-button>
+            Save
+          </x-primary-button>
+        </a>
+        @endif
       </x-card.footer>
     </x-card>
 
