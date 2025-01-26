@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="tw-bg-white tw-border-b tw-border-gray-100">
+<nav x-data="{ open: false }" class="tw-bg-pink-900 tw-border-b tw-border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="tw-max-w-7xl tw-mx-auto tw-px-4 sm:tw-px-6 lg:tw-px-8">
         <div class="tw-flex tw-justify-between tw-h-16">
@@ -12,11 +12,11 @@
 
                 <!-- Navigation Links -->
                 <div class="tw-hidden tw-space-x-8 sm:tw--my-px sm:tw-ms-10 sm:tw-flex">
-                    <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
+                    <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')" class="tw-text-white">
                         {{ __('Events') }}
                     </x-nav-link>
                     @can('isOrganizer')
-                    <x-nav-link :href="route('events.my')" :active="request()->routeIs('events.my')">
+                    <x-nav-link :href="route('events.my')" :active="request()->routeIs('events.my')" class="tw-text-white">
                         {{ __('My Events') }}
                     </x-nav-link>
                     @endcan
@@ -30,7 +30,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="tw-inline-flex tw-items-center tw-px-3 tw-py-2 tw-border tw-border-transparent tw-text-sm tw-leading-4 tw-font-medium tw-rounded-md tw-text-gray-500 tw-bg-white hover:tw-text-gray-700 focus:tw-outline-none tw-transition tw-ease-in-out tw-duration-150">
+                            class="tw-inline-flex tw-items-center tw-px-3 tw-py-2 tw-border tw-border-transparent tw-text-sm tw-leading-4 tw-font-medium tw-rounded-md tw-text-white tw-bg-rose-950 hover:tw-text-gray-700 focus:tw-outline-none tw-transition tw-ease-in-out tw-duration-150">
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="tw-ms-1">
@@ -68,14 +68,9 @@
                 @else
                 <div class="tw-space-x-3">
                     <a href={{ route('login') }}>
-                        <x-primary-button>
+                        <x-primary-button class="tw-bg-rose-950">
                             {{ __('Log in') }}
                         </x-primary-button>
-                    </a>
-                    <a href={{ route('register') }}>
-                        <x-secondary-button>
-                            {{ __('Register') }}
-                        </x-secondary-button>
                     </a>
                 </div>
                 @endauth

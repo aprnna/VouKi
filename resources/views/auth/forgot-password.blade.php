@@ -19,7 +19,7 @@
         </div>
 
         <div class="tw-flex tw-items-center tw-justify-end tw-mt-4">
-            <x-primary-button>
+            <x-primary-button class="tw-bg-rose-950">
                 {{ __('Email Password Reset Link') }}
             </x-primary-button>
         </div>

@@ -71,13 +71,21 @@
                         <b>Prefered Skills</b>
                     </div>
                     <div>
-                        {{ $event->prefered_skill }}
+                        @foreach ($event->skills as $skill)
+                            <dd
+                                class="tw-text-gray-100 sm:tw-col-span-2 tw-bg-slate-500 tw-px-3 tw-py-2 tw-my-2 tw-rounded-lg tw-hover:bg-slate-700">
+                                {{$skill->skill}}
+                        @endforeach
                     </div>
                     <div class="tw-py-4">
                         <b>Event Category</b>
                     </div>
                     <div>
-                        {{ $event->category }}
+                        @foreach ($event->categories as $category)
+                            <dd
+                                class="tw-text-gray-700 sm:tw-col-span-2 tw-bg-slate-300 tw-px-3 tw-py-2 tw-my-2 tw-rounded-lg tw-hover:bg-slate-200">
+                                {{$category->category}}
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -178,9 +186,6 @@
             </x-card>
             </div>
         </x-card>
-
-        @dump($event->skills)
-
     </x-container>
     <x-slot name="scripts">
         {{-- Maps --}}

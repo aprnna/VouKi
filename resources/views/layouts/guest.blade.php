@@ -25,12 +25,12 @@
 <body>
     <div class="tw-min-h-screen tw-flex">
         <!-- Left side with pink image -->
-        <div class="tw-w-1/2 tw-bg-pink-500 tw-flex tw-items-center tw-justify-center">
+        <div class="tw-w-1/2 tw-bg-red-300 tw-flex tw-items-center tw-justify-center">
             <img src="path/to/your/image.jpg" alt="Pink Image" class="tw-object-cover tw-h-full tw-w-full">
         </div>
         <!-- Right side with login form -->
         <div class="tw-w-1/2 tw-flex tw-items-center tw-justify-center tw-bg-white">
-            <div class="tw-w-full sm:tw-max-w-md tw-px-6 tw-py-4 tw-bg-white tw-shadow-md tw-overflow-hidden sm:tw-rounded-lg">
+            <div class="tw-w-full sm:tw-max-w-md tw-px-6 tw-py-4 tw-bg-rose-100 tw-shadow-md tw-overflow-hidden sm:tw-rounded-lg">
                 {{ $slot }}
             </div>
         </div>
