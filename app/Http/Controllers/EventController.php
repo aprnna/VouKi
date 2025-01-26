@@ -58,7 +58,7 @@ class EventController extends Controller
         $file = $request->file('banner');
         $event = $request->user()->events()->create([
             ...$request->validated(),
-            ...['banner' => $file->store('/images/events')]
+            ...['banner' => $file->store('/images/events', 'public')]
         ]);
         $event->categories()->attach($categories);
         $event->skills()->attach($skills);

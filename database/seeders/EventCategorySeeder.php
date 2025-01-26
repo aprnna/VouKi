@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
+use App\Models\Event;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Event;
-use App\Models\Category;
 
 class EventCategorySeeder extends Seeder
 {
@@ -14,15 +14,12 @@ class EventCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        //
-        $events = Event::all();
         $categories = Category::all();
+        $events = Event::all();
 
-        // Attach categories to events
-        $events->each(function ($event) use ($categories) {
-            $event->categories()->attach(
-                $categories->random(rand(1, 3))->pluck('id')->toArray()
-            );
-        });
+        foreach ($events as $event) {
+            $randomCategories = $categories->random(min(3, $categories->count()))->pluck('id')->toArray();
+            $event->categories()->attach($randomCategories);
+        }
     }
 }

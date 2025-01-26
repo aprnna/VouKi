@@ -18,10 +18,9 @@ class EventFactory extends Factory
     public function definition(): array
     {
         return [
-            'organizer_id' => User::factory(['role' => 'organizer']),
+            'organizer_id' => User::where('role', 'organizer')->inRandomOrder()->first()->id,
             'title' => fake()->name(),
             'description' => fake()->sentence(),
-            'banner' =>  "images/events/nRtXQ6nn6Mp1gSvdLNJVc4X9vNncaqR6oVrfVHuB.png",
             'max_volunteers' => fake()->numberBetween(1, 100),
             'RegisterStart' => fake()->dateTimeBetween('now', '+1 month'),
             'RegisterEnd' => fake()->dateTimeBetween('+1 month', '+2 month'),

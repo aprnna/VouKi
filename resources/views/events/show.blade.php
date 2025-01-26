@@ -9,8 +9,13 @@
     <x-container>
         <x-alert-status />
         <x-card class="tw-flex tw-justify-center tw-items-center tw-flex-col">
-            <img src="{{ route('private.file', basename($event->banner)) }}" alt="{{ $event->title }}"
-                class="tw-rounded-lg tw-h-64 tw-w-2/3 tw-object-cover" />
+            @if (isset($event->banner))
+                <img src="{{ asset('storage/' . $event->banner) }}" alt="{{ $event->title }}"
+                    class="tw-rounded-lg tw-h-64 tw-w-2/3 tw-object-cover" />
+            @else
+                <img src="{{ asset('images/banner_default.webp') }}" alt="{{ $event->title }}"
+                    class="tw-rounded-lg tw-h-64 tw-w-2/3 tw-object-cover" />
+            @endif
             <div class="tw-flow-root tw-w-2/3">
                 <dl class="tw--my-3 tw-divide-y tw-divide-gray-100 tw-text-sm">
                     <div class="tw-grid tw-grid-cols-1 tw-gap-1 tw-py-3 sm:tw-grid-cols-3 sm:tw-gap-4">
