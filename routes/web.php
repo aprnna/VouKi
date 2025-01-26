@@ -7,7 +7,6 @@ use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [EventController::class, 'index'])->name('event.index');
-Route::get('private-file/{filename}', [FileController::class, 'getPrivateFile'])->name('private.file');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
