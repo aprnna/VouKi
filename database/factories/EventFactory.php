@@ -18,7 +18,7 @@ class EventFactory extends Factory
     public function definition(): array
     {
         return [
-            'organizer_id' => User::factory(['role' => 'organizer']),
+            'organizer_id' => User::where('role', 'organizer')->inRandomOrder()->first()->id,
             'title' => fake()->name(),
             'description' => fake()->sentence(),
             'banner' =>  "images/events/xtU4O3zOueyraMI95aQvBOLa9ETmD6JsOnB6f87Z.jpg",
