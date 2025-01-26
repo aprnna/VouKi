@@ -21,7 +21,6 @@ class EventFactory extends Factory
             'organizer_id' => User::where('role', 'organizer')->inRandomOrder()->first()->id,
             'title' => fake()->name(),
             'description' => fake()->sentence(),
-            'banner' =>  "images/events/xtU4O3zOueyraMI95aQvBOLa9ETmD6JsOnB6f87Z.jpg",
             'max_volunteers' => fake()->numberBetween(1, 100),
             'RegisterStart' => fake()->dateTimeBetween('now', '+1 month'),
             'RegisterEnd' => fake()->dateTimeBetween('+1 month', '+2 month'),
