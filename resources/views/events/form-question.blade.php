@@ -9,8 +9,9 @@
   <x-container>
 
     <x-card>
+      @if($progress)
       <x-progress-create-event step='2' />
-
+      @endif
       <x-card.header>
         <x-card.title>{{ 'Question '. $event->title }} </x-card.title>
         <x-card.description>Create question for event</x-card.description>

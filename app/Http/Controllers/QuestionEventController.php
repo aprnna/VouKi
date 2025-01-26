@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\Auth;
 
 class QuestionEventController extends Controller
 {
-    function create(Event $event)
+    function create(Event $event, Request $request)
     {
+        $progress = $request->query('step', false);
         return view('events.form-question', [
             'event' => $event,
+            'progress' => $progress,
             'questions' => $event->questions()->where('status', 1)->get(),
         ]);
     }
@@ -25,9 +27,14 @@ class QuestionEventController extends Controller
         $event->questions()->create($request->all());
         return redirect()->back();
     }
-    function edit()
+    function edit(Event $event, Request $request)
     {
-        return view('questionEvent.edit');
+        $progress = $request->query('step', false);
+        return view('events.form-question', [
+            'event' => $event,
+            'progress' => $progress,
+            'questions' => $event->questions()->where('status', 1)->get(),
+        ]);
     }
     function update(Questions $question, Request $request)
     {

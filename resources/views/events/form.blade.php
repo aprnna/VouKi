@@ -148,8 +148,20 @@
                 </form>
             </x-card.content>
             <x-card.footer class="tw-flex tw-justify-end">
+                @if ($page_meta['method'] = 'put')
+                <a href={{ route('events.questions.edit', $event) }}>
+                    <x-secondary-button>
+                        Edit Question
+                    </x-secondary-button>
+                </a>
+                <a href={{ route('events.my') }}>
+                    <x-secondary-button>
+                        Back
+                    </x-secondary-button>
+                </a>
+                @endif
                 <x-primary-button form="form-create-event">
-                    Next
+                    {{ $page_meta['progress'] ? 'Next' : 'Save' }}
                 </x-primary-button>
             </x-card.footer>
         </x-card>

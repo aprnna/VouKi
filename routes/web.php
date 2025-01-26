@@ -18,6 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('events', EventController::class);
 
     Route::get('events/{event}/questions/create', [QuestionEventController::class, 'create'])->name('events.questions.create');
+    Route::get('events/{event}/questions/edit', [QuestionEventController::class, 'edit'])->name('events.questions.edit');
     Route::post('events/{event}/questions', [QuestionEventController::class, 'store'])->name('events.questions.store');
     Route::put('questions/{question}', [QuestionEventController::class, 'update'])->name('events.questions.update');
     Route::delete('questions/{question}', [QuestionEventController::class, 'destroy'])->name('events.questions.destroy');
