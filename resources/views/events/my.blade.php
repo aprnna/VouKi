@@ -8,12 +8,7 @@
     </x-slot>
 
     <x-container>
-        @if(session('status'))
-        <x-bladewind::alert type="success">
-            {{ session('status') }}
-        </x-bladewind::alert>
-        @endif
-
+        <x-alert-status />
         <x-card>
             <x-card.header>
                 <x-card.title>My Event</x-card.title>
@@ -29,7 +24,6 @@
                                     Create Event
                                 </button>
                             </a>
-
                         </div>
                     </div>
                 </x-card.description>

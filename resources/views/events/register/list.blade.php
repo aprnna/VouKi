@@ -8,12 +8,7 @@
   </x-slot>
 
   <x-container>
-    @if(session('status'))
-    <x-bladewind::alert type="success">
-      {{ session('status') }}
-    </x-bladewind::alert>
-    @endif
-
+    <x-alert-status />
     <x-card>
       <x-card.header>
         <x-card.title>List Register Event</x-card.title>
