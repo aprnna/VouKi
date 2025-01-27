@@ -20,9 +20,42 @@ class EventController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $events = Event::where('status', true)->where('isActive', true)->get();
+        $eventsQuery = Event::with(['categories', 'skills'])->where('events.status', true)
+        ->where('events.isActive', true);
+
+        $events = $eventsQuery->get();
+
+        // Cek apakah filter ada
+        if ($request->input('filter') === 'recommendation') {
+            if (!Auth::check() || Auth::user()->role !== 'volunteer') {
+                return redirect()->route('events.index');
+            }
+
+            $user = Auth::user();
+
+            // Ambil kategori dan skill user
+            $preferredCategories = $user->categories()->pluck('id')->toArray();
+            $preferredSkills = $user->skills()->pluck('id')->toArray();
+
+            $events = $events->filter(function ($event) use ($preferredCategories, $preferredSkills) {
+                // Apakah ada kesamaan kategori dan skill antara user dan event
+                $hasCategory = $event->categories->pluck('id')->intersect($preferredCategories)->isNotEmpty();
+                $hasSkill = $event->skills->pluck('id')->intersect($preferredSkills)->isNotEmpty();
+
+                if ($hasCategory || $hasSkill) {
+                    // Hitung kesamaaan kategori dan skill
+                    $categoryMatches = $event->categories->pluck('id')->intersect($preferredCategories)->count();
+                    $skillMatches = $event->skills->pluck('id')->intersect($preferredSkills)->count();
+                    $totalMatches = $categoryMatches + $skillMatches;
+                    $event->total_matches = $totalMatches;
+
+                    return $event;
+                }
+            })->sortByDesc('total_matches');
+
+        }
         return view('events.index', compact('events'));
     }
 
