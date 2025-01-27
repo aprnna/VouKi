@@ -7,6 +7,17 @@
     </x-slot>
 
     <x-container>
+        @auth
+           @if (auth()->user()->role == 'volunteer')
+           <div class="tw-flex tw-justify-center mb-3">
+            <button
+                onclick="window.location='{{ request('filter') === 'recommendation' ? route('events.index') : route('events.index', ['filter' => 'recommendation']) }}'"
+                class="tw-py-3 tw-px-6 tw-rounded-full tw-drop-shadow-sm tw-text-sm hover:tw-text-blue-600 tw-bg-white {{ request('filter') === 'recommendation' ? 'tw-bg-blue-500 tw-text-white' : '' }}">
+                Recommendation
+            </button>
+           </div>
+           @endif
+        @endauth
         <div class="tw-flex tw-gap-5 tw-flex-wrap tw-justify-center">
             @foreach ($events as $event)
             <div
