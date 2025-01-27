@@ -15,6 +15,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('events', EventController::class);
+    Route::post('events/nearest', [EventController::class, 'nearest'])->name('events.nearest');
 
     Route::get('events/{event}/questions/create', [QuestionEventController::class, 'create'])->name('events.questions.create');
     Route::get('events/{event}/questions/edit', [QuestionEventController::class, 'edit'])->name('events.questions.edit');

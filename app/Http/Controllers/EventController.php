@@ -59,6 +59,22 @@ class EventController extends Controller
         return view('events.index', compact('events'));
     }
 
+    public function nearest(Request $request)
+    {
+        $userLatitude = $request->input('latitude');
+        $userLongitude = $request->input('longitude');
+        // dd($lat, $long);
+
+        $eventsQuery = Event::selectRaw("*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance", [$userLatitude, $userLongitude, $userLatitude])
+            ->where('status', true)
+            ->where('isActive', true)
+            ->orderBy('distance');
+
+        $events = $eventsQuery->get();
+
+        return view('events.index', compact('events'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
