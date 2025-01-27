@@ -9,12 +9,32 @@
     <x-container>
         @auth
            @if (auth()->user()->role == 'volunteer')
-           <div class="tw-flex tw-justify-center mb-3">
+           {{-- @dump($events) --}}
+           <div class="tw-flex tw-justify-center tw-mb-3 tw-gap-3">
             <button
                 onclick="window.location='{{ request('filter') === 'recommendation' ? route('events.index') : route('events.index', ['filter' => 'recommendation']) }}'"
                 class="tw-py-3 tw-px-6 tw-rounded-full tw-drop-shadow-sm tw-text-sm hover:tw-text-blue-600 tw-bg-white {{ request('filter') === 'recommendation' ? 'tw-bg-blue-500 tw-text-white' : '' }}">
                 Recommendation
             </button>
+            @if (request()->is('events/nearest'))
+                <button
+                    onclick="window.location='{{ route('events.index')  }}'"
+                    type="submit"
+                    class="tw-py-3 tw-px-6 tw-rounded-full tw-drop-shadow-sm tw-text-sm hover:tw-text-blue-600 tw-bg-white {{ request()->is('events/nearest') ? 'tw-bg-blue-500 tw-text-white' : '' }}">
+                    Nearest
+                </button>
+            @else
+                <form action="{{ route('events.nearest')}}" method="POST">
+                    @csrf
+                    <input type="hidden" name="latitude" id="latitude">
+                    <input type="hidden" name="longitude" id="longitude">
+                    <button
+                        type="submit"
+                        class="tw-py-3 tw-px-6 tw-rounded-full tw-drop-shadow-sm tw-text-sm hover:tw-text-blue-600 tw-bg-white {{ request()->is('events/nearest') ? 'tw-bg-blue-500 tw-text-white' : '' }}">
+                        Nearest
+                    </button>
+                </form>
+            @endif
            </div>
            @endif
         @endauth
@@ -43,15 +63,41 @@
 
                 </div>
                 <a href={{ Route('events.show', $event) }}
-                    class="tw-group tw-mt-4 tw-inline-flex tw-items-center tw-gap-1 tw-text-sm tw-font-medium tw-text-blue-600 tw-p-4">
-                    Detail Event
-
-                    <span aria-hidden="true" class="tw-block tw-transition-all group-hover:tw-ms-0.5 rtl:tw-rotate-180">
-                        &rarr;
-                    </span>
+                    class="tw-group tw-mt-4 tw-inline-flex tw-items-center justify-between tw-text-sm tw-font-medium tw-text-blue-600 tw-p-4">
+                    <div class="tw-inline-flex tw-gap-1">
+                        Detail Event
+                        <span aria-hidden="true" class="tw-block tw-transition-all group-hover:tw-ms-1 group-hover:tw-rotate-180">
+                            &rarr;
+                        </span>
+                    </div>
+                    @if (isset($event->distance))
+                        <p class="tw-text-gray-500">
+                            {{ number_format($event->distance, 2, ',', '.') }} km
+                        </p>
+                    @endif
                 </a>
             </div>
             @endforeach
         </div>
     </x-container>
+    <x-slot name="scripts">
+        <script>
+            const lat = document.getElementById('latitude');
+            const long = document.getElementById('longitude');
+
+            document.addEventListener('DOMContentLoaded', function() {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    lat.value = latitude;
+                    long.value = longitude;
+                    console.log('Latitude:', lat.value);
+                    console.log('Longitude:', long.value);
+                }, function(error) {
+                    console.error('Error getting location:', error);
+                });
+            });
+        </script>
+    </x-slot>
 </x-app-layout>
