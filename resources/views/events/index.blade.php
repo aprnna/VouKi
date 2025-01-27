@@ -12,8 +12,13 @@
             @foreach ($events as $event)
             <div
                 class="tw-w-full tw-bg-white sm:tw-w-1/2 md:tw-w-1/3 lg:tw-w-1/4 tw-flex tw-flex-col tw-overflow-hidden tw-rounded-lg tw-shadow tw-transition hover:tw-shadow-lg">
-                <img src="{{ route('private.file', basename($event->banner)) }}" alt="{{ $event->title }}"
+                @if (isset($event->banner))
+                    <img src="{{ asset('storage/' . $event->banner) }}" alt="{{ $event->title }}"
                     class="tw-h-32 tw-w-full tw-object-cover" />
+                @else
+                    <img src="{{ asset('images/banner_default.webp') }}" alt="{{ $event->title }}"
+                    class="tw-h-32 tw-w-full tw-object-cover" />
+                @endif
                     <div class="tw-p-4 sm:tw-p-6 tw-flex-grow">
                         <a href="#">
                             <h3 class="tw-mt-0.5 tw-text-lg tw-text-rose-950 tw-font-bold tw-pb-4">{{ $event->title }}</h3>
@@ -30,7 +35,6 @@
                         <span aria-hidden="true" class="tw-block tw-transition-all tw-group-hover:tw-ms-0.5 rtl:tw-rotate-180">
                             &rarr;
                         </span>
-                    </a>
             </div>
             @endforeach
         </div>

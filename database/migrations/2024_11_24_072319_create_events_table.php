@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->integer('max_volunteers');
-            $table->string('banner');
+            $table->string('banner')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('city')->nullable();
@@ -28,6 +28,7 @@ return new class extends Migration
             $table->date('RegisterEnd');
             $table->date('EventStart');
             $table->date('EventEnd');
+            $table->boolean('isActive')->default(false);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

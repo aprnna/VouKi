@@ -7,9 +7,15 @@
     </x-slot>
 
     <x-container>
+        <x-alert-status />
         <x-card class="tw-flex tw-justify-center tw-flex-col">
-            <img src="{{ route('private.file', basename($event->banner)) }}" alt="{{ $event->title }}"
-                class="tw-rounded-md tw-h-72 tw-min-w-full tw-object-cover" />
+            @if (isset($event->banner))
+                <img src="{{ asset('storage/' . $event->banner) }}" alt="{{ $event->title }}"
+                    class="tw-rounded-lg tw-h-64 tw-w-2/3 tw-object-cover" />
+            @else
+                <img src="{{ asset('images/banner_default.webp') }}" alt="{{ $event->title }}"
+                    class="tw-rounded-lg tw-h-64 tw-w-2/3 tw-object-cover" />
+            @endif
 
             <div class="tw-flex tw-flex-row">
                 <div class="tw-flex-auto tw-w-3/4 tw-pr-5">
