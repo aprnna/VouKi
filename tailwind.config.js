@@ -30,6 +30,7 @@ export default {
                 "secondary2": "#CC2B52",
                 "tertiary2": "#AF1740",
                 "tertiary3": "#740938",
+                "tertiary4": "#37061B",
             }
         },
     },

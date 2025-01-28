@@ -1,26 +1,38 @@
-<nav x-data="{ open: false }" class="tw-bg-white tw-border-b tw-border-gray-100">
+<nav x-data="{ open: false }" class="tw-bg-tertiary3 tw-text-white tw-drop-shadow">
     <!-- Primary Navigation Menu -->
     <div class="tw-max-w-7xl tw-mx-auto tw-px-4 sm:tw-px-6 lg:tw-px-8">
-        <div class="tw-flex tw-justify-between tw-h-16">
+        <div class="tw-flex tw-justify-between tw-h-16 sm:tw-py-2">
             <div class="tw-flex">
                 <!-- Logo -->
                 <div class="tw-shrink-0 tw-flex tw-items-center">
-                    <a href="{{ route('event.index') }}">
+                    <a href="{{ auth()->check() ? route('events.index') : route('event.index') }}" class="flex tw-items-center tw-gap-2">
                         <x-application-logo class="tw-block tw-h-9 tw-w-auto tw-fill-current tw-text-gray-800" />
+                        <h1 class="tw-font-bold tw-text-lg">VouKi</h1>
                     </a>
                 </div>
+            </div>
 
-                <!-- Navigation Links -->
-                <div class="tw-hidden tw-space-x-8 sm:tw--my-px sm:tw-ms-10 sm:tw-flex">
-                    <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
-                        {{ __('Events') }}
-                    </x-nav-link>
-                    @can('isOrganizer')
-                    <x-nav-link :href="route('events.my')" :active="request()->routeIs('events.my')">
-                        {{ __('My Events') }}
-                    </x-nav-link>
-                    @endcan
-                </div>
+            <!-- Navigation Links -->
+            <div class="tw-hidden tw-space-x-8 sm:tw--my-px sm:tw-ms-10 sm:tw-flex">
+                <x-nav-link :href="auth()->check() ? route('events.index') : route('event.index')" :active="auth()->check() ? request()->routeIs('events.index') : request()->routeIs('event.index')">
+                    {{ __('Home') }}
+                </x-nav-link>
+                <x-nav-link as="form" action="{{ route('events.nearest') }}" class="tw-group" method="POST" :active="request()->routeIs('events.nearest')">
+                    @csrf
+                    <input type="hidden" name="latitude" id="latitude">
+                    <input type="hidden" name="longitude" id="longitude">
+                    <button type="submit" class="h-full">
+                        {{ __('Find Around Me') }}
+                    </button>
+                </x-nav-link>
+                {{-- <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
+                    {{ __('Find Organizer') }}
+                </x-nav-link> --}}
+                @can('isOrganizer')
+                <x-nav-link :href="route('events.my')" :active="request()->routeIs('events.my')">
+                    {{ __('My Events') }}
+                </x-nav-link>
+                @endcan
             </div>
 
             <!-- Settings Dropdown -->
@@ -68,15 +80,15 @@
                 @else
                 <div class="tw-space-x-3">
                     <a href={{ route('login') }}>
-                        <x-primary-button>
+                        <x-primary-button class="tw-bg-tertiary4 hover:tw-bg-tertiary1">
                             {{ __('Log in') }}
                         </x-primary-button>
                     </a>
-                    <a href={{ route('register') }}>
+                    {{-- <a href={{ route('register') }}>
                         <x-secondary-button>
                             {{ __('Register') }}
                         </x-secondary-button>
-                    </a>
+                    </a> --}}
                 </div>
                 @endauth
             </div>

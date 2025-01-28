@@ -1,10 +1,8 @@
 <x-app-layout>
     @slot('title', 'Events')
-    <x-slot name="header">
-        <h2 class="tw-font-semibold tw-text-xl tw-text-gray-800 tw-leading-tight">
-            {{ __('Events') }}
-        </h2>
-    </x-slot>
+    @if (request()->is('/') || request()->is('events'))
+        <img src="{{ asset('images/header.png') }}" alt="header.png" class="tw-mb-3">
+    @endif
 
     <x-container>
         @auth
@@ -16,25 +14,6 @@
                 class="tw-py-3 tw-px-6 tw-rounded-full tw-drop-shadow-sm tw-text-sm hover:tw-text-blue-600 tw-bg-white {{ request('filter') === 'recommendation' ? 'tw-bg-blue-500 tw-text-white' : '' }}">
                 Recommendation
             </button>
-            @if (request()->is('events/nearest'))
-                <button
-                    onclick="window.location='{{ route('events.index')  }}'"
-                    type="submit"
-                    class="tw-py-3 tw-px-6 tw-rounded-full tw-drop-shadow-sm tw-text-sm hover:tw-text-blue-600 tw-bg-white {{ request()->is('events/nearest') ? 'tw-bg-blue-500 tw-text-white' : '' }}">
-                    Nearest
-                </button>
-            @else
-                <form action="{{ route('events.nearest')}}" method="POST">
-                    @csrf
-                    <input type="hidden" name="latitude" id="latitude">
-                    <input type="hidden" name="longitude" id="longitude">
-                    <button
-                        type="submit"
-                        class="tw-py-3 tw-px-6 tw-rounded-full tw-drop-shadow-sm tw-text-sm hover:tw-text-blue-600 tw-bg-white {{ request()->is('events/nearest') ? 'tw-bg-blue-500 tw-text-white' : '' }}">
-                        Nearest
-                    </button>
-                </form>
-            @endif
            </div>
            @endif
         @endauth
