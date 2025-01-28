@@ -25,6 +25,8 @@ class EventController extends Controller
         $eventsQuery = Event::with(['categories', 'skills'])->where('events.status', true)
         ->where('events.isActive', true)->orderBy('events.created_at', 'desc');
 
+        $categories = Category::all();
+
         $categoryId = $request->input('category');
 
         if ($categoryId) {
@@ -64,7 +66,7 @@ class EventController extends Controller
             })->sortByDesc('total_matches');
 
         }
-        return view('events.index', compact('events'));
+        return view('events.index', compact('events', 'categories'));
     }
 
     public function nearest(Request $request)
