@@ -5,17 +5,20 @@
             <div class="tw-flex">
                 <!-- Logo -->
                 <div class="tw-shrink-0 tw-flex tw-items-center">
-                    <a href="{{ auth()->check() ? route('events.index') : route('event.index') }}" class="flex tw-items-center tw-gap-2">
-                        <x-application-logo class="tw-block tw-h-9 tw-w-auto tw-fill-current tw-text-gray-800" />
-                        <h1 class="tw-font-bold tw-text-lg">VouKi</h1>
+                    <a href="{{ auth()->check() ? route('events.index') : route('home.index') }}" class="flex tw-items-center tw-gap-2 hover:tw-opacity-80">
+                        <x-application-logo class="tw-block tw-h-12 tw-w-auto tw-drop-shadow" />
+                        <h1 class="tw-font-bold tw-text-xl">VouKi</h1>
                     </a>
                 </div>
             </div>
 
             <!-- Navigation Links -->
             <div class="tw-hidden tw-space-x-8 sm:tw--my-px sm:tw-ms-10 sm:tw-flex">
-                <x-nav-link :href="auth()->check() ? route('events.index') : route('event.index')" :active="auth()->check() ? request()->routeIs('events.index') : request()->routeIs('event.index')">
+                <x-nav-link :href="route('home.index')" :active="request()->routeIs('home.index')">
                     {{ __('Home') }}
+                </x-nav-link>
+                <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
+                    {{ __('Events') }}
                 </x-nav-link>
                 <x-nav-link as="form" action="{{ route('events.nearest') }}" class="tw-group" method="POST" :active="request()->routeIs('events.nearest')">
                     @csrf

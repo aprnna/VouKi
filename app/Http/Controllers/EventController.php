@@ -23,7 +23,7 @@ class EventController extends Controller
     public function index(Request $request)
     {
         $eventsQuery = Event::with(['categories', 'skills'])->where('events.status', true)
-        ->where('events.isActive', true);
+        ->where('events.isActive', true)->orderBy('events.created_at', 'desc');
 
         $events = $eventsQuery->get();
 
