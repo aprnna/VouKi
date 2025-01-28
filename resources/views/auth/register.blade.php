@@ -1,5 +1,12 @@
 <x-guest-layout>
-    <h1 class="tw-text-center tw-font-bold tw-text-lg tw-pb-4">Register</h1>
+    <x-slot name="imageClass">tw-bg-white</x-slot>
+    <x-slot name="image">
+        <div class="tw-bg-tertiary1 tw-w-[95%] tw-h-screen tw-absolute tw-top-0"></div>
+        <div class="tw-bg-primary1 tw-w-[85%] tw-h-[90%] tw-absolute"></div>
+        <img src="{{ asset('images/volunteer2.png') }}" alt="volunteer2.png" class="tw-right-0 tw-translate-x-8 tw-absolute">
+    </x-slot>
+
+    <h1 class="tw-text-center tw-font-bold tw-text-lg tw-pb-4">Register as Vouleenter</h1>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -44,9 +51,9 @@
                 href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
-            <x-primary-button class="tw-ms-4">
+            <x-secondary-button type="submit" class="tw-ms-4">
                 {{ __('Register') }}
-            </x-primary-button>
+            </x-secondary-button>
         </div>
         <a class="tw-underline tw-text-sm tw-text-gray-600 hover:tw-text-gray-900 tw-rounded-md focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-indigo-500"
             href="{{ route('register.organizer') }}">

@@ -22,6 +22,15 @@ export default {
                 lg: "1024px",
                 xl: "1280px",
             },
+            colors:{
+                "primary1": "#F4D8D8",
+                "secondary1": "#B06E6E",
+                "tertiary1": "#550909",
+                "primary2": "#DE7C7D",
+                "secondary2": "#CC2B52",
+                "tertiary2": "#AF1740",
+                "tertiary3": "#740938",
+            }
         },
     },
 
