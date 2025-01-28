@@ -1,7 +1,7 @@
 <x-app-layout>
     @slot('title', 'Events')
     <x-container>
-        <div class="tw-flex tw-flex-col tw-w-full tw-gap-2 tw-m-8">
+        <div class="tw-flex tw-flex-col tw-w-full tw-gap-2 tw-my-8">
             <h1 class="tw-text-2xl tw-font-semibold">Start searching for available volunteer opportunity right away</h1>
             {{-- <div class="bg-white tw-w-full tw-drop-shadow tw-p-2 tw-rounded"> --}}
                 <label for="searchEvents" class="flex tw-w-full tw-h-full tw-items-center tw-border">
@@ -16,7 +16,7 @@
         </div>
 
         @auth
-           @if (auth()->user()->role == 'volunteer')
+           @if (auth()->user()->role == 'volunteer' && request()->is('events'))
            {{-- @dump($events) --}}
            <div class="tw-flex tw-justify-center tw-mb-3 tw-gap-3">
             <button
@@ -71,10 +71,14 @@
                     </div>
                 </div>
                 <div class="tw-flex tw-flex-wrap tw-gap-2 tw-px-4 sm:tw-px-6">
+                    @php
+                        $currentCategoryId = request()->input('category');
+                    @endphp
                     @foreach ( $event->categories as $category)
                         <a
                             href="{{ route('events.index', ['category' => $category->id]) }}"
-                            class="tw-bg-gray-200 tw-rounded-lg tw-px-2 tw-py-1 tw-text-xs tw-font-medium hover:tw-bg-gray-400 hover:tw-cursor-pointer tw-text-gray-800"
+                            class="tw-rounded-lg tw-px-2 tw-py-1 tw-text-xs tw-font-medium hover:tw-bg-gray-400 hover:tw-cursor-pointer tw-text-gray-800
+                                {{ $currentCategoryId == $category->id ? 'tw-bg-gray-400' : 'tw-bg-gray-200' }}"
                         >
                             {{ $category->category }}
                         </a>
