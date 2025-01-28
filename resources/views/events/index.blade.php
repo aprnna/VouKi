@@ -1,23 +1,69 @@
 <x-app-layout>
     @slot('title', 'Events')
+
+    @php
+        $currentCategoryId = request()->input('category');
+    @endphp
+
     <x-container>
-        <div class="tw-flex tw-flex-col tw-w-full tw-gap-2 tw-my-8">
-            <h1 class="tw-text-2xl tw-font-semibold">Start searching for available volunteer opportunity right away</h1>
-            {{-- <div class="bg-white tw-w-full tw-drop-shadow tw-p-2 tw-rounded"> --}}
-                <label for="searchEvents" class="flex tw-w-full tw-h-full tw-items-center tw-border">
-                    <input type="text" name="searchEvents" id="searchEvents" class="tw-w-full tw-h-full tw-border-none"/>
-                    <button class="tw-bg-tertiary1 tw-h-full tw-text-white tw-p-2 tw-rounded-tr tw-rounded-br">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+        <div class="bg-white tw-w-full tw-flex tw-justify-between tw-items-center tw-shadow tw-p-2 tw-rounded tw-my-8">
+            <x-dropdown align="left" width="48">
+                <x-slot name="trigger">
+                    <div class="tw-flex tw-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-funnel-fill tw-h-5" viewBox="0 0 16 16">
+                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"/>
                         </svg>
-                    </button>
-                </label>
-            {{-- </div> --}}
+                        <button
+                            class="tw-inline-flex tw-items-center tw-px-3 tw-py-2 tw-border tw-border-transparent tw-text-sm tw-leading-4 tw-font-medium tw-rounded-md tw-text-gray-500 tw-bg-white hover:tw-text-gray-700 focus:tw-outline-none tw-transition tw-ease-in-out tw-duration-150">
+                            <div>Filter</div>
+
+                            <div class="tw-ms-1">
+                                <svg class="tw-fill-current tw-h-4 tw-w-4" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                </x-slot>
+
+                <x-slot name="content">
+                    <a
+                        href="{{ route('events.index')}}"
+                        class="tw-flex tw-items-center tw-px-3 tw-py-2 tw-border tw-border-transparent tw-text-sm
+                                tw-leading-4 tw-font-medium tw-rounded-md tw-text-gray-500 tw-bg-white
+                                hover:tw-text-gray-900 focus:tw-outline-none tw-transition tw-ease-in-out tw-duration-150
+                                {{ $currentCategoryId == null ? 'tw-text-gray-900 tw-underline tw-underline-offset-4' : 'tw-text-gray-500' }}"
+                    >
+                        <div>All Categories</div>
+                    </a>
+                    @foreach ( $categories as $category)
+                        <a
+                            href="{{ route('events.index', ['category' => $category->id]) }}"
+                            class="tw-flex tw-items-center tw-px-3 tw-py-2 tw-border tw-border-transparent tw-text-sm
+                                    tw-leading-4 tw-font-medium tw-rounded-md tw-text-gray-500 tw-bg-white
+                                    hover:tw-text-gray-900 focus:tw-outline-none tw-transition tw-ease-in-out tw-duration-150
+                                    {{ $currentCategoryId == $category->id ? 'tw-text-gray-900 tw-underline tw-underline-offset-4' : 'tw-text-gray-500' }}"
+                        >
+                            <div>{{ $category->category }}</div>
+                        </a>
+                    @endforeach
+                </x-slot>
+            </x-dropdown>
+            <label for="searchEvents" class="flex tw-h-full tw-items-center tw-border">
+                <input type="text" name="searchEvents" id="searchEvents" class="tw-w-full tw-h-full tw-border-none"/>
+                <button class="tw-bg-tertiary1 tw-h-full tw-text-white tw-p-2 tw-rounded-tr tw-rounded-br">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                    </svg>
+                </button>
+            </label>
         </div>
 
         @auth
            @if (auth()->user()->role == 'volunteer' && request()->is('events'))
-           {{-- @dump($events) --}}
            <div class="tw-flex tw-justify-center tw-mb-3 tw-gap-3">
             <button
                 onclick="window.location='{{ request('filter') === 'recommendation' ? route('events.index') : route('events.index', ['filter' => 'recommendation']) }}'"
@@ -27,10 +73,10 @@
            </div>
            @endif
         @endauth
+
         <div class="tw-grid w-full tw-grid-cols-1 sm:tw-grid-cols-2 md:tw-grid-cols-3 lg:tw-grid-cols-4 tw-mb-8 tw-gap-5">
             @foreach ($events as $event)
-            <div
-                class="tw-w-full tw-bg-white tw-flex tw-flex-col tw-overflow-hidden tw-rounded-lg tw-shadow tw-transition hover:tw-shadow-lg">
+            <div class="tw-w-full tw-bg-white tw-flex tw-flex-col tw-overflow-hidden tw-rounded-lg tw-shadow tw-transition hover:tw-shadow-lg">
                 @if (isset($event->banner))
                     <img src="{{ asset('storage/' . $event->banner) }}" alt="{{ $event->title }}"
                     class="tw-h-32 tw-w-full tw-object-cover" />
@@ -47,7 +93,6 @@
                 </div>
                 <div class="tw-p-4 sm:tw-p-6 tw-flex-grow">
                     <div class="tw-flex tw-flex-col tw-gap-2">
-
                         <div class="tw-flex tw-text-sm tw-gap-2 tw-items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
                                 <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
@@ -71,9 +116,6 @@
                     </div>
                 </div>
                 <div class="tw-flex tw-flex-wrap tw-gap-2 tw-px-4 sm:tw-px-6">
-                    @php
-                        $currentCategoryId = request()->input('category');
-                    @endphp
                     @foreach ( $event->categories as $category)
                         <a
                             href="{{ route('events.index', ['category' => $category->id]) }}"
