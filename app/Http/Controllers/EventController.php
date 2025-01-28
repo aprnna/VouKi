@@ -25,6 +25,14 @@ class EventController extends Controller
         $eventsQuery = Event::with(['categories', 'skills'])->where('events.status', true)
         ->where('events.isActive', true)->orderBy('events.created_at', 'desc');
 
+        $categoryId = $request->input('category');
+
+        if ($categoryId) {
+            $eventsQuery->whereHas('categories', function ($query) use ($categoryId) {
+                $query->where('id', $categoryId);
+            });
+        }
+
         $events = $eventsQuery->get();
 
         // Cek apakah filter ada
@@ -63,12 +71,20 @@ class EventController extends Controller
     {
         $userLatitude = $request->input('latitude');
         $userLongitude = $request->input('longitude');
-        // dd($lat, $long);
+        // dd($userLatitude, $userLongitude);
 
         $eventsQuery = Event::selectRaw("*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance", [$userLatitude, $userLongitude, $userLatitude])
             ->where('status', true)
             ->where('isActive', true)
             ->orderBy('distance');
+
+        $categoryId = $request->input('category');
+
+        if ($categoryId) {
+            $eventsQuery->whereHas('categories', function ($query) use ($categoryId) {
+                $query->where('id', $categoryId);
+            });
+        }
 
         $events = $eventsQuery->get();
 
