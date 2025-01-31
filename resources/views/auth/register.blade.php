@@ -44,7 +44,7 @@
                 href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
-            <x-primary-button class="tw-ms-4 tw-bg-rose-950">
+            <x-primary-button class="tw-ms-4 tw-bg-rose-950 hover:tw-bg-rose-800 focus:tw-bg-rose-700">
                 {{ __('Register') }}
             </x-primary-button>
         </div>

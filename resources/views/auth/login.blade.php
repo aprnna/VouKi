@@ -49,7 +49,7 @@
 
         <div class="tw-flex tw-flex-row">
             <div class="tw-flex-1 tw-mt-4">
-                <x-primary-button class="tw-flex tw-w-full tw-justify-center tw-bg-rose-950">
+                <x-primary-button class="tw-flex tw-w-full tw-justify-center tw-bg-rose-950 hover:tw-bg-rose-800 focus:tw-bg-rose-700">
                     {{ __('Log in') }}
                 </x-primary-button>
             </div>
@@ -66,7 +66,12 @@
 
     <div class="tw-flex tw-flex-row">
         <div class="tw-flex-1 tw-mt-4">
-            <p class="tw-text-sm tw-text-red-950">Don't have an account? <a class="tw-underline tw-text-sm tw-font-semibold hover:tw-text-gray-900 tw-rounded-md focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-indigo-500" href=>Sign Up</a>
+            <p class="tw-text-sm tw-text-red-950">
+                Don't have an account? 
+                <a 
+                class="tw-underline tw-text-sm tw-font-semibold hover:tw-text-gray-900 tw-rounded-md focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-indigo-500" 
+                href={{ Route('register') }}>Sign Up</a>
+            </p>
         </div>
     </div>
 </x-guest-layout>

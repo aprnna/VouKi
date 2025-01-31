@@ -8,15 +8,16 @@
 
     <x-container>
         <x-alert-status />
-        <x-card class="tw-flex tw-justify-center tw-flex-col">
-            @if (isset($event->banner))
+        <x-card class="tw-flex tw-flex-col">
+            <div class="tw-flex tw-justify-center tw-transition-opacity tw-duration-500 tw-ease-in-out tw-opacity-0" id="banner-container">
+                @if (isset($event->banner))
                 <img src="{{ asset('storage/' . $event->banner) }}" alt="{{ $event->title }}"
-                    class="tw-rounded-lg tw-h-64 tw-w-2/3 tw-object-cover" />
-            @else
+                    class="tw-rounded-lg tw-h-96 tw-w-full tw-object-cover" />
+                @else
                 <img src="{{ asset('images/banner_default.webp') }}" alt="{{ $event->title }}"
-                    class="tw-rounded-lg tw-h-64 tw-w-2/3 tw-object-cover" />
-            @endif
-
+                    class="tw-rounded-lg tw-h-96 tw-w-full tw-object-cover" />
+                @endif
+            </div>
             <div class="tw-flex tw-flex-row">
                 <div class="tw-flex-auto tw-w-3/4 tw-pr-5">
                     <div class="tw-justify-start">
@@ -44,17 +45,16 @@
                             </x-primary-button>
                         </form>
                     @elseif (Auth::user()->can('OrganizeEvent', $event))
-                        <div></div>
-                    @else
-                        <p class="tw-text-green-500">You have already joined this event.</p>
-                    @endif
-                    @can('OrganizeEvent', $event)
+                        @can('OrganizeEvent', $event)
                         <a href="{{ route('events.volunteers', $event) }}">
-                            <x-primary-button class="tw-flex-auto tw-w-full tw-bg-red-600 tw-justify-center">
+                            <x-primary-button class="tw-flex-auto tw-w-full tw-bg-red-600 tw-justify-center hover:tw-bg-red-700">
                                 List Volunteers
                             </x-primary-button>
                         </a>
-                    @endcan
+                        @endcan
+                    @else
+                        <p class="tw-text-green-500">You have already joined this event.</p>
+                    @endif
                     <div class="tw-py-4">
                         <b>Registration</b>
                     </div>
@@ -76,20 +76,20 @@
                     <div class="tw-py-4">
                         <b>Prefered Skills</b>
                     </div>
-                    <div>
+                    <div class="tw-flex tw-flex-wrap tw-gap-2">
                         @foreach ($event->skills as $skill)
                             <dd
-                                class="tw-text-gray-100 sm:tw-col-span-2 tw-bg-slate-500 tw-px-3 tw-py-2 tw-my-2 tw-rounded-lg tw-hover:bg-slate-700">
+                                class="tw-text-gray-100 tw-bg-slate-500 tw-px-3 tw-py-2 tw-rounded-lg tw-hover:bg-slate-700 tw-flex-auto">
                                 {{$skill->skill}}
                         @endforeach
                     </div>
                     <div class="tw-py-4">
                         <b>Event Category</b>
                     </div>
-                    <div>
+                    <div class="tw-flex tw-flex-wrap tw-gap-2">
                         @foreach ($event->categories as $category)
                             <dd
-                                class="tw-text-gray-700 sm:tw-col-span-2 tw-bg-slate-300 tw-px-3 tw-py-2 tw-my-2 tw-rounded-lg tw-hover:bg-slate-200">
+                                class="tw-text-gray-700 tw-bg-slate-300 tw-px-3 tw-py-2 tw-rounded-lg tw-hover:bg-slate-700 tw-flex-auto">
                                 {{$category->category}}
                         @endforeach
                     </div>
@@ -243,3 +243,10 @@
         </script>
     </x-slot>
 </x-app-layout>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const bannerContainer = document.getElementById('banner-container');
+        bannerContainer.classList.remove('tw-opacity-0');
+        bannerContainer.classList.add('tw-opacity-100');
+    });
+</script>

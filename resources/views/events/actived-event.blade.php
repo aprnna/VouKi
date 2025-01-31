@@ -28,7 +28,7 @@
             <img src="{{ asset('storage/' . $event->banner) }}" alt=" {{ $event->title }}" class="tw-rounded-lg tw-h-64
             tw-w-2/3 tw-object-cover" />
             <h3><strong>Title:</strong> {{ $event->title }}</h3>
-            <p><strong>Description:</strong> {{ $event->description }}</p>
+            <p class="tw-text-justify"><strong>Description:</strong> {{ $event->description }}</p>
             <p><strong>Register Date:</strong> {{ \Carbon\Carbon::parse($event->RegisterStart)->format('d-M-Y') }} / {{
               \Carbon\Carbon::parse($event->RegisterEnd)->format('d-M-Y') }}</p>
             <p><strong>Activity Date:</strong> {{ \Carbon\Carbon::parse($event->EventStart)->format('d-M-Y') }} / {{

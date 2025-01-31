@@ -5,9 +5,8 @@
             <div class="tw-flex">
                 <!-- Logo -->
                 <div class="tw-shrink-0 tw-flex tw-items-center">
-                    <a href="{{ route('event.index') }}">
-                        <x-application-logo class="tw-block tw-h-9 tw-w-auto tw-fill-current tw-text-gray-800" />
-                    </a>
+                    <img src="{{ asset('images/voukiLogo.png') }}" alt="Logo" class="tw-h-9 tw-w-auto">
+                    <span class="tw-text-white tw-font-bold tw-ml-6 tw-text-xl">VOUKI</span>
                 </div>
 
                 <!-- Navigation Links -->
