@@ -19,10 +19,9 @@
                         </p>
                         <div class="tw-mt-4 tw-sm:ml-16 tw-sm:mt-0 tw-sm:flex-none">
                             <a href={{ Route('events.create', ['step'=>1] ) }}>
-                                <button type="button"
-                                    class="tw-block tw-rounded-md tw-bg-indigo-600 tw-px-3 tw-py-2 tw-text-center tw-text-sm tw-font-semibold tw-text-white tw-shadow-sm hover:tw-bg-indigo-500 focus-visible:tw-outline focus-visible:tw-outline-2 focus-visible:tw-outline-offset-2 focus-visible:tw-outline-indigo-600">
+                                <x-primary-button type="button">
                                     Create Event
-                                </button>
+                                </x-primary-button>
                             </a>
                         </div>
                     </div>
@@ -44,7 +43,7 @@
                             @foreach ($events as $event)
                             <tr>
                                 <x-table.td>
-                                    <a class="tw-text-indigo-600 hover:tw-text-indigo-900" href={{ Route('events.show',
+                                    <a class="tw-text-tertiary1 hover:tw-text-secondary1" href={{ Route('events.show',
                                         $event) }}>{{ $event->title }}</a>
                                 </x-table.td>
                                 <x-table.td>{{ \Carbon\Carbon::parse($event->RegisterStart)->format('Y-M-d') . ' / ' .
@@ -52,28 +51,33 @@
                                 <x-table.td>{{ \Carbon\Carbon::parse($event->EventStart)->format('Y-M-d') . ' / ' .
                                     \Carbon\Carbon::parse($event->EventEnd)->format('Y-M-d') }}</x-table.td>
                                 <x-table.td>
-                                    <a class="tw-text-indigo-600 hover:tw-text-indigo-900"
+                                    <a class="tw-text-tertiary1 hover:tw-text-secondary1"
                                         href="{{ route('events.register', $event) }}">
                                         {{ $event->total_register }} Register
                                     </a>
                                 </x-table.td>
                                 <x-table.td>
-                                    <a class="tw-text-indigo-600 hover:tw-text-indigo-900"
+                                    <a class="tw-text-tertiary1 hover:tw-text-secondary1"
                                         href="{{ route('events.volunteers', $event) }}">
                                         {{ $event->total_volunteer }} Volunteers
                                     </a>
                                 </x-table.td>
-                                <x-table.td>{{ $event->isActive ? 'Active' : 'Inactive' }}</x-table.td>
+                                <x-table.td>
+                                    <div class="tw-flex tw-items-center">
+                                        <div class="tw-h-2.5 tw-w-2.5 tw-rounded-full {{ $event->isActive ? 'tw-bg-green-500' : 'tw-bg-red-500'}}  tw-me-2"></div> {{ $event->isActive ? 'Active' : 'Inactive' }}
+                                    </div>
+                                </x-table.td>
                                 <x-table.td>
                                     @if ($event->status)
-                                    <a href={{ Route('events.edit', $event) }}
-                                        class="tw-text-indigo-600 hover:tw-text-indigo-900">
-                                        Edit
+                                    <a href={{ Route('events.edit', $event) }}>
+                                        <x-primary-button type="button">
+                                            Edit
+                                        </x-primary-button>
                                     </a>
-                                    <button class="tw-text-red-600 hover:tw-text-red-900" x-data=""
+                                    <x-secondary-button class="" x-data=""
                                         x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">
                                         {{ __('Delete') }}
-                                    </button>
+                                    </x-secondary-button>
                                     @else
                                     <p class="tw-text-red-600">
                                         Deleted

@@ -102,8 +102,8 @@
             {{-- Search Bar Section --}}
             <form action="{{ route('events.nearest') }}" method="GET">
                 <label for="searchEvents" class="flex tw-h-full tw-items-center tw-border">
-                    <input type="hidden" name="latitude" value="{{ $userLatitude }}">
-                    <input type="hidden" name="longitude" value="{{ $userLongitude }}">
+                    <input type="hidden" name="latitudeUser" value="{{ $userLatitude }}">
+                    <input type="hidden" name="longitudeUser" value="{{ $userLongitude }}">
                     <input type="hidden" name="category" value="{{ $currentCategoryId }}">
                     <input type="text" name="searchEvents" id="searchEvents" class="tw-w-full tw-h-full tw-border-none"/>
                     <button class="tw-bg-tertiary1 tw-h-full tw-text-white tw-p-2 tw-rounded-tr tw-rounded-br">

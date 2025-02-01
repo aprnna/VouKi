@@ -63,8 +63,8 @@
 {{-- Leaflet GeoSearch --}}
 <script src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js"></script>
 <script>
-    const lat = document.getElementById('latitude');
-    const long = document.getElementById('longitude');
+    const lat = document.getElementById('latitudeUser');
+    const long = document.getElementById('longitudeUser');
 
     document.addEventListener('DOMContentLoaded', function() {
         navigator.geolocation.getCurrentPosition(function(position) {

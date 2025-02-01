@@ -89,8 +89,8 @@ class EventController extends Controller
     public function nearest(Request $request)
     {
         // dd($request);
-        $userLatitude = $request->input('latitude');
-        $userLongitude = $request->input('longitude');
+        $userLatitude = $request->input('latitudeUser');
+        $userLongitude = $request->input('longitudeUser');
         $categories = Category::all();
 
         $distance = $request->input('distance');
@@ -211,7 +211,11 @@ class EventController extends Controller
     {
         if (!Gate::allows('OrganizeEvent', $event)) abort(404);
         // $volunteers = $event->volunteers;
-        $volunteers = $event->volunteers()->withPivot('user_rating')->get();
+        $volunteers = $event->volunteers()
+        ->where('user_acceptance_status', '=', 'accepted')
+        ->withPivot('user_rating')
+        ->get();
+
         $all_users_rating = $event->volunteers()->select('user_id', 'user_rating')->get()->keyBy('user_id');
         return view('events.volunteers', compact('volunteers', 'event', 'all_users_rating'));
     }

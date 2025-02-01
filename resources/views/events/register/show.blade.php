@@ -12,22 +12,27 @@
     <x-card>
       <x-card.header>
         <x-card.title>
-          <div class="tw-flex">
+          @php
+            $volunteer = $event->volunteers()->where('user_id', $user->id)->first();
+          @endphp
+          @if ($volunteer->pivot->user_acceptance_status === 'pending')
+          <div class="tw-flex tw-gap-2">
             <form action="{{ route('events.register.update',[$event,$user,'status'=>'rejected']) }}" method="POST">
               @csrf
               @method('put')
-              <x-bladewind::button can_submit='true' size="tiny" outline="true">
+              <x-secondary-button type="submit">
                 Reject
-              </x-bladewind::button>
+              </x-secondary-button>
             </form>
             <form action="{{ route('events.register.update', [$event,$user,'status'=>'accepted']) }}" method="POST">
               @csrf
               @method('put')
-              <x-bladewind::button can_submit='true' size="tiny" outline="true">
+              <x-primary-button type="submit">
                 Accept
-              </x-bladewind::button>
+              </x-primary-button>
             </form>
           </div>
+          @endif
         </x-card.title>
         <x-card.content>
           <h1>Profile</h1>
