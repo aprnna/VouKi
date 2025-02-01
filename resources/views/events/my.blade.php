@@ -7,7 +7,7 @@
         </h2>
     </x-slot>
 
-    <x-container>
+    <x-container class="tw-opacity-0 tw-translate-y-10 tw-duration-500 tw-ease-in-out tw-delay-150 hover:tw-scale-105">
         <x-alert-status />
         <x-card>
             <x-card.header>
@@ -116,4 +116,14 @@
             </x-card.header>
         </x-card>
     </x-container>
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const elements = document.querySelectorAll('.tw-opacity-0');
+                elements.forEach((element, index) => {
+                    setTimeout(() => {
+                        element.classList.remove('tw-opacity-0', 'tw-translate-y-10');
+                    }, index * 150);
+                });
+            });
+    </script>
 </x-app-layout>

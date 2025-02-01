@@ -29,7 +29,7 @@
             </div>
         @endif
         <div class="tw-min-h-screen tw-w-full tw-flex tw-items-center tw-justify-center tw-relative tw-bg-white tw-z-50">
-            <div class="tw-w-full sm:tw-max-w-md tw-mt-6 tw-px-6 tw-py-4 tw-bg-primary1 tw-shadow-md sm:tw-rounded-lg">
+            <div class="tw-w-full sm:tw-max-w-md tw-mt-6 tw-px-6 tw-py-4 tw-bg-primary1 tw-shadow-md sm:tw-rounded-lg animate__animated animate__fadeIn">
                 {{ $slot }}
             </div>
         </div>

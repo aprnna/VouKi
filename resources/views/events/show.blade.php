@@ -55,26 +55,38 @@
                     @else
                         <p class="tw-text-green-500">You have already joined this event.</p>
                     @endif
-                    <div class="tw-py-4">
+                    <div class="tw-py-4 tw-flex tw-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 tw-mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
                         <b>Registration</b>
                     </div>
                     <div>
                         {{ \Carbon\Carbon::parse($event->RegisterStart)->format('Y-m-d') . ' - ' . \Carbon\Carbon::parse($event->RegisterEnd)->format('Y-m-d') }}
                     </div>
-                    <div class="tw-py-4">
+                    <div class="tw-py-4 tw-flex tw-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 tw-mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10m-7 4h4m-7 4h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
                         <b>Date And Time</b>
                     </div>
                     <div>
                         {{ \Carbon\Carbon::parse($event->EventStart)->format('Y-m-d') . ' - ' . \Carbon\Carbon::parse($event->EventEnd)->format('Y-m-d') }}
                     </div>
-                    <div class="tw-py-4">
+                    <div class="tw-py-4 tw-flex tw-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 tw-mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                        </svg>
                         <b>Volunteers Needed</b>
                     </div>
                     <div>
                         {{ $event->max_volunteers }}
                     </div>
-                    <div class="tw-py-4">
-                        <b>Prefered Skills</b>
+                    <div class="tw-py-4 tw-flex tw-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 tw-mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <b>Preferred Skills</b>
                     </div>
                     <div class="tw-flex tw-flex-wrap tw-gap-2">
                         @foreach ($event->skills as $skill)
@@ -83,7 +95,10 @@
                                 {{$skill->skill}}
                         @endforeach
                     </div>
-                    <div class="tw-py-4">
+                    <div class="tw-py-4 tw-flex tw-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 tw-mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
                         <b>Event Category</b>
                     </div>
                     <div class="tw-flex tw-flex-wrap tw-gap-2">
