@@ -20,8 +20,7 @@
                 <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
                     {{ __('Events') }}
                 </x-nav-link>
-                <x-nav-link as="form" action="{{ route('events.nearest') }}" class="tw-group" method="POST" :active="request()->routeIs('events.nearest')">
-                    @csrf
+                <x-nav-link as="form" action="{{ route('events.nearest') }}" class="tw-group" method="GET" :active="request()->routeIs('events.nearest')">
                     <input type="hidden" name="latitude" id="latitude">
                     <input type="hidden" name="longitude" id="longitude">
                     <button type="submit" class="h-full">

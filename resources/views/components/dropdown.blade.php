@@ -9,6 +9,7 @@ default => 'ltr:tw-origin-top-right rtl:tw-origin-top-left tw-end-0',
 
 $width = match ($width) {
 '48' => 'tw-w-48',
+'80' => 'tw-w-80',
 default => $width,
 };
 @endphp
@@ -22,7 +23,7 @@ default => $width,
         x-transition:enter-start="tw-opacity-0 tw-scale-95" x-transition:enter-end="tw-opacity-100 tw-scale-100"
         x-transition:leave="tw-transition tw-ease-in tw-duration-75"
         x-transition:leave-start="tw-opacity-100 tw-scale-100" x-transition:leave-end="tw-opacity-0 tw-scale-95"
-        class="tw-absolute tw-z-50 tw-mt-2 {{ $width }} tw-rounded-md tw-shadow-lg {{ $alignmentClasses }}"
+        class="tw-absolute tw-z-[9999] tw-mt-2 {{ $width }} tw-rounded-md tw-shadow-lg {{ $alignmentClasses }}"
         style="display: none;" @click="open = false">
         <div class="tw-rounded-md tw-ring-1 tw-ring-black tw-ring-opacity-5 {{ $contentClasses }}">
             {{ $content }}

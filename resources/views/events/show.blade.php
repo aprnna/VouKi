@@ -38,8 +38,9 @@
                 </div>
                 <div class="tw-flex-auto tw-w-1/4">
                     @if (!$event->volunteers->contains(Auth::id()) && !Auth::user()->can('OrganizeEvent', $event))
-                        <form action="{{ route('events.join', $event) }}" method="POST">
+                        <form action="{{ route('events.answer.create', $event) }}" method="POST">
                             @csrf
+                            @method('get')
                             <x-primary-button class="tw-flex-auto tw-w-full tw-bg-red-600 tw-justify-center">
                                 Join Event
                             </x-primary-button>
@@ -112,10 +113,10 @@
             </div>
             <div class="tw-flex-1">
                 @if ($event->volunteers->contains(function ($volunteer) {
-                    return 
-                        $volunteer->id === Auth::id() && 
+                    return
+                        $volunteer->id === Auth::id() &&
                         $volunteer->user_acceptance_status === 'accepted';
-                    }) && 
+                    }) &&
                     now()->greaterThan(\Carbon\Carbon::parse($event->EventEnd)))
                     <x-card>
                     <form action="{{ route('events.review.update', $event) }}" method="POST" class="">
@@ -126,7 +127,7 @@
                             @php
                                 $comment = "";
                                 $rating = null;
-    
+
                                 $review = $event->all_event_reviews->where('user_id', Auth::id())->first();
                                 if ($review) {
                                     $comment = $review->user_review;
@@ -161,7 +162,7 @@
                     </form>
                 </x-card>
             @endif
-             
+
             <x-card class="tw-w-full tw-mt-6">
                 <div class="tw-flex tw-justify-between">
                     <h3 class="tw-font-semibold tw-text-lg tw-text-gray-900">Reviews</h3>
@@ -213,11 +214,11 @@
         <script>
             latitude = {{ $event->latitude }};
             longitude = {{ $event->longitude }};
-            var map = L.map('map').setView([longitude, latitude], 13);
+            var map = L.map('map').setView([latitude, longitude], 13);
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: 'Pemetaan'
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map);
-            L.marker([longitude, latitude])
+            L.marker([latitude, longitude])
                 .bindPopup('{{ $event->detail_location }}')
                 .addTo(map);
         </script>
