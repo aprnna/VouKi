@@ -98,17 +98,24 @@
                     </div>
                 </x-slot>
             </x-dropdown>
-            <label for="searchEvents" class="flex tw-h-full tw-items-center tw-border">
-                <input type="text" name="searchEvents" id="searchEvents" class="tw-w-full tw-h-full tw-border-none"/>
-                <button class="tw-bg-tertiary1 tw-h-full tw-text-white tw-p-2 tw-rounded-tr tw-rounded-br">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                    </svg>
-                </button>
-            </label>
+
+            {{-- Search Bar Section --}}
+            <form action="{{ route('events.nearest') }}" method="GET">
+                <label for="searchEvents" class="flex tw-h-full tw-items-center tw-border">
+                    <input type="hidden" name="latitude" value="{{ $userLatitude }}">
+                    <input type="hidden" name="longitude" value="{{ $userLongitude }}">
+                    <input type="hidden" name="category" value="{{ $currentCategoryId }}">
+                    <input type="text" name="searchEvents" id="searchEvents" class="tw-w-full tw-h-full tw-border-none"/>
+                    <button class="tw-bg-tertiary1 tw-h-full tw-text-white tw-p-2 tw-rounded-tr tw-rounded-br">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                        </svg>
+                    </button>
+                </label>
+            </form>
         </div>
 
-        {{-- MAP --}}
+        {{-- Map Section --}}
 
         <div class="tw-w-full tw-h-96 tw-flex tw-items-center tw-relative tw-justify-center tw-p-5 tw-rounded-lg tw-mb-8">
             <div id="map" style="margin-top: 0" class="tw-rounded-lg tw-absolute tw-w-full tw-h-full z-1"></div>
@@ -116,7 +123,7 @@
 
         @if (!$events->isNotEmpty())
             <div>
-                <h1>Event Not Found</h1>
+                <h1>Events Not Found</h1>
             </div>
         @endif
 
@@ -204,23 +211,6 @@
     </x-container>
     <x-slot name="scripts">
         <script>
-            const lat = document.getElementById('latitude');
-            const long = document.getElementById('longitude');
-
-            document.addEventListener('DOMContentLoaded', function() {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-
-                    lat.value = latitude;
-                    long.value = longitude;
-                    console.log('Latitude:', lat.value);
-                    console.log('Longitude:', long.value);
-                }, function(error) {
-                    console.error('Error getting location:', error);
-                });
-            });
-
             document.addEventListener('DOMContentLoaded', function() {
                 const elements = document.querySelectorAll('.tw-opacity-0');
                 elements.forEach((element, index) => {
@@ -234,7 +224,7 @@
             // Inisialisasi peta
             var map = L.map('map').setView([{{ $userLatitude }}, {{ $userLongitude }}], 13);
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: 'Pemetaan'
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map);
 
             // Marker untuk event

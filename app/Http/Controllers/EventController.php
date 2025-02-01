@@ -29,15 +29,32 @@ class EventController extends Controller
 
         $categoryId = $request->input('category');
 
+        if ($request->input('searchEvents')) {
+            $searchQuery = $request->input('searchEvents');
+
+            $eventsQuery->where(function ($query) use ($searchQuery) {
+                $query->where('title', 'LIKE', "%{$searchQuery}%")
+                    ->orWhere('description', 'LIKE', "%{$searchQuery}%")
+                    ->orWhereHas('organizer', function ($query) use ($searchQuery) {
+                        $query->where('name', 'LIKE', "%{$searchQuery}%");
+                    })
+                    ->orWhereHas('skills', function ($query) use ($searchQuery) {
+                        $query->where('skill', 'LIKE', "%{$searchQuery}%");
+                    });
+            });
+        }
+
         if ($categoryId) {
             $eventsQuery->whereHas('categories', function ($query) use ($categoryId) {
                 $query->where('id', $categoryId);
             });
         }
 
+
         $events = $eventsQuery->get();
 
-        // Cek apakah filter ada
+
+        // Cek apakah filter rekomendasi ada
         if ($request->input('filter') === 'recommendation') {
             if (!Auth::check() || Auth::user()->role !== 'volunteer') {
                 return redirect()->route('events.index');
@@ -105,7 +122,20 @@ class EventController extends Controller
             });
         }
 
+        if ($request->input('searchEvents')) {
+            $searchQuery = $request->input('searchEvents');
 
+            $eventsQuery->where(function ($query) use ($searchQuery) {
+                $query->where('title', 'LIKE', "%{$searchQuery}%")
+                    ->orWhere('description', 'LIKE', "%{$searchQuery}%")
+                    ->orWhereHas('organizer', function ($query) use ($searchQuery) {
+                        $query->where('name', 'LIKE', "%{$searchQuery}%");
+                    })
+                    ->orWhereHas('skills', function ($query) use ($searchQuery) {
+                        $query->where('skill', 'LIKE', "%{$searchQuery}%");
+                    });
+            });
+        }
 
         $events = $eventsQuery->get();
 
