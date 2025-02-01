@@ -34,7 +34,7 @@
 </head>
 
 <body class="tw-font-sans tw-antialiased">
-    <div class="tw-min-h-screen tw-bg-gray-100">
+    <div class="tw-min-h-screen tw-bg-pink-50">
         @include('layouts.navigation')
         <!-- Page Heading -->
         @isset($header)
