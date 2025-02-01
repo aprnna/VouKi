@@ -71,13 +71,30 @@ class EventController extends Controller
 
     public function nearest(Request $request)
     {
+        // dd($request);
         $userLatitude = $request->input('latitude');
         $userLongitude = $request->input('longitude');
-        // dd($userLatitude, $userLongitude);
+        $categories = Category::all();
+
+        $distance = $request->input('distance');
+        switch ($distance) {
+            case '10km':
+                $distance = 10;
+                break;
+            case '100km':
+                $distance = 100;
+                break;
+            case '1000km':
+                $distance = 1000;
+                break;
+            default:
+                $distance = 100000; #100000 km
+        }
 
         $eventsQuery = Event::selectRaw("*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance", [$userLatitude, $userLongitude, $userLatitude])
             ->where('status', true)
             ->where('isActive', true)
+            ->having('distance', '<=', $distance)
             ->orderBy('distance');
 
         $categoryId = $request->input('category');
@@ -88,9 +105,11 @@ class EventController extends Controller
             });
         }
 
+
+
         $events = $eventsQuery->get();
 
-        return view('events.index', compact('events'));
+        return view('events.near', compact('events', 'categories', 'userLatitude', 'userLongitude'));
     }
 
     /**
