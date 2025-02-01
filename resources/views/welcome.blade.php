@@ -138,23 +138,6 @@
     </x-container>
     <x-slot name="scripts">
         <script>
-            const lat = document.getElementById('latitude');
-            const long = document.getElementById('longitude');
-
-            document.addEventListener('DOMContentLoaded', function() {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-
-                    lat.value = latitude;
-                    long.value = longitude;
-                    console.log('Latitude:', lat.value);
-                    console.log('Longitude:', long.value);
-                }, function(error) {
-                    console.error('Error getting location:', error);
-                });
-            });
-
             document.addEventListener('DOMContentLoaded', function() {
                 const elements = document.querySelectorAll('.tw-opacity-0');
                 elements.forEach((element, index) => {
