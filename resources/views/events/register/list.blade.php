@@ -17,6 +17,11 @@
             <p class="tw-sm:flex-auto tw-mt-2 tw-text-sm tw-text-gray-700">
               A list of all the users in your account including their name, title, email, role, and answers.
             </p>
+            <a
+                class="tw-text-tertiary1 hover:tw-text-secondary1 tw-text-sm"
+                href="{{ route('events.volunteers', $event) }}">
+                Go To Volunteers Event
+            </a>
           </div>
         </x-card.description>
         <x-card.content>
@@ -33,7 +38,7 @@
             </x-table.thead>
             <x-table.tbody>
               @foreach ($registerEvent as $user)
-              <tr>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <x-table.td>{{ $user->name }}</x-table.td>
                 <x-table.td>{{ $user->email }}</x-table.td>
                 <x-table.td>{{ optional($user->userDetail)->phone ?? 'N/A' }}</x-table.td>
@@ -54,17 +59,16 @@
                 $status = $user->pivot->user_acceptance_status;
                 @endphp
                 <x-table.td>
-                  <p
-                    class="tw-text-{{ $status == 'pending' ? 'yellow' : ($status == 'accepted' ? 'green' : 'red') }}-500">
-                    {{ ucfirst($status) }}
-                  </p>
+                    <div class="tw-flex tw-items-center">
+                        <div class="tw-h-2.5 tw-w-2.5 tw-rounded-full {{ $status == 'accepted' ? 'tw-bg-green-500' : ($status == 'pending' ? 'tw-bg-yellow-500' : 'tw-bg-red-500')}}  tw-me-2"></div> {{ ucfirst($status) }}
+                    </div>
                 </x-table.td>
                 <x-table.td>{{ \Carbon\Carbon::parse($user->created_at)->format('d-M-Y') }}</x-table.td>
                 <x-table.td>
                   <a href="{{ route('events.register.show', [$event, $user]) }}">
-                    <x-bladewind::button size="tiny" outline="true">
+                    <x-primary-button>
                       Detail
-                    </x-bladewind::button>
+                    </x-primary-button>
                   </a>
                 </x-table.td>
               </tr>

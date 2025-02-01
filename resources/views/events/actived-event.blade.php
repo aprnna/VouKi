@@ -51,9 +51,9 @@
           </x-card.content>
           <x-card.footer class="tw-flex tw-justify-center">
             <a href="{{ route('events.edit', [$event, 'step'=>1]) }}">
-              <x-bladewind::button size="small" outline="true">
+              <x-primary-button type="button">
                 Edit Event
-              </x-bladewind::button>
+              </x-primary-button>
             </a>
           </x-card.footer>
         </x-card>
@@ -71,9 +71,9 @@
           </x-card.content>
           <x-card.footer class="tw-flex tw-justify-center">
             <a href="{{ route('events.questions.create', $event) }}">
-              <x-bladewind::button size="small" outline="true">
+              <x-primary-button type="button">
                 Edit Question
-              </x-bladewind::button>
+              </x-primary-button>
             </a>
           </x-card.footer>
         </x-card>
@@ -81,9 +81,9 @@
           <form method="POST" action={{ route("events.active", $event) }}>
             @csrf
             @method('PUT')
-            <x-bladewind::button can_submit="true" size="small" on>
+            <x-primary-button type="submit">
               Activate Event
-            </x-bladewind::button>
+            </x-primary-button>
           </form>
         </div>
         @endif

@@ -17,9 +17,9 @@
         <x-card.description>Create question for event</x-card.description>
       </x-card.header>
       <x-card.content>
-        <x-bladewind::button size="small" onclick="showModal('create-question')">
+        <x-primary-button onclick="showModal('create-question')">
           Create Question
-        </x-bladewind::button>
+        </x-primary-button>
         <x-table>
           <x-table.thead>
             <tr>
@@ -34,18 +34,18 @@
               <x-table.td>{{ $loop->iteration }}</x-table.td>
               <x-table.td>{{ $question->question }}</x-table.td>
               <x-table.td>
-                <x-bladewind::button size="tiny" outline="true"
+                <x-primary-button
                   onclick="showUpdateModal({{ $question->id }}, '{{ $question->question }}')">
                   Update
-                </x-bladewind::button>
+                </x-primary-button>
                 {{-- Delete --}}
 
                 <form action="{{ route('events.questions.destroy', $question) }}" method="POST" class="tw-inline">
                   @csrf
                   @method('delete')
-                  <x-bladewind::button can_submit="true" size="tiny" outline="true">
+                  <x-secondary-button type="submit">
                     Delete
-                  </x-bladewind::button>
+                  </x-secondary-button>
                 </form>
               </x-table.td>
             </tr>

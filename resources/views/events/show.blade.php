@@ -37,24 +37,52 @@
                     </div>
                 </div>
                 <div class="tw-flex-auto tw-w-1/4">
-                    @if (!$event->volunteers->contains(Auth::id()) && !Auth::user()->can('OrganizeEvent', $event))
-                        <form action="{{ route('events.answer.create', $event) }}" method="POST">
-                            @csrf
-                            @method('get')
-                            <x-primary-button class="tw-flex-auto tw-w-full tw-bg-red-600 tw-justify-center">
-                                Join Event
-                            </x-primary-button>
-                        </form>
-                    @elseif (Auth::user()->can('OrganizeEvent', $event))
+                    @if (!auth()->check())
+                        {{-- User belum login --}}
+                        <p class="tw-text-red-600">Please log in to join an event.</p>
+
+                    @elseif (auth()->user()->role === 'volunteer')
+                        @php
+                            // Cari status user dalam event ini
+                            $volunteers = $event->volunteers()->where('user_id', auth()->id())->first();
+                        @endphp
+
+                        @if (!$volunteers)
+                            {{-- Jika user belum mendaftar ke event --}}
+                            <form action="{{ route('events.answer.create', $event) }}" method="POST">
+                                @csrf
+                                @method('get')
+                                <x-primary-button class="tw-flex-auto tw-w-full tw-bg-red-600 tw-justify-center">
+                                    Join Event
+                                </x-primary-button>
+                            </form>
+                        @else
+                            {{-- Jika user sudah mendaftar, periksa statusnya --}}
+                            @if ($volunteers->pivot->user_acceptance_status === 'pending')
+                                <p class="tw-text-yellow-500">You have already registered for this event. Waiting for acceptance.</p>
+                            @elseif ($volunteers->pivot->user_acceptance_status === 'accepted')
+                                <p class="tw-text-green-500">You have already joined this event.</p>
+                            @endif
+                        @endif
+
+                    @elseif (auth()->user()->role === 'organizer')
+                        {{-- Jika user adalah organizer, tampilkan daftar volunteer dan peserta --}}
                         @can('OrganizeEvent', $event)
-                        <a href="{{ route('events.volunteers', $event) }}">
-                            <x-primary-button class="tw-flex-auto tw-w-full tw-bg-red-600 tw-justify-center hover:tw-bg-red-700">
-                                List Volunteers
-                            </x-primary-button>
-                        </a>
+                            <a href="{{ route('events.volunteers', $event) }}">
+                                <x-primary-button class="tw-flex-auto tw-w-full tw-bg-red-600 tw-justify-center hover:tw-bg-red-700">
+                                    List Volunteers
+                                </x-primary-button>
+                            </a>
+                            <a href="{{ route('events.register', $event) }}">
+                                <x-primary-button class="tw-flex-auto tw-w-full tw-bg-red-600 tw-justify-center hover:tw-bg-red-700 mt-2">
+                                    List Registered
+                                </x-primary-button>
+                            </a>
                         @endcan
+
                     @else
-                        <p class="tw-text-green-500">You have already joined this event.</p>
+                        {{-- Jika user bukan volunteer atau organizer --}}
+                        <p class="tw-text-red-600">You are not eligible to join this event.</p>
                     @endif
                     <div class="tw-py-4 tw-flex tw-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 tw-mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

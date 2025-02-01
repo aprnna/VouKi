@@ -39,11 +39,11 @@
                                         @php
                                         $userRating = $all_users_rating->get($volunteer->id);
                                         @endphp
-                                        <button class="tw-px-4 tw-py-2 tw-bg-blue-600 tw-text-white tw-rounded"
+                                        <x-primary-button type="button"
                                             x-on:click="isOpen = true" onclick="clearSession()" id="review-button">
                                             {{ $userRating->user_rating != null ? 'Edit Review Volunteer' : 'Review
                                             Volunteer' }}
-                                        </button>
+                                        </x-primary-button>
 
                                         <div x-show="isOpen"
                                             class="tw-fixed tw-inset-0 tw-bg-gray-900 tw-bg-opacity-50 tw-flex tw-justify-center tw-items-center tw-z-50"
@@ -75,15 +75,14 @@
                                                     </div>
 
                                                     <div class="tw-flex tw-justify-end tw-space-x-4">
-                                                        <button type="button"
+                                                        <x-secondary-button type="button"
                                                             class="tw-px-4 tw-py-2 tw-bg-gray-300 tw-text-gray-800 tw-rounded"
                                                             x-on:click="isOpen = false">
                                                             Cancel
-                                                        </button>
-                                                        <button type="submit"
-                                                            class="tw-px-4 tw-py-2 tw-bg-blue-600 tw-text-white tw-rounded">
+                                                        </x-secondary-button>
+                                                        <x-primary-button type="submit">
                                                             {{ $userRating->user_rating != null ? 'Update' : 'Submit' }}
-                                                        </button>
+                                                        </x-primary-button>
                                                     </div>
                                                 </form>
                                             </div>

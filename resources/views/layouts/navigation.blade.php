@@ -21,8 +21,8 @@
                     {{ __('Events') }}
                 </x-nav-link>
                 <x-nav-link as="form" action="{{ route('events.nearest') }}" class="tw-group" method="GET" :active="request()->routeIs('events.nearest')">
-                    <input type="hidden" name="latitude" id="latitude">
-                    <input type="hidden" name="longitude" id="longitude">
+                    <input type="hidden" name="latitudeUser" id="latitudeUser">
+                    <input type="hidden" name="longitudeUser" id="longitudeUser">
                     <button type="submit" class="h-full">
                         {{ __('Find Around Me') }}
                     </button>

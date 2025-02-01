@@ -207,8 +207,8 @@
                 city.value = location[0]
                 province.value = location[1]
                 country.value = location.at(-1)
-                latitude.value = e.location.x
-                longitude.value = e.location.y
+                latitude.value = e.location.y
+                longitude.value = e.location.x
             }
 
             function UpdateInputDrag(e) {
