@@ -3,11 +3,12 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\QuestionEventController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [EventController::class, 'index'])->name('event.index');
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -15,6 +16,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('events', EventController::class);
+
+    Route::post('events/nearest', [EventController::class, 'nearest'])->name('events.nearest');
 
     Route::get('events/{event}/questions/create', [QuestionEventController::class, 'create'])->name('events.questions.create');
     Route::get('events/{event}/questions/edit', [QuestionEventController::class, 'edit'])->name('events.questions.edit');

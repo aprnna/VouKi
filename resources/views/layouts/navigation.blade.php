@@ -1,25 +1,41 @@
-<nav x-data="{ open: false }" class="tw-bg-pink-900 tw-border-b tw-border-gray-100">
+<nav x-data="{ open: false }" class="tw-bg-tertiary3 tw-text-white tw-drop-shadow">
     <!-- Primary Navigation Menu -->
     <div class="tw-max-w-7xl tw-mx-auto tw-px-4 sm:tw-px-6 lg:tw-px-8">
-        <div class="tw-flex tw-justify-between tw-h-16">
+        <div class="tw-flex tw-justify-between tw-h-16 sm:tw-py-2">
             <div class="tw-flex">
                 <!-- Logo -->
                 <div class="tw-shrink-0 tw-flex tw-items-center">
-                    <img src="{{ asset('images/voukiLogo.png') }}" alt="Logo" class="tw-h-9 tw-w-auto">
-                    <span class="tw-text-white tw-font-bold tw-ml-6 tw-text-xl">VOUKI</span>
+                    <a href="{{ auth()->check() ? route('events.index') : route('home.index') }}" class="flex tw-items-center tw-gap-2 hover:tw-opacity-80">
+                        <x-application-logo class="tw-block tw-h-12 tw-w-auto tw-drop-shadow" />
+                        <h1 class="tw-font-bold tw-text-xl">VouKi</h1>
+                    </a>
                 </div>
+            </div>
 
-                <!-- Navigation Links -->
-                <div class="tw-hidden tw-space-x-8 sm:tw--my-px sm:tw-ms-10 sm:tw-flex">
-                    <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')" class="tw-text-white">
-                        {{ __('Events') }}
-                    </x-nav-link>
-                    @can('isOrganizer')
-                    <x-nav-link :href="route('events.my')" :active="request()->routeIs('events.my')" class="tw-text-white">
-                        {{ __('My Events') }}
-                    </x-nav-link>
-                    @endcan
-                </div>
+            <!-- Navigation Links -->
+            <div class="tw-hidden tw-space-x-8 sm:tw--my-px sm:tw-ms-10 sm:tw-flex">
+                <x-nav-link :href="route('home.index')" :active="request()->routeIs('home.index')">
+                    {{ __('Home') }}
+                </x-nav-link>
+                <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
+                    {{ __('Events') }}
+                </x-nav-link>
+                <x-nav-link as="form" action="{{ route('events.nearest') }}" class="tw-group" method="POST" :active="request()->routeIs('events.nearest')">
+                    @csrf
+                    <input type="hidden" name="latitude" id="latitude">
+                    <input type="hidden" name="longitude" id="longitude">
+                    <button type="submit" class="h-full">
+                        {{ __('Find Around Me') }}
+                    </button>
+                </x-nav-link>
+                {{-- <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
+                    {{ __('Find Organizer') }}
+                </x-nav-link> --}}
+                @can('isOrganizer')
+                <x-nav-link :href="route('events.my')" :active="request()->routeIs('events.my')">
+                    {{ __('My Events') }}
+                </x-nav-link>
+                @endcan
             </div>
 
             <!-- Settings Dropdown -->
@@ -29,7 +45,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="tw-inline-flex tw-items-center tw-px-3 tw-py-2 tw-border tw-border-transparent tw-text-sm tw-leading-4 tw-font-medium tw-rounded-md tw-text-white tw-bg-rose-950 hover:tw-text-gray-700 focus:tw-outline-none tw-transition tw-ease-in-out tw-duration-150">
+                            class="tw-inline-flex tw-items-center tw-px-3 tw-py-2 tw-border tw-border-transparent tw-text-sm tw-leading-4 tw-font-medium tw-rounded-md tw-text-gray-500 tw-bg-white hover:tw-text-gray-700 focus:tw-outline-none tw-transition tw-ease-in-out tw-duration-150">
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="tw-ms-1">
@@ -67,10 +83,15 @@
                 @else
                 <div class="tw-space-x-3">
                     <a href={{ route('login') }}>
-                        <x-primary-button class="tw-bg-rose-950">
+                        <x-primary-button class="tw-bg-tertiary4 hover:tw-bg-tertiary1">
                             {{ __('Log in') }}
                         </x-primary-button>
                     </a>
+                    {{-- <a href={{ route('register') }}>
+                        <x-secondary-button>
+                            {{ __('Register') }}
+                        </x-secondary-button>
+                    </a> --}}
                 </div>
                 @endauth
             </div>

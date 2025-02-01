@@ -19,28 +19,21 @@
     <link href="{{ asset('vendor/bladewind/css/animate.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('vendor/bladewind/css/bladewind-ui.min.css') }}" rel="stylesheet" />
     <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
-    <div class="tw-min-h-screen tw-flex">
-        <!-- Left side with pink image -->
-        <div class="tw-w-1/2 tw-bg-red-300 tw-flex tw-items-center tw-justify-center">
-            <img src="{{ asset('images/vokiWallpaper.jpg') }}" alt="Pink Image" class="tw-object-cover tw-h-full tw-w-full tw-p-24">
-        </div>
-        <!-- Right side with login form -->
-        <div class="tw-w-1/2 tw-flex tw-items-center tw-justify-center tw-bg-white">
-            <div class="tw-w-full sm:tw-max-w-md tw-px-6 tw-py-4 tw-bg-rose-100 tw-shadow-md tw-overflow-hidden sm:tw-rounded-lg tw-opacity-0 tw-transition-opacity tw-duration-500 tw-ease-in-out" id="fade-in-content">
+
+<body class="tw-text-tertiary1 tw-antialiased">
+    <div class="tw-min-h-screen tw-flex tw-justify-end tw-items-center tw-pt-6 sm:tw-pt-0 tw-bg-white">
+        @if (isset($image))
+            <div class="tw-hidden lg:tw-flex tw-w-full tw-relative tw-h-screen tw-items-center {{ $imageClass ?? "tw-bg-tertiary1" }}">
+                {{ $image }}
+            </div>
+        @endif
+        <div class="tw-min-h-screen tw-w-full tw-flex tw-items-center tw-justify-center tw-relative tw-bg-white tw-z-50">
+            <div class="tw-w-full sm:tw-max-w-md tw-mt-6 tw-px-6 tw-py-4 tw-bg-primary1 tw-shadow-md sm:tw-rounded-lg">
                 {{ $slot }}
             </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('fade-in-content').classList.add('tw-opacity-100');
-        });
-    </script>
 </body>
 
 </html>

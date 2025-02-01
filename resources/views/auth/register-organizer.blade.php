@@ -1,11 +1,22 @@
 <x-guest-layout>
-    <h1 class="tw-font-bold tw-text-lg tw-pb-4 tw-text-red-950">Register Organizer</h1>
+
+    <x-slot name="image">
+        <div class="tw-w-full tw-h-full tw-flex tw-justify-center">
+            <div class="tw-bg-primary1 tw-w-[90%] tw-h-[50%] tw-absolute tw-mt-10">
+                <div class="tw-w-3/4 tw-absolute tw-right-5 tw-top-5">
+                    <img src="{{ asset('images/volunteer3.png') }}" alt="volunteer3.png">
+                </div>
+            </div>
+        </div>
+    </x-slot>
+
+    <h1 class="tw-text-center tw-font-bold tw-text-lg tw-pb-4">Register as Organizer</h1>
     <form method="POST" action="{{ route('register.organizer') }}">
         @csrf
 
         <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" class="tw-text-red-950"/>
+            <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" class="tw-block tw-mt-1 tw-w-full" type="text" name="name" :value="old('name')"
                 required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="tw-mt-2" />
@@ -13,7 +24,7 @@
 
         <!-- Email Address -->
         <div class="tw-mt-4">
-            <x-input-label for="email" :value="__('Email')" class="tw-text-red-950"/>
+            <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" class="tw-block tw-mt-1 tw-w-full" type="email" name="email" :value="old('email')"
                 required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="tw-mt-2" />
@@ -21,7 +32,7 @@
 
         <!-- Password -->
         <div class="tw-mt-4">
-            <x-input-label for="password" :value="__('Password')" class="tw-text-red-950"/>
+            <x-input-label for="password" :value="__('Password')" />
 
             <x-text-input id="password" class="tw-block tw-mt-1 tw-w-full" type="password" name="password" required
                 autocomplete="new-password" />
@@ -31,7 +42,7 @@
 
         <!-- Confirm Password -->
         <div class="tw-mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" class="tw-text-red-950"/>
+            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
 
             <x-text-input id="password_confirmation" class="tw-block tw-mt-1 tw-w-full" type="password"
                 name="password_confirmation" required autocomplete="new-password" />
@@ -40,14 +51,19 @@
         </div>
 
         <div class="tw-flex tw-items-center tw-justify-end tw-mt-4">
-            <a class="tw-underline tw-text-sm tw-text-red-950 hover:tw-text-gray-900 tw-rounded-md focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-indigo-500"
+            <a class="tw-underline tw-text-sm tw-text-gray-600 hover:tw-text-gray-900 tw-rounded-md focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-indigo-500"
                 href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
 
-            <x-primary-button class="tw-flex tw-w-full tw-justify-center tw-bg-rose-950 hover:tw-bg-rose-800 focus:tw-bg-rose-700">
+            <x-primary-button class="tw-ms-4">
                 {{ __('Register') }}
             </x-primary-button>
         </div>
+
+        <a class="tw-underline tw-text-sm tw-text-gray-600 hover:tw-text-gray-900 tw-rounded-md focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-indigo-500"
+            href="{{ route('register') }}">
+            {{ __('Register Volunteer') }}
+        </a>
     </form>
 </x-guest-layout>
