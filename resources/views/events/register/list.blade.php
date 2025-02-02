@@ -7,113 +7,117 @@
     </h2>
   </x-slot>
 
-  <x-container>
-    <x-alert-status />
-    <x-card>
-      <x-card.header>
-        <x-card.title>List Register Event</x-card.title>
-        <x-card.description>
-          <div class="tw-sm:flex tw-sm:items-center">
-            <p class="tw-sm:flex-auto tw-mt-2 tw-text-sm tw-text-gray-700">
-              A list of all the users in your account including their name, title, email, role, and answers.
-            </p>
-            <a
-                class="tw-text-tertiary1 hover:tw-text-secondary1 tw-text-sm"
-                href="{{ route('events.volunteers', $event) }}">
-                Go To Volunteers Event
-            </a>
-          </div>
-        </x-card.description>
-        <x-card.content>
-          <x-table>
-            <x-table.thead>
-              <tr>
-                <x-table.th>Name</x-table.th>
-                <x-table.th>Email</x-table.th>
-                <x-table.th>Phone</x-table.th>
-                <x-table.th>Status</x-table.th>
-                <x-table.th>Register Date</x-table.th>
-                <x-table.th>Action</x-table.th>
-              </tr>
-            </x-table.thead>
-            <x-table.tbody>
-              @foreach ($registerEvent as $user)
-              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <x-table.td>{{ $user->name }}</x-table.td>
-                <x-table.td>{{ $user->email }}</x-table.td>
-                <x-table.td>{{ optional($user->userDetail)->phone ?? 'N/A' }}</x-table.td>
+  <div x-data 
+       x-init="$nextTick(() => { $el.classList.add('show') })" 
+       class="page-transition">
+    <x-container>
+      <x-alert-status />
+      <x-card>
+        <x-card.header>
+          <x-card.title>List Register Event</x-card.title>
+          <x-card.description>
+            <div class="tw-sm:flex tw-sm:items-center">
+              <p class="tw-sm:flex-auto tw-mt-2 tw-text-sm tw-text-gray-700">
+                A list of all the users in your account including their name, title, email, role, and answers.
+              </p>
+              <a
+                  class="tw-text-tertiary1 hover:tw-text-secondary1 tw-text-sm"
+                  href="{{ route('events.volunteers', $event) }}">
+                  Go To Volunteers Event
+              </a>
+            </div>
+          </x-card.description>
+          <x-card.content>
+            <x-table>
+              <x-table.thead>
+                <tr>
+                  <x-table.th>Name</x-table.th>
+                  <x-table.th>Email</x-table.th>
+                  <x-table.th>Phone</x-table.th>
+                  <x-table.th>Status</x-table.th>
+                  <x-table.th>Register Date</x-table.th>
+                  <x-table.th>Action</x-table.th>
+                </tr>
+              </x-table.thead>
+              <x-table.tbody>
+                @foreach ($registerEvent as $user)
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <x-table.td>{{ $user->name }}</x-table.td>
+                  <x-table.td>{{ $user->email }}</x-table.td>
+                  <x-table.td>{{ optional($user->userDetail)->phone ?? 'N/A' }}</x-table.td>
 
-                {{-- <x-table.td>
-                  <x-bladewind::button size="tiny" outline="true"
-                    onclick="showDetailModal({{ $user->id }}, '{{ json_encode($user) }}')">
-                    Detail
-                  </x-bladewind::button>
-                </x-table.td>
-                <x-table.td>
-                  <x-bladewind::button size="tiny" outline="true"
-                    onclick="showAnswerModal({{ $user->id }}, '{{ json_encode($user->answers) }}')">
-                    View Answers
-                  </x-bladewind::button>
-                </x-table.td> --}}
-                @php
-                $status = $user->pivot->user_acceptance_status;
-                @endphp
-                <x-table.td>
-                    <div class="tw-flex tw-items-center">
-                        <div class="tw-h-2.5 tw-w-2.5 tw-rounded-full {{ $status == 'accepted' ? 'tw-bg-green-500' : ($status == 'pending' ? 'tw-bg-yellow-500' : 'tw-bg-red-500')}}  tw-me-2"></div> {{ ucfirst($status) }}
-                    </div>
-                </x-table.td>
-                <x-table.td>{{ \Carbon\Carbon::parse($user->created_at)->format('d-M-Y') }}</x-table.td>
-                <x-table.td>
-                  <a href="{{ route('events.register.show', [$event, $user]) }}">
-                    <x-primary-button>
+                  {{-- <x-table.td>
+                    <x-bladewind::button size="tiny" outline="true"
+                      onclick="showDetailModal({{ $user->id }}, '{{ json_encode($user) }}')">
                       Detail
-                    </x-primary-button>
-                  </a>
-                </x-table.td>
-              </tr>
-              @endforeach
-            </x-table.tbody>
-          </x-table>
-        </x-card.content>
-      </x-card.header>
-    </x-card>
+                    </x-bladewind::button>
+                  </x-table.td>
+                  <x-table.td>
+                    <x-bladewind::button size="tiny" outline="true"
+                      onclick="showAnswerModal({{ $user->id }}, '{{ json_encode($user->answers) }}')">
+                      View Answers
+                    </x-bladewind::button>
+                  </x-table.td> --}}
+                  @php
+                  $status = $user->pivot->user_acceptance_status;
+                  @endphp
+                  <x-table.td>
+                      <div class="tw-flex tw-items-center">
+                          <div class="tw-h-2.5 tw-w-2.5 tw-rounded-full {{ $status == 'accepted' ? 'tw-bg-green-500' : ($status == 'pending' ? 'tw-bg-yellow-500' : 'tw-bg-red-500')}}  tw-me-2"></div> {{ ucfirst($status) }}
+                      </div>
+                  </x-table.td>
+                  <x-table.td>{{ \Carbon\Carbon::parse($user->created_at)->format('d-M-Y') }}</x-table.td>
+                  <x-table.td>
+                    <a href="{{ route('events.register.show', [$event, $user]) }}">
+                      <x-primary-button>
+                        Detail
+                      </x-primary-button>
+                    </a>
+                  </x-table.td>
+                </tr>
+                @endforeach
+              </x-table.tbody>
+            </x-table>
+          </x-card.content>
+        </x-card.header>
+      </x-card>
 
-    {{--
-    <!-- Detail Modal -->
-    <x-bladewind::modal size="big" name="detail_user" title="Detail User" blur_size="none" ok_button_label="Close"
-      close_after_action="false">
-      <div id="detail">
-        <table>
-          <tr>
-            <td>Name</td>
-            <td>:</td>
-            <td id="name"></td>
-          </tr>
-          <tr>
-            <td>Email</td>
-            <td>:</td>
-            <td id="email"></td>
-          </tr>
-          <tr>
-            <td>Role</td>
-            <td>:</td>
-            <td id="role"></td>
-          </tr>
-        </table>
-      </div>
-    </x-bladewind::modal>
+      {{--
+      <!-- Detail Modal -->
+      <x-bladewind::modal size="big" name="detail_user" title="Detail User" blur_size="none" ok_button_label="Close"
+        close_after_action="false">
+        <div id="detail">
+          <table>
+            <tr>
+              <td>Name</td>
+              <td>:</td>
+              <td id="name"></td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td>:</td>
+              <td id="email"></td>
+            </tr>
+            <tr>
+              <td>Role</td>
+              <td>:</td>
+              <td id="role"></td>
+            </tr>
+          </table>
+        </div>
+      </x-bladewind::modal>
 
-    <!-- Answer Modal -->
-    <x-bladewind::modal size="big" name="answer_modal" title="User Answers" blur_size="none" ok_button_label="Close"
-      close_after_action="false">
-      <div id="answers">
-        <ul id="answer_list">
-          <!-- Dynamically filled with answers -->
-        </ul>
-      </div>
-    </x-bladewind::modal> --}}
-  </x-container>
+      <!-- Answer Modal -->
+      <x-bladewind::modal size="big" name="answer_modal" title="User Answers" blur_size="none" ok_button_label="Close"
+        close_after_action="false">
+        <div id="answers">
+          <ul id="answer_list">
+            <!-- Dynamically filled with answers -->
+          </ul>
+        </div>
+      </x-bladewind::modal> --}}
+    </x-container>
+  </div>
 
   {{-- <x-slot name="scripts">
     <script>
@@ -150,4 +154,17 @@
       };
     </script>
   </x-slot> --}}
+
+  <style>
+    .page-transition {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease-out;
+    }
+
+    .page-transition.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </x-app-layout>
