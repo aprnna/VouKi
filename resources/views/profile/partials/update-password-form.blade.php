@@ -34,12 +34,12 @@
             <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="tw-mt-2" />
         </div>
 
-        <div class="tw-flex tw-items-center tw-gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+        <div class="tw-flex tw-items-center tw-justify-end tw-gap-4">
+            <x-primary-button class="tw-px-6">{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'password-updated')
             <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                class="tw-text-sm tw-text-gray-600">{{ __('Saved.') }}</p>
+            class="tw-text-sm tw-text-gray-600">{{ __('Saved.') }}</p>
             @endif
         </div>
     </form>
