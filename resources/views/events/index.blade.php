@@ -3,6 +3,7 @@
 
     @php
         $currentCategoryId = request()->input('category');
+        $currentSkillId = request()->input('skill');
     @endphp
 
     <x-container>
@@ -84,6 +85,12 @@
             </div>
         @endif
 
+        @if (session('message'))
+            <div class="tw-bg-white tw-text-red-600 tw-p-4 tw-rounded-md tw-mb-8">
+                {{ session('message') }}
+            </div>
+        @endif
+
         <div class="tw-grid w-full tw-grid-cols-1 sm:tw-grid-cols-2 md:tw-grid-cols-3 lg:tw-grid-cols-4 tw-mb-8 tw-gap-5">
             @foreach ($events as $event)
             <div class="tw-w-full tw-bg-white tw-flex tw-flex-col tw-overflow-hidden tw-rounded-lg tw-shadow tw-transition hover:tw-shadow-lg tw-opacity-0 tw-translate-y-10 tw-duration-500 tw-ease-in-out tw-delay-150 hover:tw-scale-105">
@@ -127,13 +134,50 @@
             </div>
             <div class="tw-flex tw-flex-wrap tw-gap-2 tw-px-4 sm:tw-px-6">
                 @foreach ( $event->categories as $category)
-                <a
-                    href="{{ route('events.index', array_merge(request()->query(),['category' => $category->id])) }}"
-                    class="tw-rounded-lg tw-px-2 tw-py-1 tw-text-xs tw-font-medium hover:tw-bg-gray-400 hover:tw-cursor-pointer tw-text-gray-800
-                    {{ $currentCategoryId == $category->id ? 'tw-bg-gray-400' : 'tw-bg-gray-200' }}"
-                >
-                    {{ $category->category }}
-                </a>
+                    @php
+                        $currentCategory = request()->query('category');
+                        $shouldRemoveCategory = $currentCategory && $currentCategory == $category->id;
+
+                        if ($shouldRemoveCategory) {
+                            $categoryQuery = Arr::except(request()->query(), ['category']);
+                        } else {
+                            $categoryQuery = array_merge(request()->query(), ['category' => $category->id]);
+                        }
+
+                        $isPreferredCategory = in_array($category->id, $preferredCategories);
+                    @endphp
+                    <a
+                        href="{{ route('events.index', $categoryQuery) }}"
+                        class="tw-rounded-lg tw-px-2 tw-py-1 tw-text-xs tw-font-medium hover:tw-cursor-pointer
+                        {{ $isPreferredCategory ? 'tw-bg-red-700 tw-text-white hover:tw-bg-red-400' : 'tw-bg-gray-200 tw-text-gray-800 hover:tw-bg-gray-400' }}
+                        {{ $currentCategoryId == $category->id ? 'tw-bg-red-400 tw-text-white hover:tw-bg-red-700' : 'tw-text-gray-800' }}"
+                    >
+                        {{ $category->category }}
+                    </a>
+                @endforeach
+            </div>
+            <div class="tw-flex tw-flex-wrap tw-gap-2 tw-px-4 sm:tw-px-6 tw-mt-2">
+                @foreach ( $event->skills as $skill)
+                    @php
+                        $currentSkill = request()->query('skill');
+                        $shouldRemoveSkill = $currentSkill && $currentSkill == $skill->id;
+
+                        if ($shouldRemoveSkill) {
+                            $queryString = Arr::except(request()->query(), ['skill']);
+                        } else {
+                            $queryString = array_merge(request()->query(), ['skill' => $skill->id]);
+                        }
+
+                        $isPreferredSkill = in_array($skill->id, $preferredSkills);
+                    @endphp
+                    <a
+                        href="{{ route('events.index', $queryString) }}"
+                        class="tw-rounded-lg tw-px-2 tw-py-1 tw-text-xs tw-font-medium hover:tw-cursor-pointer
+                        {{ $isPreferredSkill ? 'tw-bg-rose-500 tw-text-white hover:tw-bg-rose-900' : 'tw-bg-gray-200 tw-text-gray-800 hover:tw-bg-gray-400' }}
+                        {{ $currentSkill == $skill->id ? 'tw-bg-rose-900 tw-text-white hover:tw-bg-rose-500' : 'tw-text-gray-800' }}"
+                    >
+                        {{ $skill->skill }}
+                    </a>
                 @endforeach
             </div>
             <a href={{ Route('events.show', $event) }}

@@ -29,6 +29,6 @@ class GoogleAuthController extends Controller
             ]
         );
         Auth::login($user);
-        return redirect()->intended(route('event.index', absolute: false));
+        return redirect()->intended(route('home.index', absolute: false));
     }
 }
