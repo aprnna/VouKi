@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('events/{event}/volunteers/{volunteer}/review', [ReviewController::class, 'updateVolunteerReview'])->name('volunteer.review.update');
 
     Route::get('/organizer', [OrganizerController::class, 'index'])->name('organizer.index');
+    Route::get('/organizer/{organizer}', [OrganizerController::class, 'show'])->name('organizer.show');
 });
 
 
