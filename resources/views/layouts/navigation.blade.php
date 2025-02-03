@@ -27,9 +27,9 @@
                         {{ __('Find Around Me') }}
                     </button>
                 </x-nav-link>
-                {{-- <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
+                <x-nav-link :href="route('organizer.index')" :active="request()->routeIs('organizer.index')">
                     {{ __('Find Organizer') }}
-                </x-nav-link> --}}
+                </x-nav-link>
                 @can('isOrganizer')
                 <x-nav-link :href="route('events.my')" :active="request()->routeIs('events.my')">
                     {{ __('My Events') }}

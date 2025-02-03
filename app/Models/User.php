@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -80,5 +81,26 @@ class User extends Authenticatable
     public function skills(): BelongsToMany
     {
         return $this->belongsToMany(Skill::class, 'user_skills', 'user_id', 'skill_id')->withTimestamps();
+    }
+
+    public function getOrganizersAverageRatingsAttribute()
+    {
+        return DB::table('events')
+            ->join('event_user', 'events.id', '=', 'event_user.event_id')
+            ->where('events.organizer_id', $this->id)
+            ->avg('event_user.event_rating') ?? 0;
+    }
+
+    public function getVolunteerNumbersAttribute()
+    {
+        return DB::table('events')
+            ->join('event_user', 'events.id', '=', 'event_user.event_id')
+            ->where('events.organizer_id', $this->id)
+            ->count() ?? 0;
+    }
+
+    public function getEventNumbersAttribute()
+    {
+        return $this->events()->count() ?? 0;
     }
 }
