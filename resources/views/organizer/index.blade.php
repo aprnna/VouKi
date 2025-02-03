@@ -2,10 +2,24 @@
     @slot('title', 'Organizer')
 
     <x-container>
-        <div class="tw-grid w-full tw-grid-cols-1 md:tw-grid-cols-2 tw-mb-8 tw-gap-5">
+        <div class="bg-white tw-w-full tw-flex tw-justify-end tw-items-center tw-shadow tw-p-2 tw-rounded tw-my-8">
+            <form action="{{ route('organizer.index') }}" method="GET" class="tw-w-full">
+                <label for="searchOrganizer" class="flex tw-h-full tw-items-center tw-border rounded">
+                    {{-- <input type="hidden" name="category" value="{{ $currentCategoryId }}"> --}}
+                    <input type="text" value="{{ request()->input('searchOrganizer') }}" name="searchOrganizer" id="searchOrganizer" class="tw-w-full tw-h-full tw-border-none rounded" placeholder="Search Name Organizer"/>
+                    <button type="submit" class="tw-bg-tertiary1 tw-h-full tw-text-white tw-p-2 tw-rounded-tr tw-rounded-br">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                        </svg>
+                    </button>
+                </label>
+            </form>
+        </div>
+
+        <div class="tw-grid w-full tw-grid-cols-1 md:tw-grid-cols-2 tw-mb-8 tw-gap-5 tw-mt-8">
             {{-- @dump($organizers) --}}
             @foreach ($organizers as $organizer)
-                <div class="tw-w-full tw-bg-white tw-flex tw-items-center tw-justify-center tw-cursor-pointer tw-rounded-lg tw-shadow tw-transition hover:tw-shadow-lg tw-translate-y-10 tw-duration-500 tw-ease-in-out hover:tw-scale-105">
+                <a href="{{ route('organizer.show', $organizer->id) }}" class="tw-w-full tw-bg-white tw-flex tw-items-center tw-justify-center tw-cursor-pointer tw-rounded-lg tw-shadow tw-transition hover:tw-shadow-lg tw-duration-500 tw-ease-in-out hover:tw-scale-105">
                     <div class="w-full tw-flex tw-justify-between tw-p-4 tw-gap-2 tw-flex-wrap lg:tw-flex-nowrap">
                         <div class="tw-flex tw-gap-4 tw-items-center">
                             <img src="{{ asset('images/organizer_logo.png') }}" alt="{{ $organizer->name }}" class="tw-w-16 tw-rounded-full tw-h-16" />
@@ -45,7 +59,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             @endforeach
         </div>
     </x-container>
