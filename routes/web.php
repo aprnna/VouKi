@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrganizerController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\QuestionEventController;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/event/{event}/register/{user}', [EventController::class, 'acceptanceStatus'])->name('events.register.update');
     Route::patch('/events/{event}/review', [ReviewController::class, 'updateEventReview'])->name('events.review.update');
     Route::patch('events/{event}/volunteers/{volunteer}/review', [ReviewController::class, 'updateVolunteerReview'])->name('volunteer.review.update');
+
+    Route::get('/organizer', [OrganizerController::class, 'index'])->name('organizer.index');
 });
 
 
