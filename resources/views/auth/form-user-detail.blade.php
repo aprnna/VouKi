@@ -86,7 +86,7 @@
 
         <div class="tw-flex tw-items-center tw-justify-end tw-mt-4">
             <a class="tw-underline tw-text-sm tw-text-gray-600 hover:tw-text-gray-900 tw-rounded-md focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-offset-2 focus:tw-ring-indigo-500"
-                href="{{ route('event.index') }}">
+                href="{{ route('home.index') }}">
                 {{ __('Skip') }}
             </a>
             <x-primary-button class="tw-ms-4">

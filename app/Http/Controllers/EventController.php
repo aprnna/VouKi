@@ -26,8 +26,12 @@ class EventController extends Controller
         ->where('events.isActive', true)->orderBy('events.created_at', 'desc');
 
         $categories = Category::all();
+        $skill = Skill::all();
+        $preferredCategories = [];
+        $preferredSkills = [];
 
         $categoryId = $request->input('category');
+        $skillId = $request->input('skill');
 
         if ($request->input('searchEvents')) {
             $searchQuery = $request->input('searchEvents');
@@ -50,6 +54,12 @@ class EventController extends Controller
             });
         }
 
+        if ($skillId) {
+            $eventsQuery->whereHas('skills', function ($query) use ($skillId) {
+                $query->where('id', $skillId);
+            });
+        }
+
 
         $events = $eventsQuery->get();
 
@@ -66,24 +76,27 @@ class EventController extends Controller
             $preferredCategories = $user->categories()->pluck('id')->toArray();
             $preferredSkills = $user->skills()->pluck('id')->toArray();
 
-            $events = $events->filter(function ($event) use ($preferredCategories, $preferredSkills) {
-                // Apakah ada kesamaan kategori dan skill antara user dan event
-                $hasCategory = $event->categories->pluck('id')->intersect($preferredCategories)->isNotEmpty();
-                $hasSkill = $event->skills->pluck('id')->intersect($preferredSkills)->isNotEmpty();
+            if($preferredCategories && $preferredSkills) {
+                $events = $events->filter(function ($event) use ($preferredCategories, $preferredSkills) {
+                    // Apakah ada kesamaan kategori dan skill antara user dan event
+                    $hasCategory = $event->categories->pluck('id')->intersect($preferredCategories)->isNotEmpty();
+                    $hasSkill = $event->skills->pluck('id')->intersect($preferredSkills)->isNotEmpty();
 
-                if ($hasCategory || $hasSkill) {
-                    // Hitung kesamaaan kategori dan skill
-                    $categoryMatches = $event->categories->pluck('id')->intersect($preferredCategories)->count();
-                    $skillMatches = $event->skills->pluck('id')->intersect($preferredSkills)->count();
-                    $totalMatches = $categoryMatches + $skillMatches;
-                    $event->total_matches = $totalMatches;
+                    if ($hasCategory || $hasSkill) {
+                        // Hitung kesamaaan kategori dan skill
+                        $categoryMatches = $event->categories->pluck('id')->intersect($preferredCategories)->count();
+                        $skillMatches = $event->skills->pluck('id')->intersect($preferredSkills)->count();
+                        $totalMatches = $categoryMatches + $skillMatches;
+                        $event->total_matches = $totalMatches;
 
-                    return $event;
-                }
-            })->sortByDesc('total_matches');
-
+                        return $event;
+                    }
+                })->sortByDesc('total_matches');
+            } else {
+                return redirect()->back()->with('message', 'Please fill in your preferred categories and skills in your profile.');
+            }
         }
-        return view('events.index', compact('events', 'categories'));
+        return view('events.index', compact('events', 'categories', 'preferredCategories', 'preferredSkills'));
     }
 
     public function nearest(Request $request)
@@ -92,6 +105,9 @@ class EventController extends Controller
         $userLatitude = $request->input('latitudeUser');
         $userLongitude = $request->input('longitudeUser');
         $categories = Category::all();
+        $skill = Skill::all();
+        $categoryId = $request->input('category');
+        $skillId = $request->input('skill');
 
         $distance = $request->input('distance');
         switch ($distance) {
@@ -108,17 +124,21 @@ class EventController extends Controller
                 $distance = 100000; #100000 km
         }
 
-        $eventsQuery = Event::selectRaw("*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance", [$userLatitude, $userLongitude, $userLatitude])
-            ->where('status', true)
-            ->where('isActive', true)
+        $eventsQuery = Event::with(['categories', 'skills'])
+        ->selectRaw("*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance", [$userLatitude, $userLongitude, $userLatitude])
             ->having('distance', '<=', $distance)
             ->orderBy('distance');
 
-        $categoryId = $request->input('category');
 
         if ($categoryId) {
             $eventsQuery->whereHas('categories', function ($query) use ($categoryId) {
                 $query->where('id', $categoryId);
+            });
+        }
+
+        if ($skillId) {
+            $eventsQuery->whereHas('skills', function ($query) use ($skillId) {
+                $query->where('id', $skillId);
             });
         }
 

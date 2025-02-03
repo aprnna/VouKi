@@ -4,6 +4,7 @@
     @php
         $currentCategoryId = request()->input('category');
         $currentDistance = request()->input('distance');
+        $currentSkillId = request()->input('skill');
     @endphp
 
     <x-container class="tw-px-2 sm:tw-px-6">
@@ -182,13 +183,44 @@
             </div>
             <div class="tw-flex tw-flex-wrap tw-gap-2 tw-px-4 sm:tw-px-6">
                 @foreach ( $event->categories as $category)
-                <a
-                    href="{{ route('events.nearest', array_merge(request()->query(),['category' => $category->id])) }}"
-                    class="tw-rounded-lg tw-px-2 tw-py-1 tw-text-xs tw-font-medium hover:tw-bg-gray-400 hover:tw-cursor-pointer tw-text-gray-800
-                    {{ $currentCategoryId == $category->id ? 'tw-bg-gray-400' : 'tw-bg-gray-200' }}"
-                >
-                    {{ $category->category }}
-                </a>
+                    @php
+                        $currentCategory = request()->query('category');
+                        $shouldRemoveSkill = $currentCategory && $currentCategory == $category->id;
+
+                        if ($shouldRemoveSkill) {
+                            $categoryQuery = Arr::except(request()->query(), ['category']);
+                        } else {
+                            $categoryQuery = array_merge(request()->query(), ['category' => $category->id]);
+                        }
+                    @endphp
+                    <a
+                         href="{{ route('events.nearest', $categoryQuery) }}"
+                        class="tw-rounded-lg tw-px-2 tw-py-1 tw-text-xs tw-font-medium hover:tw-bg-gray-400 hover:tw-cursor-pointer tw-text-gray-800
+                        {{ $currentCategoryId == $category->id ? 'tw-bg-gray-400' : 'tw-bg-gray-200' }}"
+                    >
+                        {{ $category->category }}
+                    </a>
+                @endforeach
+            </div>
+            <div class="tw-flex tw-flex-wrap tw-gap-2 tw-px-4 sm:tw-px-6 tw-mt-2">
+                @foreach ( $event->skills as $skill)
+                    @php
+                        $currentSkill = request()->query('skill');
+                        $shouldRemoveSkill = $currentSkill && $currentSkill == $skill->id;
+
+                        if ($shouldRemoveSkill) {
+                            $queryString = Arr::except(request()->query(), ['skill']);
+                        } else {
+                            $queryString = array_merge(request()->query(), ['skill' => $skill->id]);
+                        }
+                    @endphp
+                    <a
+                        href="{{ route('events.nearest', $queryString) }}"
+                        class="tw-rounded-lg tw-px-2 tw-py-1 tw-text-xs tw-font-medium hover:tw-bg-gray-400 hover:tw-cursor-pointer tw-text-gray-800
+                        {{ $currentSkillId == $skill->id ? 'tw-bg-gray-400' : 'tw-bg-gray-200' }}"
+                    >
+                        {{ $skill->skill }}
+                    </a>
                 @endforeach
             </div>
             <a href={{ Route('events.show', $event) }}
@@ -245,11 +277,13 @@
                         title: "Show me where I am, yo!"
                     },
                     locateOptions: {
-                        enableHighAccuracy: true
+                        enableHighAccuracy: true,
                     }
                 })
                 .addTo(map);
+
             lc.start();
+
         </script>
     </x-slot>
 </x-app-layout>
