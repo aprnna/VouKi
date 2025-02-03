@@ -98,7 +98,7 @@
             <!-- Hamburger -->
             <div class="tw--me-2 tw-flex tw-items-center sm:tw-hidden">
                 <button @click="open = ! open"
-                    class="tw-inline-flex tw-items-center tw-justify-center tw-p-2 tw-rounded-md tw-text-gray-400 hover:tw-text-gray-500 hover:tw-bg-gray-100 focus:tw-outline-none focus:tw-bg-gray-100 focus:tw-text-gray-500 tw-transition tw-duration-150 tw-ease-in-out">
+                    class="tw-inline-flex tw-items-center tw-justify-center tw-p-2 tw-rounded-md tw-text-white hover:tw-text-gray-500 hover:tw-bg-gray-100 focus:tw-outline-none focus:tw-bg-gray-100 focus:tw-text-gray-500 tw-transition tw-duration-150 tw-ease-in-out">
                     <svg class="tw-h-6 tw-w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{ 'tw-hidden': open, 'tw-inline-flex': !open }" class="tw-inline-flex"
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -114,8 +114,18 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'tw-block': open, 'tw-hidden': !open }" class="tw-hidden sm:tw-hidden">
         <div class="tw-pt-2 tw-pb-3 tw-space-y-1">
-            <x-responsive-nav-link :href="route('events.index')" :active="request()->routeIs('dashboard')">
-                {{ __('Event') }}
+            <x-responsive-nav-link :href="route('home.index')" :active="request()->routeIs('home.index')">
+                {{ __('Home') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
+                {{ __('Events') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link as="form" action="{{ route('events.nearest') }}" class="tw-group" method="GET" :active="request()->routeIs('events.nearest')">
+                <input type="hidden" name="latitudeUser" id="latitudeUser">
+                <input type="hidden" name="longitudeUser" id="longitudeUser">
+                <button type="submit" class="h-full">
+                    {{ __('Find Around Me') }}
+                </button>
             </x-responsive-nav-link>
         </div>
 
@@ -123,16 +133,16 @@
         @auth
         <div class="tw-pt-4 tw-pb-1 tw-border-t tw-border-gray-200">
             <div class="tw-px-4">
-                <div class="tw-font-medium tw-text-base tw-text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="tw-font-medium tw-text-sm tw-text-gray-500">{{ Auth::user()->email }}</div>
+                <div class="tw-font-medium tw-text-base tw-text-white">{{ Auth::user()->name }}</div>
+                <div class="tw-font-medium tw-text-sm tw-text-white">{{ Auth::user()->email }}</div>
             </div>
 
             <div class="tw-mt-3 tw-space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
+                <x-responsive-nav-link :href="route('profile.edit')" class="tw-text-white">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
                 @can('isOrganizer')
-                <x-responsive-nav-link :href="route('events.create', ['step'=>1])">
+                <x-responsive-nav-link :href="route('events.create', ['step'=>1])" class="tw-text-white">
                     {{ __('Create Event') }}
                 </x-responsive-nav-link>
                 @endcan
@@ -141,7 +151,7 @@
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                                        this.closest('form').submit();" class="tw-text-white">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
