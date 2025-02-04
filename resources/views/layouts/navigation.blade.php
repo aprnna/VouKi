@@ -62,6 +62,14 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
+                        <x-dropdown-link :href="route('events.my')">
+                            @can('isOrganizer')
+                                {{ __('My Events') }}
+                            @endcan
+                            @can('isVolunteer')
+                                {{ __('Events History') }}
+                            @endcan
+                        </x-dropdown-link>
                         @can('isOrganizer')
                         <x-dropdown-link :href="route('events.create',['step'=>1])">
                             {{ __('Create Events') }}
