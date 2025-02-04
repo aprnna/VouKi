@@ -215,13 +215,20 @@ class EventController extends Controller
 
     public function myEvents()
     {
-        Gate::authorize('isOrganizer');
         $user = Auth::user();
+
+        if($user->role == 'volunteer'){
+            $events = $user->volunteerEvents()->wherePivot('user_acceptance_status', 'accepted')->get();
+            return view('events.users.index', compact('events'));
+        }
+
+
         $events = $user->events->map(function ($event) {
             $event->total_register = $event->volunteers()->count();
             $event->total_volunteer = $event->volunteers()->wherePivot('user_acceptance_status', 'accepted')->count();
             return $event;
         });
+
         return view('events.my', compact('events'));
     }
     /**

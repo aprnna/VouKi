@@ -8,7 +8,7 @@
     @endphp
 
     <x-container class="tw-px-2 sm:tw-px-6">
-        <div class="tw-opacity-0 tw-translate-y-10 tw-duration-500 tw-ease-in-out tw-delay-150">
+        <div class="tw-opacity-0 tw-duration-500 tw-ease-in-out tw-delay-150">
         <div class="bg-white tw-w-full tw-flex tw-justify-between tw-items-center tw-shadow tw-p-2 tw-rounded tw-my-8">
             <x-dropdown align="left" width="80">
                 <x-slot name="trigger">
@@ -118,8 +118,8 @@
 
         {{-- Map Section --}}
 
-        <div class="tw-w-full tw-h-96 tw-flex tw-items-center tw-relative tw-justify-center tw-p-5 tw-rounded-lg tw-mb-8">
-            <div id="map" style="margin-top: 0" class="tw-rounded-lg tw-absolute tw-w-full tw-h-full z-1"></div>
+        <div class="tw-w-full tw-h-96 tw-flex tw-items-center tw-relative tw-justify-center tw-p-5 tw-rounded-lg tw-mb-8 tw-z-10">
+            <div id="map" style="margin-top: 0" class="tw-rounded-lg tw-absolute tw-w-full tw-h-full tw-z-10"></div>
         </div>
 
         @if (!$events->isNotEmpty())
