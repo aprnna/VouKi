@@ -33,7 +33,7 @@
     <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
 </head>
 
-<body class="tw-font-sans tw-antialiased">
+<body class="tw-font-sans tw-antialiased tw-relative">
     <div class="tw-min-h-screen tw-bg-pink-50">
         @include('layouts.navigation')
         <!-- Page Heading -->
@@ -46,7 +46,7 @@
         @endisset
 
         <!-- Page Content -->
-        <main>
+        <main class="tw-z-0">
             {{ $slot }}
         </main>
     </div>

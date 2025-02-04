@@ -34,8 +34,7 @@
               <x-table.td>{{ $loop->iteration }}</x-table.td>
               <x-table.td>{{ $question->question }}</x-table.td>
               <x-table.td>
-                <x-primary-button
-                  onclick="showUpdateModal({{ $question->id }}, '{{ $question->question }}')">
+                <x-primary-button onclick="showUpdateModal({{ $question->id }}, '{{ $question->question }}')">
                   Update
                 </x-primary-button>
                 {{-- Delete --}}
@@ -61,11 +60,18 @@
           </x-primary-button>
         </a>
         @else
-        <a href="{{ route('events.my') }}">
-          <x-primary-button>
-            Save
-          </x-primary-button>
-        </a>
+        <div class="tw-flex tw-gap-2">
+          <a href="{{ route('events.my') }}">
+            <x-primary-button>
+              Back
+            </x-primary-button>
+          </a>
+          <a href="{{ route('events.my') }}">
+            <x-primary-button>
+              Save
+            </x-primary-button>
+          </a>
+        </div>
         @endif
       </x-card.footer>
     </x-card>

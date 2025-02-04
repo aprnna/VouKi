@@ -23,7 +23,7 @@ class EventController extends Controller
     public function index(Request $request)
     {
         $eventsQuery = Event::with(['categories', 'skills'])->where('events.status', true)
-        ->where('events.isActive', true)->orderBy('events.created_at', 'desc');
+            ->where('events.isActive', true)->orderBy('events.created_at', 'desc');
 
         $categories = Category::all();
         $skill = Skill::all();
@@ -76,7 +76,7 @@ class EventController extends Controller
             $preferredCategories = $user->categories()->pluck('id')->toArray();
             $preferredSkills = $user->skills()->pluck('id')->toArray();
 
-            if($preferredCategories && $preferredSkills) {
+            if ($preferredCategories && $preferredSkills) {
                 $events = $events->filter(function ($event) use ($preferredCategories, $preferredSkills) {
                     // Apakah ada kesamaan kategori dan skill antara user dan event
                     $hasCategory = $event->categories->pluck('id')->intersect($preferredCategories)->isNotEmpty();
@@ -125,7 +125,7 @@ class EventController extends Controller
         }
 
         $eventsQuery = Event::with(['categories', 'skills'])
-        ->selectRaw("*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance", [$userLatitude, $userLongitude, $userLatitude])
+            ->selectRaw("*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance", [$userLatitude, $userLongitude, $userLatitude])
             ->having('distance', '<=', $distance)
             ->orderBy('distance');
 
@@ -217,18 +217,17 @@ class EventController extends Controller
     {
         $user = Auth::user();
 
-        if($user->role == 'volunteer'){
-            $events = $user->volunteerEvents()->wherePivot('user_acceptance_status', 'accepted')->get();
-            return view('events.users.index', compact('events'));
+        if ($user->role == 'volunteer') {
+            $events = $user->volunteerEvents()->get()->orderByDesc('created_at');
+            return view('events.history.index', compact('events'));
         }
 
 
-        $events = $user->events->map(function ($event) {
+        $events = $user->events->sortByDesc('created_at')->map(function ($event) {
             $event->total_register = $event->volunteers()->count();
             $event->total_volunteer = $event->volunteers()->wherePivot('user_acceptance_status', 'accepted')->count();
             return $event;
         });
-
         return view('events.my', compact('events'));
     }
     /**
@@ -239,9 +238,9 @@ class EventController extends Controller
         if (!Gate::allows('OrganizeEvent', $event)) abort(404);
         // $volunteers = $event->volunteers;
         $volunteers = $event->volunteers()
-        ->where('user_acceptance_status', '=', 'accepted')
-        ->withPivot('user_rating')
-        ->get();
+            ->where('user_acceptance_status', '=', 'accepted')
+            ->withPivot('user_rating')
+            ->get();
 
         $all_users_rating = $event->volunteers()->select('user_id', 'user_rating')->get()->keyBy('user_id');
         return view('events.volunteers', compact('volunteers', 'event', 'all_users_rating'));
@@ -293,7 +292,7 @@ class EventController extends Controller
     }
     public function activateEvent(Event $event)
     {
-        $event->update(['isActive' => true]);
+        $event->update(['isActive' => !$event->isActive]);
         return back()->with('status', 'Event activated successfully');
     }
     /**
@@ -306,7 +305,7 @@ class EventController extends Controller
     }
     public function eventRegister(Event $event)
     {
-        $registerEvent = $event->volunteers()->get();
+        $registerEvent = $event->volunteers()->orderByDesc('created_at')->get();
         return view('events.register.list', compact('event', 'registerEvent'));
     }
     public function eventRegisterDetail(Event $event, User $user)

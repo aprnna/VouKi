@@ -1,11 +1,12 @@
-<nav x-data="{ open: false }" class="tw-bg-tertiary3 tw-text-white tw-drop-shadow">
+<nav x-data="{ open: false }" class="tw-bg-tertiary3 tw-text-white tw-drop-shadow tw-z-50">
     <!-- Primary Navigation Menu -->
     <div class="tw-max-w-7xl tw-mx-auto tw-px-4 sm:tw-px-6 lg:tw-px-8">
         <div class="tw-flex tw-justify-between tw-h-16 sm:tw-py-2">
             <div class="tw-flex">
                 <!-- Logo -->
                 <div class="tw-shrink-0 tw-flex tw-items-center">
-                    <a href="{{ auth()->check() ? route('events.index') : route('home.index') }}" class="flex tw-items-center tw-gap-2 hover:tw-opacity-80">
+                    <a href="{{ auth()->check() ? route('events.index') : route('home.index') }}"
+                        class="flex tw-items-center tw-gap-2 hover:tw-opacity-80">
                         <x-application-logo class="tw-block tw-h-12 tw-w-auto tw-drop-shadow" />
                         <h1 class="tw-font-bold tw-text-xl">VouKi</h1>
                     </a>
@@ -20,7 +21,8 @@
                 <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
                     {{ __('Events') }}
                 </x-nav-link>
-                <x-nav-link as="form" action="{{ route('events.nearest') }}" class="tw-group" method="GET" :active="request()->routeIs('events.nearest')">
+                <x-nav-link as="form" action="{{ route('events.nearest') }}" class="tw-group" method="GET"
+                    :active="request()->routeIs('events.nearest')">
                     <input type="hidden" name="latitudeUser" id="latitudeUser">
                     <input type="hidden" name="longitudeUser" id="longitudeUser">
                     <button type="submit" class="h-full">
@@ -38,8 +40,7 @@
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="tw-hidden sm:tw-flex sm:tw-items-center sm:tw-ms-6">
-
+            <div class="tw-hidden sm:tw-flex sm:tw-items-center sm:tw-ms-6 tw-z-50">
                 @auth
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -64,10 +65,10 @@
                         </x-dropdown-link>
                         <x-dropdown-link :href="route('events.my')">
                             @can('isOrganizer')
-                                {{ __('My Events') }}
+                            {{ __('My Events') }}
                             @endcan
                             @can('isVolunteer')
-                                {{ __('Events History') }}
+                            {{ __('Events History') }}
                             @endcan
                         </x-dropdown-link>
                         @can('isOrganizer')
@@ -128,13 +129,23 @@
             <x-responsive-nav-link :href="route('events.index')" :active="request()->routeIs('events.index')">
                 {{ __('Events') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link as="form" action="{{ route('events.nearest') }}" class="tw-group" method="GET" :active="request()->routeIs('events.nearest')">
+
+            <x-responsive-nav-link as="form" action="{{ route('events.nearest') }}" class="tw-group" method="GET"
+                :active="request()->routeIs('events.nearest')">
                 <input type="hidden" name="latitudeUser" id="latitudeUser">
                 <input type="hidden" name="longitudeUser" id="longitudeUser">
                 <button type="submit" class="h-full">
                     {{ __('Find Around Me') }}
                 </button>
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('organizer.index')" :active="request()->routeIs('organizer.index')">
+                {{ __('Find Organizer') }}
+            </x-responsive-nav-link>
+            @can('isOrganizer')
+            <x-responsive-nav-link :href="route('events.my')" :active="request()->routeIs('events.my')">
+                {{ __('My Events') }}
+            </x-responsive-nav-link>
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->

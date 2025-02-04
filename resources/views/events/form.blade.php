@@ -147,18 +147,25 @@
 
                 </form>
             </x-card.content>
-            <x-card.footer class="tw-flex tw-justify-end">
+            <x-card.footer class="tw-flex tw-justify-end tw-gap-2">
                 @if (!$page_meta['progress'] )
-                <a href={{ route('events.questions.edit', isset($event)) }}>
-                    <x-secondary-button>
-                        Edit Question
-                    </x-secondary-button>
-                </a>
                 <a href={{ route('events.my') }}>
                     <x-secondary-button>
                         Back
                     </x-secondary-button>
                 </a>
+                <a href={{ route('events.questions.edit', isset($event)) }}>
+                    <x-secondary-button>
+                        Edit Question
+                    </x-secondary-button>
+                </a>
+                <form method="POST" action={{ route("events.active", $event) }}>
+                    @csrf
+                    @method('PUT')
+                    <x-primary-button type="submit">
+                        {{ $event->isActive ? 'Deactivate Event' : 'Activate Event'}}
+                    </x-primary-button>
+                </form>
                 @endif
                 <x-primary-button form="form-create-event">
                     {{ $page_meta['progress'] ? 'Next' : 'Save' }}

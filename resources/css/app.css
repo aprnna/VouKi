@@ -15,3 +15,6 @@ body {
 .bw-select-item {
   color: black;
 }
+.page-transition{
+  z-index: 0 !important;
+}

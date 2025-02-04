@@ -70,7 +70,7 @@ class User extends Authenticatable
 
     public function volunteerEvents(): BelongsToMany
     {
-        return $this->belongsToMany(Event::class, 'event_user', 'user_id', 'event_id')->withTimestamps();
+        return $this->belongsToMany(Event::class, 'event_user', 'user_id', 'event_id')->withTimestamps()->withPivot('user_acceptance_status', 'user_review', 'event_rating');
     }
 
     public function categories(): BelongsToMany
