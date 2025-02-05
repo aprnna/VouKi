@@ -37,9 +37,11 @@
               @enderror
             </div>
             @endforeach
-            <button type="submit" class="tw-mt-4 tw-px-4 tw-py-2 tw-bg-indigo-600 tw-text-white tw-rounded-md">
-              Submit Answers
-            </button>
+            <div class="tw-flex tw-justify-end">
+              <x-primary-button>
+                Submit Answers
+              </x-primary-button>
+            </div>
           </form>
         </x-card.content>
       </x-card.header>
