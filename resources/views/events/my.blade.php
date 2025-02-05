@@ -42,7 +42,7 @@
                         <x-table.tbody>
                             @foreach ($events as $event)
                             <tr>
-                                <x-table.td>
+                                <x-table.td class="tw-w-36 tw-line-clamp-3">
                                     <a class="tw-text-tertiary1 hover:tw-text-secondary1" href={{ Route('events.show',
                                         $event) }}>{{ $event->title }}</a>
                                 </x-table.td>
@@ -64,7 +64,9 @@
                                 </x-table.td>
                                 <x-table.td>
                                     <div class="tw-flex tw-items-center">
-                                        <div class="tw-h-2.5 tw-w-2.5 tw-rounded-full {{ $event->isActive ? 'tw-bg-green-500' : 'tw-bg-red-500'}}  tw-me-2"></div> {{ $event->isActive ? 'Active' : 'Inactive' }}
+                                        <div
+                                            class="tw-h-2.5 tw-w-2.5 tw-rounded-full {{ $event->isActive ? 'tw-bg-green-500' : 'tw-bg-red-500'}}  tw-me-2">
+                                        </div> {{ $event->isActive ? 'Active' : 'Inactive' }}
                                     </div>
                                 </x-table.td>
                                 <x-table.td>
@@ -121,7 +123,7 @@
         </x-card>
     </x-container>
     <script>
-            document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
                 const elements = document.querySelectorAll('.tw-opacity-0');
                 elements.forEach((element, index) => {
                     setTimeout(() => {
