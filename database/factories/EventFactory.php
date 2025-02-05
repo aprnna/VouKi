@@ -25,10 +25,10 @@ class EventFactory extends Factory
             'title' => fake()->name(),
             'description' => fake()->text(),
             'max_volunteers' => fake()->numberBetween(1, 100),
-            'RegisterStart' => fake()->dateTimeBetween('now', '+1 month'),
-            'RegisterEnd' => fake()->dateTimeBetween('+1 month', '+2 month'),
-            'EventStart' => fake()->dateTimeBetween('+2 month', '+3 month'),
-            'EventEnd' => fake()->dateTimeBetween('+3 month', '+4 month'),
+            'RegisterStart' => fake()->dateTimeBetween('-5 month', '-4 month'), // 3-4 bulan yang lalu
+            'RegisterEnd' => fake()->dateTimeBetween('-4 month', '-3 month'),   // 2-3 bulan yang lalu
+            'EventStart' => fake()->dateTimeBetween('-3 month', '-2 month'),    // 1-2 bulan yang lalu
+            'EventEnd' => fake()->dateTimeBetween('-2 month', '-1 month'),
             'isActive' => fake()->boolean(),
             'status' => fake()->boolean(),
             'latitude' => $bandungLatitude + fake()->randomFloat(4, -0.1, 0.1),
