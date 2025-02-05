@@ -22,6 +22,9 @@ class DatabaseSeeder extends Seeder
             EventSkillSeeder::class,
             UserSkillSeeder::class,
             UserCategorySeeder::class,
+            QuestionsSeeder::class,
+            VolunteerSeeder::class,
+            AnswerSeeder::class,
         ]);
     }
 }
