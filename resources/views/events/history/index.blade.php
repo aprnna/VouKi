@@ -26,6 +26,12 @@
 
     <div class="tw-w-full tw-mb-8 tw-gap-5 tw-flex tw-flex-col">
       <h1>Ongoing Event</h1>
+      @if($events->where('pivot.event_rating', '==', null)->isEmpty())
+      <div
+        class="tw-w-full tw-h-20 tw-bg-white tw-flex tw-items-center tw-justify-center tw-cursor-pointer tw-rounded-lg tw-shadow tw-transition tw-duration-500 tw-ease-in-out ">
+        <p>You have never joined an event.</p>
+      </div>
+      @endif
       @foreach ($events as $event)
       {{-- Ambil history event yang belum di review --}}
       @if($event->pivot->event_rating == null)
@@ -78,6 +84,12 @@
       @endif
       @endforeach
       <h1>Reviewed Event</h1>
+      @if($events->where('pivot.event_rating', '!=', null)->isEmpty())
+      <div
+        class="tw-w-full tw-h-20 tw-bg-white tw-flex tw-items-center tw-justify-center tw-cursor-pointer tw-rounded-lg tw-shadow tw-transition tw-duration-500 tw-ease-in-out ">
+        <p>No events have been reviewed yet.</p>
+      </div>
+      @endif
       @foreach ($events as $event)
       {{-- Ambil history event yang belum di review --}}
       @if($event->pivot->event_rating != null)
