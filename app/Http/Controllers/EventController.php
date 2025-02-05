@@ -218,7 +218,7 @@ class EventController extends Controller
         $user = Auth::user();
 
         if ($user->role == 'volunteer') {
-            $events = $user->volunteerEvents()->get()->orderByDesc('created_at');
+            $events = $user->volunteerEvents()->orderBy('pivot_created_at', 'desc')->get();
             return view('events.history.index', compact('events'));
         }
 

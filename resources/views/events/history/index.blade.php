@@ -25,6 +25,7 @@
     </div> --}}
 
     <div class="tw-w-full tw-mb-8 tw-gap-5 tw-flex tw-flex-col">
+      <h1>Ongoing Event</h1>
       @foreach ($events as $event)
       {{-- Ambil history event yang belum di review --}}
       @if($event->pivot->event_rating == null)
@@ -74,8 +75,12 @@
           </div>
         </div>
       </a>
-      {{-- Ambil history event yang sudah di review --}}
-      @else
+      @endif
+      @endforeach
+      <h1>Reviewed Event</h1>
+      @foreach ($events as $event)
+      {{-- Ambil history event yang belum di review --}}
+      @if($event->pivot->event_rating != null)
       <a href="{{ route('events.show', $event) }}"
         class="tw-w-full tw-bg-white tw-flex tw-items-center tw-justify-center tw-cursor-pointer tw-rounded-lg tw-shadow tw-transition hover:tw-shadow-lg tw-duration-500 tw-ease-in-out hover:tw-scale-105">
         <div class="w-full tw-flex tw-justify-between tw-p-4 tw-gap-2 tw-flex-wrap lg:tw-flex-nowrap">
