@@ -7,11 +7,13 @@ use App\Models\Questions;
 use App\Models\Event;
 use App\Models\Answer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class QuestionEventController extends Controller
 {
     function create(Event $event, Request $request)
     {
+        if (!Gate::allows('OrganizeEvent', $event)) abort(404);
         $progress = $request->query('step', false);
         return view('events.form-question', [
             'event' => $event,

@@ -271,6 +271,7 @@ class EventController extends Controller
      */
     public function update(UpdateEventRequest $request, Event $event)
     {
+        if (!Gate::allows('OrganizeEvent', $event)) abort(404);
         $event->update($request->validated());
         $categories = Str::of($request->validated()['categories'])->split('/[\s,]+/');
         $skills = Str::of($request->validated()['skills'])->split('/[\s,]+/');
@@ -292,6 +293,7 @@ class EventController extends Controller
     }
     public function activateEvent(Event $event)
     {
+        if (!Gate::allows('OrganizeEvent', $event)) abort(404);
         $event->update(['isActive' => !$event->isActive]);
         return back()->with('status', 'Event activated successfully');
     }
@@ -300,11 +302,13 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
+        if (!Gate::allows('OrganizeEvent', $event)) abort(404);
         $event->update(['status' => false]);
         return Redirect::route('events.index')->with('status', 'Event deleted successfully');
     }
     public function eventRegister(Event $event)
     {
+        if (!Gate::allows('OrganizeEvent', $event)) abort(404);
         $registerEvent = $event->volunteers()->orderByDesc('created_at')->get();
         return view('events.register.list', compact('event', 'registerEvent'));
     }
@@ -319,6 +323,7 @@ class EventController extends Controller
     }
     public function acceptanceStatus(Event $event, User $user, Request $request)
     {
+        if (!Gate::allows('OrganizeEvent', $event)) abort(404);
         $status = $request->query('status', 'pending');
         $event->volunteers()->updateExistingPivot($user->id, [
             'user_acceptance_status' => $status,

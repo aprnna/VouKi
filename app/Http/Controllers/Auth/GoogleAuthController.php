@@ -26,7 +26,7 @@ class GoogleAuthController extends Controller
             // User already exists, log them in
             $user->update(['google_id' => $userGoogle->id]);
             Auth::login($user);
-            return redirect()->intended(route('home.index', absolute: false));
+            return redirect()->intended(route('home.index', absolute: false))->with('success', 'Welcome back!');
         } else {
             // User does not exist, create a new user
             $user = User::create([
@@ -36,7 +36,7 @@ class GoogleAuthController extends Controller
                 'password' => Str::random(12),
             ]);
             Auth::login($user);
-            return redirect()->intended(route('user-detail.create', absolute: false));
+            return redirect()->intended(route('user-detail.create', absolute: false))->with('success', 'Welcome to the platform! Please complete your profile.');
         }
     }
 }

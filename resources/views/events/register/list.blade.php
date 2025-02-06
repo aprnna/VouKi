@@ -3,7 +3,7 @@
 
   <x-slot name="header">
     <h2 class="tw-font-semibold tw-text-xl tw-text-gray-800 tw-leading-tight">
-      {{ __('My Events') }}
+      {{ __('My Register Event') }}
     </h2>
   </x-slot>
 
@@ -11,7 +11,7 @@
     <x-alert-status />
     <x-card>
       <x-card.header>
-        <x-card.title>List Register Event</x-card.title>
+        <x-card.title>List Register Event {{ $event->title }}</x-card.title>
         <x-card.description>
           <div class="tw-sm:flex tw-sm:items-center">
             <p class="tw-sm:flex-auto tw-mt-2 tw-text-sm tw-text-gray-700">

@@ -96,8 +96,8 @@
                     {{-- MAPS --}}
                     <x-input-label :value="__('Select Location Event')" />
                     <div class="tw-flex tw-gap-10 tw-flex-wrap">
-                        <div class="tw-flex-grow tw-z-0">
-                            <div id="map" style="height: 50vh;"></div>
+                        <div class="tw-flex-grow tw-z-0 tw-h-80">
+                            <div id="map" class="tw-w-full tw-h-full"></div>
 
                             <p>
                                 You can drag the marker to select the location
