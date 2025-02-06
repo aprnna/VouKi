@@ -116,7 +116,6 @@
                         s.classList.toggle('tw-text-gray-300', i > index);
                     });
                     document.getElementById('rating-input-{{ $volunteer->id }}').value = index + 1;
-                    console.log("Volunteer {{ $volunteer->id }} Selected rating: ", index + 1);
                 });
             });
         @endforeach

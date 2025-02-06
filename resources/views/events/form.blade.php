@@ -209,10 +209,7 @@
             map.on('geosearch/marker/dragend', UpdateInputDrag);
 
             function UpdateInput(e) {
-                console.log(e)
                 const location = e.location.label.split(",")
-                console.log("ini e.location: ", e.location);
-                console.log("ini label: ", location);
                 if(!isNaN(parseInt(location.at(-2), 10))){
                     city.value = location.at(-5)
                     province.value = location.at(-4)
@@ -226,7 +223,6 @@
             }
 
             function UpdateInputDrag(e) {
-                console.log(e)
                 latitude.value = e.location.lat
                 longitude.value = e.location.lng
             }
@@ -243,7 +239,6 @@
             // Get My Location
             map.on('locationfound', function(e) {
                 var coordinates = e.latlng;
-                console.log("Coordinates: ", coordinates);
             });
         </script>
     </x-slot>

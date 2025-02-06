@@ -288,7 +288,6 @@
                 let currentRating = document.getElementById('rating-input').value;
                 stars.forEach((star, index) => {
                     star.addEventListener('click', () => {
-                        console.log("Selected rating: ", index + 1);
                         stars.forEach((s, i) => {
                             s.classList.toggle('tw-text-yellow-500', i <= index);
                             s.classList.toggle('tw-text-gray-300', i > index);

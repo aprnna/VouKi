@@ -73,8 +73,6 @@
 
             lat.value = latitude;
             long.value = longitude;
-            console.log('Latitude:', lat.value);
-            console.log('Longitude:', long.value);
         }, function(error) {
             console.error('Error getting location:', error);
         });
