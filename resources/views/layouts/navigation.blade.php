@@ -8,7 +8,7 @@
                     <a href="{{ auth()->check() ? route('events.index') : route('home.index') }}"
                         class="flex tw-items-center tw-gap-2 hover:tw-opacity-80">
                         <x-application-logo class="tw-block tw-h-12 tw-w-auto tw-drop-shadow" />
-                        <h1 class="tw-font-bold tw-text-xl">VouKi</h1>
+                        <h1 class="tw-font-bold tw-text-xl">RelawanMate</h1>
                     </a>
                 </div>
             </div>

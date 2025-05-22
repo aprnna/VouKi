@@ -27,7 +27,7 @@
                 <h1 class="tw-text-2xl tw-font-semibold">Find The Right Events For You</h1>
                 <a href="" class="tw-text-gray-700 underline">See All Categories</a>
             </div>
-            <p>With VouKi's advanced filtered search, you can easily discover volunteer opportunities tailored to various categories and benefits, helping you find the perfect match for your interests and goals.</p>
+            <p>With RelawanMate's advanced filtered search, you can easily discover volunteer opportunities tailored to various categories and benefits, helping you find the perfect match for your interests and goals.</p>
         </div>
 
         <div class="tw-grid w-full tw-grid-cols-1 sm:tw-grid-cols-2 md:tw-grid-cols-3 lg:tw-grid-cols-4 tw-mb-8 tw-gap-5">
@@ -62,7 +62,7 @@
                 <h1 class="tw-text-2xl tw-font-semibold">Latest Volunteer Opportunities</h1>
                 <a href="{{ route('events.index') }}" class="tw-text-gray-700 underline">See All Opportunities</a>
             </div>
-            <p>Vouki provides you with the latest volunteer opportunities, connecting passionate individuals with meaningful causes and events where they can make a difference.</p>
+            <p>RelawanMate provides you with the latest volunteer opportunities, connecting passionate individuals with meaningful causes and events where they can make a difference.</p>
         </div>
 
         <div class="tw-grid w-full tw-grid-cols-1 sm:tw-grid-cols-2 md:tw-grid-cols-3 lg:tw-grid-cols-4 tw-mb-8 tw-gap-5">

@@ -23,14 +23,15 @@ export default {
                 xl: "1280px",
             },
             colors:{
-                "primary1": "#F4D8D8",
-                "secondary1": "#B06E6E",
-                "tertiary1": "#550909",
-                "primary2": "#DE7C7D",
-                "secondary2": "#CC2B52",
-                "tertiary2": "#AF1740",
-                "tertiary3": "#740938",
-                "tertiary4": "#37061B",
+                "primary1": "#D8E6F4",     // Soft Frost Blue
+                "secondary1": "#6E8BB0",   // Dusty Denim Blue
+                "tertiary1": "#092B55",    // Deep Navy (pengganti 550909 vibe-nya)
+                "primary2": "#7CB0DE",     // Skywashed Blue
+                "secondary2": "#2B5FCC",   // Bold Blue (strong tapi gak neon)
+                "tertiary2": "#1748AF",    // Royal Indigo
+                "tertiary3": "#093074",    // Dark Cobalt
+                "tertiary4": "#061A37",    // Midnight Blue (gelap banget, buat background/depth)
+                "backgroundblue": "#F2F6FD", // Soft Frost White
             }
         },
     },

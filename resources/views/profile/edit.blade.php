@@ -8,11 +8,11 @@
     <x-container>
         <div x-data="{ tab: 'profile-information' }" class="tw-flex tw-space-x-4">
             <!-- Navigation Column -->
-            <div class="tw-w-1/4 tw-bg-red-100 tw-p-4 tw-shadow sm:tw-rounded-lg tw-h-auto">
+            <div class="tw-w-1/4 tw-bg-slate-300 tw-p-4 tw-shadow sm:tw-rounded-lg tw-h-auto">
                 <div class="tw-flex tw-flex-col tw-space-y-4">
                     <button @click.prevent="tab = 'profile-information'"
-                        :class="{ 'tw-bg-rose-950 tw-text-white': tab === 'profile-information', 'tw-bg-white tw-text-red-950': tab !== 'profile-information' }"
-                        class="tw-py-2 tw-px-4 tw-rounded tw-border tw-text-red-950 tw-transition-colors tw-flex tw-items-center">
+                        :class="{ 'tw-bg-slate-200 tw-text-white': tab === 'profile-information', 'tw-bg-white tw-text-secondary2': tab !== 'profile-information' }"
+                        class="tw-py-2 tw-px-4 tw-rounded tw-border tw-text-secondary2 tw-transition-colors tw-flex tw-items-center">
                         <svg class="tw-w-5 tw-h-5 tw-mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -23,8 +23,8 @@
                         Profile Information
                     </button>
                     <button @click.prevent="tab = 'update-password'"
-                        :class="{ 'tw-bg-rose-950 tw-text-white': tab === 'update-password', 'tw-bg-white tw-text-red-950': tab !== 'update-password' }"
-                        class="tw-py-2 tw-px-4 tw-rounded tw-border tw-text-red-950 tw-transition-colors tw-flex tw-items-center">
+                        :class="{ 'tw-bg-slate-200 tw-text-white': tab === 'update-password', 'tw-bg-white tw-text-secondary2': tab !== 'update-password' }"
+                        class="tw-py-2 tw-px-4 tw-rounded tw-border tw-text-secondary2 tw-transition-colors tw-flex tw-items-center">
                         <svg class="tw-w-5 tw-h-5 tw-mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -36,8 +36,8 @@
                         Update Password
                     </button>
                     <button @click.prevent="tab = 'delete-user'"
-                        :class="{ 'tw-bg-rose-950 tw-text-white': tab === 'delete-user', 'tw-bg-white tw-text-red-950': tab !== 'delete-user' }"
-                        class="tw-py-2 tw-px-4 tw-rounded tw-border tw-text-red-950 tw-transition-colors tw-flex tw-items-center">
+                        :class="{ 'tw-bg-slate-200 tw-text-white': tab === 'delete-user', 'tw-bg-white tw-text-secondary2': tab !== 'delete-user' }"
+                        class="tw-py-2 tw-px-4 tw-rounded tw-border tw-text-secondary2 tw-transition-colors tw-flex tw-items-center">
                         <svg class="tw-w-5 tw-h-5 tw-mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
